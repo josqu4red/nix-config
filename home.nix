@@ -5,17 +5,17 @@
   home.homeDirectory = "/home/jamiez";
   programs.home-manager.enable = true;
 
-  home.packages = [
-    pkgs.firefox
+  home.packages = with pkgs; [
+    firefox
   ];
 
-  #programs.emacs = {
-  #  enable = true;
-  #  extraPackages = epkgs: [
-  #    epkgs.nix-mode
-  #    epkgs.magit
-  #  ];
-  #};
+  programs.vim = {
+    plugins = with pkgs.vimPlugins; [ vim-airline ];
+  };
+
+  imports = [
+    ./programs/alacritty.nix
+  ];
 
   #services.gpg-agent = {
   #  enable = true;

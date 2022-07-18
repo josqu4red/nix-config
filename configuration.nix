@@ -18,9 +18,13 @@
   time.timeZone = "Europe/Paris";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  fonts.fonts = with pkgs; [
+    jetbrains-mono
+  ];
+
   console = {
-  #   font = "Lat2-Terminus16";
-    useXkbConfig = true; # use xkbOptions in tty.
+    font = "JetbrainsMono";
+    useXkbConfig = true;
   };
 
   sound.enable = true;
@@ -40,6 +44,7 @@
 
   environment.systemPackages = with pkgs; [
     colordiff
+    curl
     git
     gnupg
     tmux
