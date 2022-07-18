@@ -17,17 +17,16 @@
       #     inherit inputs;
       #   };
       modules = [
-        /etc/nixos/hardware-configuration.nix
-        ./system.nix
+        ./hardware-configuration.nix
+        ./configuration.nix
 
-        #inputs.home-manager.nixosModules.home-manager
-
+        inputs.home-manager.nixosModules.home-manager
         ({ pkgs, ... }: {
           nix.extraOptions = "experimental-features = nix-command flakes";
           nix.package = pkgs.nixFlakes;
           nix.registry.nixpkgs.flake = inputs.nixpkgs;
-
-          #home-manager.useGlobalPkgs = true;
+          home-manager.useGlobalPkgs = true;
+          home-manager.users.jamiez = import ./home.nix;
         })
       ];
     };
