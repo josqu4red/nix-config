@@ -30,23 +30,26 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver = {
+    enable = true;
+    videoDrivers = [ "nvidia" ];
+    layout = "fr";
+  };
   hardware.opengl.enable = true;
 
   services.xserver.displayManager = {
     gdm.enable = true;
     defaultSession = "none+i3";
   };
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome.enable = false;
   services.xserver.windowManager.i3.enable = true;
-  services.xserver.layout = "fr";
 
   environment.systemPackages = with pkgs; [
     colordiff
     curl
     git
     gnupg
+    jq
     tmux
     vim
   ];

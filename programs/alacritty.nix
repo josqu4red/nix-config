@@ -1,12 +1,11 @@
 { pkgs, ... }:
 {
   programs.alacritty = {
-    enable = false;
-
+    enable = true;
     settings = {
       font = {
         normal.family = "JetbrainsMono";
-        size = 14.0;
+        size = 12.0;
       };
     };
   };
