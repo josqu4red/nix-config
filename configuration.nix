@@ -19,11 +19,11 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   fonts.fonts = with pkgs; [
-    jetbrains-mono
+    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono"]; })
   ];
 
   console = {
-    font = "JetbrainsMono";
+    font = "JetBrainsMono Nerd Font";
     useXkbConfig = true;
   };
 

@@ -15,7 +15,7 @@ in {
       floating.modifier = mod;
       window.border = 1;
       focus.followMouse = false;
-      fonts.names = ["JetBrainsMono"];
+      fonts.names = ["JetBrainsMono Nerd Font"];
 
       keybindings = lib.mkOptionDefault {
         "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
@@ -92,6 +92,16 @@ in {
       };
 
       startup = [
+        {
+          command = "exec --no-startup-id i3-msg workspace 1";
+          always = true;
+          notification = false;
+        }
+        {
+          command = "systemctl --user restart polybar.service";
+          always = true;
+          notification = false;
+        }
         {
           command = "${pkgs.feh}/bin/feh --bg-scale ~/.background.png";
           always = true;
