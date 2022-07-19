@@ -9,8 +9,6 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.plymouth.enable = true;
-  boot.plymouth.theme = "breeze";
 
   networking.hostName = "boson";
   networking.networkmanager.enable = true;
