@@ -23,6 +23,7 @@
   imports = [
     ./programs/alacritty.nix
     ./programs/i3.nix
+    ./programs/polybar.nix
   ];
 
   #services.gpg-agent = {
