@@ -18,12 +18,6 @@
       fsType = "ext4";
     };
 
-  fileSystems."/nix/store" =
-    { device = "/nix/store";
-      fsType = "none";
-      options = [ "bind" ];
-    };
-
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/9820-9E49";
       fsType = "vfat";
