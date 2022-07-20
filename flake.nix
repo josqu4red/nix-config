@@ -3,8 +3,8 @@
 
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/master";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -17,8 +17,8 @@
       #     inherit inputs;
       #   };
       modules = [
-        ./hardware-configuration.nix
-        ./configuration.nix
+        ./hosts/boson/hardware.nix
+        ./hosts/boson/configuration.nix
 
         inputs.home-manager.nixosModules.home-manager
         ({ pkgs, ... }: {
@@ -26,7 +26,28 @@
           nix.package = pkgs.nixFlakes;
           nix.registry.nixpkgs.flake = inputs.nixpkgs;
           home-manager.useGlobalPkgs = true;
-          home-manager.users.jamiez = import ./home.nix;
+          home-manager.users.jamiez = import ./hosts/boson/home.nix;
+        })
+      ];
+    };
+    nixosConfigurations.neutrino = inputs.nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      # Things in this set are passed to modules and accessible
+      # in the top-level arguments (e.g. `{ pkgs, lib, inputs, ... }:`).
+      #   specialArgs = {
+      #     inherit inputs;
+      #   };
+      modules = [
+        ./hosts/neutrino/hardware.nix
+        ./hosts/neutrino/configuration.nix
+
+        inputs.home-manager.nixosModules.home-manager
+        ({ pkgs, ... }: {
+          nix.extraOptions = "experimental-features = nix-command flakes";
+          nix.package = pkgs.nixFlakes;
+          nix.registry.nixpkgs.flake = inputs.nixpkgs;
+          home-manager.useGlobalPkgs = true;
+          home-manager.users.jamiez = import ./hosts/neutrino/home.nix;
         })
       ];
     };

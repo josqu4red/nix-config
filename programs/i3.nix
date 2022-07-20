@@ -5,6 +5,7 @@ let
   exitMode = "Exit: [l]ogout [h]ibernate [r]eboot [s]hutdown";
 in {
   programs.rofi.enable = true;
+  home.packages = [ pkgs.feh ];
 
   xsession.windowManager.i3 = {
     enable = true;
