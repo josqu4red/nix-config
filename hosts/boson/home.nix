@@ -1,15 +1,10 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   home.stateVersion = "22.05";
   home.username = "jamiez";
   home.homeDirectory = "/home/jamiez";
   programs.home-manager.enable = true;
 
-  home.packages = with pkgs; [
-    feh
-    firefox
-    spotify
-  ];
+  home.packages = with pkgs; [ feh firefox spotify ];
 
   programs.vim = {
     plugins = with pkgs.vimPlugins; [ vim-airline ];

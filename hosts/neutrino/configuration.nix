@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   nixpkgs.config.allowUnfree = true;
 
   boot.loader.systemd-boot.enable = true;
@@ -76,9 +75,9 @@
   virtualisation.docker.enable = true;
   services.pcscd.enable = true;
   programs.gnupg.agent = {
-   enable = true;
-   pinentryFlavor = "gtk2";
-   enableSSHSupport = true;
+    enable = true;
+    pinentryFlavor = "gtk2";
+    enableSSHSupport = true;
   };
   services.printing.enable = true;
 

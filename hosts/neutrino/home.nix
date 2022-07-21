@@ -1,17 +1,10 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   home.stateVersion = "22.05";
   home.username = "jamiez";
   home.homeDirectory = "/home/jamiez";
   programs.home-manager.enable = true;
 
-  home.packages = with pkgs; [
-    nvd
-    pass
-    slack
-    spotify
-    zoom-us
-  ];
+  home.packages = with pkgs; [ nvd pass slack spotify zoom-us ];
 
   programs.firefox = {
     enable = true;

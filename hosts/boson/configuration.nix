@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   nixpkgs.config.allowUnfree = true; # for nvidia
 
   boot.initrd.luks.devices.luks-root = {
@@ -42,15 +41,7 @@
   services.xserver.desktopManager.gnome.enable = false;
   services.xserver.windowManager.i3.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    colordiff
-    curl
-    git
-    gnupg
-    jq
-    tmux
-    vim
-  ];
+  environment.systemPackages = with pkgs; [ colordiff curl git gnupg jq tmux vim ];
 
   environment.variables = {
     EDITOR = "vim";
