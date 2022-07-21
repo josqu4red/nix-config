@@ -4,7 +4,12 @@
   home.homeDirectory = "/home/jamiez";
   programs.home-manager.enable = true;
 
-  home.packages = with pkgs; [ nvd pass slack spotify zoom-us ];
+  home.packages = with pkgs; [ nvd slack spotify zoom-us ];
+
+  programs.password-store = {
+    enable = true;
+    package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
+  };
 
   programs.firefox = {
     enable = true;
