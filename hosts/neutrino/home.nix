@@ -6,13 +6,30 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    firefox
     nvd
     pass
     slack
     spotify
     zoom-us
   ];
+
+  programs.firefox = {
+    enable = true;
+    package = pkgs.firefox-wayland;
+    profiles."default" = {
+      userChrome = ''
+        #TabsToolbar {
+          visibility: collapse;
+        }
+        #sidebar-header {
+          visibility: collapse !important;
+        }
+      '';
+      settings = {
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+      };
+    };
+  };
 
   #programs.vim = {
   #  plugins = with pkgs.vimPlugins; [ vim-airline ];
