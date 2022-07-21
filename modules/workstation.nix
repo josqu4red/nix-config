@@ -20,6 +20,8 @@
   services.pcscd.enable = true;
   services.printing.enable = true;
 
+  environment.pathsToLink = [ "/share/zsh" ];
+
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono"]; })
   ];

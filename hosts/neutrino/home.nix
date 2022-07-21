@@ -18,5 +18,6 @@
     ../../programs/tmux.nix
     ../../programs/vim.nix
     ../../programs/vscode.nix
+    ../../programs/zsh.nix
   ];
 }

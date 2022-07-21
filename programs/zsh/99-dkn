@@ -1,0 +1,12 @@
+dkn() {
+  DKN_PATH=/mnt/dkn
+  sudo mkdir -p $DKN_PATH
+
+  sudo cryptsetup luksOpen /dev/disk/by-uuid/f11036b4-ec8f-4ba9-8528-8d423e56d798 dkn
+  sudo mount /dev/mapper/dkn $DKN_PATH
+  export GNUPGHOME=$DKN_PATH/gpg
+  zsh
+  unset GNUPGHOME
+  sudo umount $DKN_PATH
+  sudo cryptsetup luksClose /dev/mapper/dkn
+}

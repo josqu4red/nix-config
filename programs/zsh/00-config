@@ -1,0 +1,15 @@
+bindkey '^r' history-incremental-search-backward
+bindkey '^f' history-incremental-search-forward
+setopt ALWAYS_TO_END
+setopt AUTO_CD
+setopt AUTO_MENU
+setopt AUTO_PUSHD
+setopt CDABLE_VARS
+setopt HIST_VERIFY
+setopt INC_APPEND_HISTORY
+setopt LONG_LIST_JOBS
+setopt MULTIOS
+setopt NULL_GLOB
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_MINUS
+setopt SHARE_HISTORY

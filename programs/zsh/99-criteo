@@ -1,0 +1,43 @@
+export CRITEO_USER=j.amiez
+#export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
+#export PATH="$GEM_HOME/bin:$PATH"
+
+alias b='RUBYOPT=-W0 bundle exec'
+alias vpn='nmcli c up Criteo'
+
+criteogroup() {
+  curl -sS "https://idm.crto.in/tool/multiGroupInfo/$1?gerrit=true&ldap=true" | jq .
+}
+
+ipmi_sol () {
+  [[ -n "$1" ]] || return 1;
+  local host=`ruby -e "host = '$1'.downcase; print host =~ /([0-9]+\\.){3}[0-9]+/ ? host : (host.include?('bmc.crto.in') ? host : host+'.bmc.crto.in')"`;
+  echo "To get out of the console: ENTER ~ .";
+  ipmitool -I lanplus -U Administrator -P P1nkP0ney -H $host sol deactivate;
+  ipmitool -I lanplus -U Administrator -P P1nkP0ney -H $host sol activate
+}
+
+ipmi_criteo () {
+  [[ -n "$1" ]] || return 1;
+  local host=`ruby -e "host = '$1'.downcase; print host =~ /([0-9]+\\.){3}[0-9]+/ ? host : (host.include?('bmc.crto.in') ? host : host+'.bmc.crto.in')"`;
+  ipmitool -I lanplus -U Administrator -P P1nkP0ney -H $host $2 $3 $4 $5
+}
+
+rackguru () {
+  curl "https://rackguru.crto.in/api/rpc/server_inventory?${1}"
+}
+
+jwt () {
+  ruby -rcriteo/auth/jwt/jtc_client -e 'puts Criteo::Auth::JWT::JTCClient.new("https://jtc.prod.crto.in").login(ENV["CRITEO_USER"], %x(pass criteo/ad).chomp)'
+}
+
+jwth () {
+  echo "Authorization: $(jwt)"
+}
+
+deployer-issv () {
+  pushd ~/criteo/incubator/sre-notify-and-deploy
+  git pull
+  deployer -conf-path teams/infra_systems_services/config.yaml $@
+  popd
+}
