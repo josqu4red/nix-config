@@ -43,10 +43,14 @@
     # /!\ resets input methods
     # gsettings reset org.gnome.desktop.input-sources xkb-options
     # gsettings reset org.gnome.desktop.input-sources sources
-    xkbOptions = "caps:swapescape";
+    # xkbOptions = "caps:swapescape";
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
+  #services.gnome.gnome-online-miners.enable = false;
+  #services.gnome.evolution-data-server.enable = false;
+  programs.geary.enable = false;
+  programs.gnome-terminal.enable = true;
 
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -61,6 +65,7 @@
   environment.systemPackages = with pkgs; [ bc colordiff curl dig git htop jq less lsof ncdu nettools rsync screen socat strace sysstat tmux unzip vim ];
   environment.variables = {
     EDITOR = "vim";
+    PAGER = "less";
   };
 
   security.sudo.wheelNeedsPassword = false;
