@@ -1,0 +1,71 @@
+let mapleader = ","
+let localleader = ","
+
+set autoindent
+set background=dark
+set cursorline
+set encoding=utf-8
+set expandtab
+set fileencoding=utf-8
+set foldlevel=1
+set foldmethod=indent
+set foldnestmax=10
+set incsearch
+"set list listchars=tab:··,trail:·
+set nobackup
+set nofoldenable
+set noswapfile
+set nowritebackup
+set pastetoggle=<leader>p
+set ruler
+set shiftround
+set shiftwidth=2
+set showcmd
+set showmatch
+set showmode
+set smartindent
+set softtabstop=2
+set splitbelow
+set splitright
+set t_Co=256
+set tabstop=2
+set title
+set wildmode=list:longest,full
+
+colorscheme desert256
+syntax on
+filetype plugin indent on
+highlight SpecialKey ctermfg=black ctermbg=red
+
+autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+autocmd Filetype go setlocal noexpandtab nolist
+
+" Ctrl-C > copy to clip
+vmap <C-c> y: call system("xclip -i", getreg("\""))<CR>
+
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+noremap <C-h> <C-w>h
+
+nnoremap Y y$
+nnoremap <leader>d ddO
+nnoremap - ddkP
+nnoremap _ ddp
+
+" NERDTree
+let NERDTreeHighlightCursorline=1
+nnoremap <leader>n :NERDTreeToggle<CR>
+"" Open if no file
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | wincmd p | endif
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+"" Close if last window
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" Rainbow
+let g:rainbow_active = 1

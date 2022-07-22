@@ -48,20 +48,14 @@
     };
   };
 
-  #programs.vim = {
-  #  plugins = with pkgs.vimPlugins; [ vim-airline ];
-  #};
-
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;
   };
 
-  #imports = [
-  #  ./programs/alacritty.nix
-  #  ./programs/i3.nix
-  #  ./programs/polybar.nix
-  #];
+  imports = [
+    ../../programs/vim.nix
+  ];
 
   #services.gpg-agent = {
   #  enable = true;
