@@ -54,6 +54,7 @@
   };
 
   imports = [
+    ../../programs/tmux.nix
     ../../programs/vim.nix
   ];
 
