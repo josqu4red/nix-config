@@ -16,7 +16,9 @@
 
   console = {
     font = "JetBrainsMono Nerd Font";
-    useXkbConfig = true;
+    #useXkbConfig = true;
+    # unknown keysym 'trademark'
+    # lk_add_key called with bad keycode -1
   };
 
   sound.enable = true;

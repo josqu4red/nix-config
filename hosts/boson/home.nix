@@ -16,9 +16,11 @@
   };
 
   imports = [
-    ./programs/alacritty.nix
-    ./programs/i3.nix
-    ./programs/polybar.nix
+    ../../programs/alacritty.nix
+    ../../programs/i3.nix
+    ../../programs/polybar.nix
+    ../../programs/tmux.nix
+    ../../programs/vim.nix
   ];
 
   #services.gpg-agent = {
