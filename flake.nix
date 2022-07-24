@@ -18,6 +18,8 @@
       #   };
       modules = [
         ./hosts/boson/hardware.nix
+        ./modules/base.nix
+        ./modules/workstation.nix
         ./hosts/boson/configuration.nix
 
         inputs.home-manager.nixosModules.home-manager
@@ -39,6 +41,8 @@
       #   };
       modules = [
         ./hosts/neutrino/hardware.nix
+        ./modules/base.nix
+        ./modules/workstation.nix
         ./hosts/neutrino/configuration.nix
 
         inputs.home-manager.nixosModules.home-manager

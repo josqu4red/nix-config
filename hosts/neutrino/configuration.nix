@@ -1,6 +1,4 @@
 { config, pkgs, ... }: {
-  nixpkgs.config.allowUnfree = true;
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -9,23 +7,8 @@
     preLVM = true;
   };
 
-  networking.hostName = "neutrino"; # Define your hostname.
+  networking.hostName = "neutrino";
   networking.networkmanager.enable = true;
-
-  time.timeZone = "Europe/Paris";
-  i18n.defaultLocale = "en_US.utf8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "fr_FR.utf8";
-    LC_IDENTIFICATION = "fr_FR.utf8";
-    LC_MEASUREMENT = "fr_FR.utf8";
-    LC_MONETARY = "fr_FR.utf8";
-    LC_NAME = "fr_FR.utf8";
-    LC_NUMERIC = "fr_FR.utf8";
-    LC_PAPER = "fr_FR.utf8";
-    LC_TELEPHONE = "fr_FR.utf8";
-    LC_TIME = "fr_FR.utf8";
-  };
 
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono"]; })
@@ -62,12 +45,6 @@
     pulse.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [ bc colordiff curl dig git htop jq less lsof ncdu nettools rsync screen socat strace sysstat tmux unzip vim ];
-  environment.variables = {
-    EDITOR = "vim";
-    PAGER = "less";
-  };
-
   security.sudo.wheelNeedsPassword = false;
   users.users.jamiez = {
     isNormalUser = true;
@@ -78,13 +55,11 @@
   services.fwupd.enable = true;
   services.openssh.enable = true;
   virtualisation.docker.enable = true;
-  services.pcscd.enable = true;
   programs.gnupg.agent = {
     enable = true;
     pinentryFlavor = "gtk2";
     enableSSHSupport = true;
   };
-  services.printing.enable = true;
 
   system.stateVersion = "22.05"; # Did you read the comment?
 }

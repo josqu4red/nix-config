@@ -1,19 +1,14 @@
 { config, pkgs, ... }: {
-  nixpkgs.config.allowUnfree = true; # for nvidia
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   boot.initrd.luks.devices.luks-root = {
     device = "/dev/disk/by-label/luks-root";
     preLVM = true;
   };
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   networking.hostName = "boson";
   networking.networkmanager.enable = true;
-
-  time.timeZone = "Europe/Paris";
-  i18n.defaultLocale = "en_US.UTF-8";
 
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono"]; })
@@ -40,12 +35,6 @@
   };
   services.xserver.desktopManager.gnome.enable = false;
   services.xserver.windowManager.i3.enable = true;
-
-  environment.systemPackages = with pkgs; [ colordiff curl git gnupg jq tmux vim ];
-
-  environment.variables = {
-    EDITOR = "vim";
-  };
 
   security.sudo.wheelNeedsPassword = false;
   users.users.jamiez = {
