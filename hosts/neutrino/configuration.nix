@@ -55,11 +55,6 @@
   services.fwupd.enable = true;
   services.openssh.enable = true;
   virtualisation.docker.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryFlavor = "gtk2";
-    enableSSHSupport = true;
-  };
 
   system.stateVersion = "22.05"; # Did you read the comment?
 }

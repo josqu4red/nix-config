@@ -17,4 +17,10 @@
 
   services.pcscd.enable = true;
   services.printing.enable = true;
+
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryFlavor = "gtk2";
+    enableSSHSupport = true;
+  };
 }
