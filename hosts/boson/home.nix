@@ -6,29 +6,6 @@
 
   home.packages = with pkgs; [ nvd spotify ];
 
-  programs.password-store = {
-    enable = true;
-    package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
-  };
-
-  programs.firefox = {
-    enable = true;
-    package = pkgs.firefox-wayland;
-    profiles."default" = {
-      userChrome = ''
-        #TabsToolbar {
-          visibility: collapse;
-        }
-        #sidebar-header {
-          visibility: collapse !important;
-        }
-      '';
-      settings = {
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-      };
-    };
-  };
-
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;
@@ -36,7 +13,9 @@
 
   imports = [
     ../../programs/alacritty.nix
+    ../../programs/firefox.nix
     ../../programs/i3.nix
+    ../../programs/pass.nix
     ../../programs/polybar.nix
     ../../programs/tmux.nix
     ../../programs/vim.nix

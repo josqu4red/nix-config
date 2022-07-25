@@ -6,29 +6,6 @@
 
   home.packages = with pkgs; [ nvd slack spotify zoom-us ];
 
-  programs.password-store = {
-    enable = true;
-    package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
-  };
-
-  programs.firefox = {
-    enable = true;
-    package = pkgs.firefox-wayland;
-    profiles."default" = {
-      userChrome = ''
-        #TabsToolbar {
-          visibility: collapse;
-        }
-        #sidebar-header {
-          visibility: collapse !important;
-        }
-      '';
-      settings = {
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-      };
-    };
-  };
-
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
@@ -54,6 +31,8 @@
   };
 
   imports = [
+    ../../programs/firefox.nix
+    ../../programs/pass.nix
     ../../programs/tmux.nix
     ../../programs/vim.nix
   ];
