@@ -4,7 +4,7 @@
   home.homeDirectory = "/home/jamiez";
   programs.home-manager.enable = true;
 
-  home.packages = with pkgs; [ nvd slack spotify zoom-us ];
+  home.packages = with pkgs; [ kubernetes-helm-wrapped kubectl nvd python3 ruby slack spotify zoom-us ];
 
   programs.vscode = {
     enable = true;

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -25,15 +25,16 @@
     # Use if change does not apply on gnome
     # /!\ resets input methods
     # gsettings reset org.gnome.desktop.input-sources xkb-options
-    # gsettings reset org.gnome.desktop.input-sources sources
     # xkbOptions = "caps:swapescape";
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
-  #services.gnome.gnome-online-miners.enable = false;
-  #services.gnome.evolution-data-server.enable = false;
+  services.gnome.gnome-online-miners.enable = lib.mkForce false;
+  services.gnome.evolution-data-server.enable = lib.mkForce false;
+  #services.gnome.gnome-keyring.enable = lib.mkForce false;
   programs.geary.enable = false;
   programs.gnome-terminal.enable = true;
+  environment.systemPackages = [ pkgs.gnome.gnome-tweaks ];
 
   sound.enable = true;
   hardware.pulseaudio.enable = false;
