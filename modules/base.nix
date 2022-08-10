@@ -16,6 +16,7 @@
     socat
     strace
     sysstat
+    tree
     unzip
     vim
   ];
