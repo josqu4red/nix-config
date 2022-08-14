@@ -20,10 +20,4 @@
     ../../programs/tmux.nix
     ../../programs/vim.nix
   ];
-
-  #services.gpg-agent = {
-  #  enable = true;
-  #  defaultCacheTtl = 1800;
-  #  enableSshSupport = true;
-  #};
 }
