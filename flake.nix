@@ -8,52 +8,30 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs: {
-    nixosConfigurations.boson = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      # Things in this set are passed to modules and accessible
-      # in the top-level arguments (e.g. `{ pkgs, lib, inputs, ... }:`).
-      #   specialArgs = {
-      #     inherit inputs;
-      #   };
-      modules = [
-        ./hosts/boson/hardware.nix
-        ./modules/base.nix
-        ./modules/workstation.nix
-        ./hosts/boson/configuration.nix
+  outputs = inputs @ { self, nixpkgs, home-manager, ... }: {
+    nixosConfigurations =
+      let
+        system = "x86_64-linux";
 
-        inputs.home-manager.nixosModules.home-manager
-        ({ pkgs, ... }: {
-          nix.extraOptions = "experimental-features = nix-command flakes";
-          nix.package = pkgs.nixFlakes;
-          nix.registry.nixpkgs.flake = inputs.nixpkgs;
-          home-manager.useGlobalPkgs = true;
-          home-manager.users.jamiez = import ./hosts/boson/home.nix;
-        })
-      ];
-    };
-    nixosConfigurations.neutrino = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      # Things in this set are passed to modules and accessible
-      # in the top-level arguments (e.g. `{ pkgs, lib, inputs, ... }:`).
-      #   specialArgs = {
-      #     inherit inputs;
-      #   };
-      modules = [
-        ./hosts/neutrino/hardware.nix
-        ./modules/base.nix
-        ./modules/workstation.nix
-        ./hosts/neutrino/configuration.nix
-
-        inputs.home-manager.nixosModules.home-manager
-        ({ pkgs, ... }: {
-          nix.extraOptions = "experimental-features = nix-command flakes";
-          nix.package = pkgs.nixFlakes;
-          nix.registry.nixpkgs.flake = inputs.nixpkgs;
-          home-manager.useGlobalPkgs = true;
-          home-manager.users.jamiez = import ./hosts/neutrino/home.nix;
-        })
-      ];
-    };
+        mkLinuxSystem = name: nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit system inputs; };
+          modules = [
+            ./hosts/${name}/hardware.nix
+            ./hosts/${name}/configuration.nix
+            ./modules/base.nix
+            ./modules/workstation.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.jamiez = import ./hosts/${name}/home.nix;
+            }
+          ];
+        };
+      in
+      {
+        boson = mkLinuxSystem "boson";
+        neutrino = mkLinuxSystem "neutrino";
+      };
   };
 }

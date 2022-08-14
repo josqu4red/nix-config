@@ -8,11 +8,6 @@
   };
 
   networking.hostName = "neutrino";
-  networking.networkmanager.enable = true;
-
-  fonts.fonts = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono"]; })
-  ];
 
   console = {
     font = "JetBrainsMono Nerd Font";
@@ -46,7 +41,6 @@
     pulse.enable = true;
   };
 
-  security.sudo.wheelNeedsPassword = false;
   users.users.jamiez = {
     isNormalUser = true;
     shell = pkgs.zsh;
@@ -54,8 +48,5 @@
   };
 
   services.fwupd.enable = true;
-  services.openssh.enable = true;
   virtualisation.docker.enable = true;
-
-  system.stateVersion = "22.05"; # Did you read the comment?
 }

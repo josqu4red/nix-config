@@ -1,4 +1,6 @@
 { config, pkgs, ... }: {
+  system.stateVersion = "22.05";
+
   environment.systemPackages = with pkgs; [
     bc
     colordiff
@@ -26,4 +28,12 @@
   };
 
   i18n.defaultLocale = "en_US.utf8";
+
+  nix = {
+    extraOptions = "experimental-features = nix-command flakes";
+    package = pkgs.nixFlakes;
+  };
+
+  security.sudo.wheelNeedsPassword = false;
+  services.openssh.enable = true;
 }

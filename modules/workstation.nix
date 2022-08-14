@@ -1,6 +1,8 @@
 { config, pkgs, ... }: {
   nixpkgs.config.allowUnfree = true;
 
+  networking.networkmanager.enable = true;
+
   time.timeZone = "Europe/Paris";
 
   i18n.extraLocaleSettings = {
@@ -17,6 +19,10 @@
 
   services.pcscd.enable = true;
   services.printing.enable = true;
+
+  fonts.fonts = with pkgs; [
+    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono"]; })
+  ];
 
   programs.gnupg.agent = {
     enable = true;
