@@ -13,6 +13,7 @@
 
   imports = [
     ../../programs/firefox.nix
+    ../../programs/gpg.nix
     ../../programs/pass.nix
     ../../programs/tmux.nix
     ../../programs/vim.nix
