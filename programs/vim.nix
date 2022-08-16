@@ -12,7 +12,7 @@ let
 in {
   programs.vim = {
     enable = true;
-    extraConfig = builtins.readFile files/vim/vimrc;
+    extraConfig = builtins.readFile ./vim/vimrc;
     plugins = with pkgs.vimPlugins; [
       delimitMate
       nerdtree
