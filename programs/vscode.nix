@@ -12,10 +12,14 @@
       vscodevim.vim
     ];
     userSettings = {
-      "editor.fontFamily" = "JetBrainsMono Nerd Font";
-      "editor.fontLigatures" = true;
-      "editor.fontSize" = 13;
-      "workbench.colorTheme" = "Solarized Dark";
+      update.mode = "none";
+      editor = {
+        bracketPairColorization.enabled = true;
+        fontFamily = "JetBrainsMono Nerd Font";
+        fontLigatures = true;
+        fontSize = 14;
+      };
+      workbench.colorTheme = "Solarized Dark";
     };
   };
 }

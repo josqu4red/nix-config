@@ -20,15 +20,12 @@
     enable = true;
     videoDrivers = [ "nvidia" ];
     layout = "fr";
+    displayManager.gdm.enable = true;
+    displayManager.defaultSession = "none+i3";
+    desktopManager.gnome.enable = false;
+    windowManager.i3.enable = true;
   };
   hardware.opengl.enable = true;
-
-  services.xserver.displayManager = {
-    gdm.enable = true;
-    defaultSession = "none+i3";
-  };
-  services.xserver.desktopManager.gnome.enable = false;
-  services.xserver.windowManager.i3.enable = true;
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;

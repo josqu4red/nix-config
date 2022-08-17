@@ -30,8 +30,10 @@
   i18n.defaultLocale = "en_US.utf8";
 
   nix = {
-    extraOptions = "experimental-features = nix-command flakes";
     package = pkgs.nixFlakes;
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+    };
   };
 
   security.sudo.wheelNeedsPassword = false;
