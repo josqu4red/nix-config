@@ -1,12 +1,4 @@
 { config, lib, pkgs, ... }: {
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.initrd.luks.devices.luks-root = {
-    device = "/dev/disk/by-label/luks-root";
-    preLVM = true;
-  };
-
   networking.hostName = "neutrino";
 
   console = {
