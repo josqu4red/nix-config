@@ -15,8 +15,6 @@
   users.users.jamiez = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [ "wheel" ];
   };
-
-  virtualisation.docker.enable = true;
 }

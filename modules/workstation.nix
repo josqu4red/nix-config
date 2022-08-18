@@ -1,4 +1,8 @@
 { config, pkgs, ... }: {
+  imports = [
+    ./system/docker.nix
+  ];
+
   config = {
     nixpkgs.config.allowUnfree = true;
 
@@ -42,6 +46,11 @@
     console = {
       font = "JetBrainsMono Nerd Font";
       useXkbConfig = true;
+    };
+
+    systemCfg.docker = {
+      enable = true;
+      privilegedUsers = [ "jamiez" ];
     };
   };
 }
