@@ -24,10 +24,9 @@
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
+  services.gnome.core-utilities.enable = false;
   services.gnome.gnome-online-miners.enable = lib.mkForce false;
   services.gnome.evolution-data-server.enable = lib.mkForce false;
-  #services.gnome.gnome-keyring.enable = lib.mkForce false;
-  programs.geary.enable = false;
   programs.gnome-terminal.enable = true;
   environment.systemPackages = [ pkgs.gnome.gnome-tweaks ];
 
