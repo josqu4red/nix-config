@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.homeCfg.pass;
+  cfg = config.my.home.pass;
 in {
-  options.homeCfg.pass = {
+  options.my.home.pass = {
     enable = mkEnableOption "pass";
   };
   config = mkIf cfg.enable {

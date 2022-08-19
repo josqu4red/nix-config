@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.homeCfg.vscode;
+  cfg = config.my.home.vscode;
 in {
-  options.homeCfg.vscode = {
+  options.my.home.vscode = {
     enable = mkEnableOption "vscode";
   };
   config = mkIf cfg.enable {

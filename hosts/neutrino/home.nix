@@ -1,4 +1,7 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+let
+  my = import ../..;
+in {
   home.stateVersion = "22.05";
   home.username = "jamiez";
   home.homeDirectory = "/home/jamiez";
@@ -6,9 +9,9 @@
 
   home.packages = with pkgs; [ kubernetes-helm-wrapped kubectl python3 ruby slack spotify zoom-us ];
 
-  imports = import ../../modules/home;
+  imports = [ my.home ];
 
-  homeCfg = {
+  my.home = {
     firefox.enable = true;
     gpg.enable = true;
     nix-tools.enable = true;

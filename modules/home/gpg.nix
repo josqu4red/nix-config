@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.homeCfg.gpg;
+  cfg = config.my.home.gpg;
 in {
-  options.homeCfg.gpg = {
+  options.my.home.gpg = {
     enable = mkEnableOption "gpg";
   };
   config = mkIf cfg.enable {

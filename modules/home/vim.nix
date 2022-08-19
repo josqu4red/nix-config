@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.homeCfg.vim;
+  cfg = config.my.home.vim;
   vim-desert256 = pkgs.vimUtils.buildVimPlugin {
     name = "vim-desert256";
     src = pkgs.fetchFromGitHub {
@@ -12,7 +12,7 @@ let
     };
   };
 in {
-  options.homeCfg.vim = {
+  options.my.home.vim = {
     enable = mkEnableOption "vim";
   };
   config = mkIf cfg.enable {

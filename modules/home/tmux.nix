@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.homeCfg.tmux;
+  cfg = config.my.home.tmux;
 in {
-  options.homeCfg.tmux = {
+  options.my.home.tmux = {
     enable = mkEnableOption "tmux";
   };
   config = mkIf cfg.enable {

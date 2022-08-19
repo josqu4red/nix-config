@@ -1,27 +1,13 @@
-{ config, pkgs, ... }: {
-  imports = [
-    ./system/docker.nix
-  ];
+{ config, lib, pkgs, ... }:
+let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.my.system.workstation;
+in {
+  options.my.system.workstation.enable = mkEnableOption "workstation";
 
-  config = {
-    nixpkgs.config.allowUnfree = true;
-
+  config = mkIf cfg.enable {
     networking.networkmanager.enable = true;
     users.extraGroups.networkmanager.members = [ "jamiez" ];
-
-    time.timeZone = "Europe/Paris";
-
-    i18n.extraLocaleSettings = {
-      LC_ADDRESS = "fr_FR.utf8";
-      LC_IDENTIFICATION = "fr_FR.utf8";
-      LC_MEASUREMENT = "fr_FR.utf8";
-      LC_MONETARY = "fr_FR.utf8";
-      LC_NAME = "fr_FR.utf8";
-      LC_NUMERIC = "fr_FR.utf8";
-      LC_PAPER = "fr_FR.utf8";
-      LC_TELEPHONE = "fr_FR.utf8";
-      LC_TIME = "fr_FR.utf8";
-    };
 
     services.fwupd.enable = true;
     services.pcscd.enable = true;
@@ -48,7 +34,7 @@
       useXkbConfig = true;
     };
 
-    systemCfg.docker = {
+    my.system.docker = {
       enable = true;
       privilegedUsers = [ "jamiez" ];
     };

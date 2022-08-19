@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.homeCfg.i3;
+  cfg = config.my.home.i3;
   mod = "Mod4";
   exitMode = "Exit: [l]ogout [h]ibernate [r]eboot [s]hutdown";
 in {
-  options.homeCfg.i3 = {
+  options.my.home.i3 = {
     enable = mkEnableOption "i3";
   };
   config = mkIf cfg.enable {

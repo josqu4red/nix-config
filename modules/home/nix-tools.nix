@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.homeCfg.nix-tools;
+  cfg = config.my.home.nix-tools;
 in {
-  options.homeCfg.nix-tools = {
+  options.my.home.nix-tools = {
     enable = mkEnableOption "nix-tools";
   };
   config = mkIf cfg.enable {

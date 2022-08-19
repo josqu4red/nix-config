@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.homeCfg.zsh;
+  cfg = config.my.home.zsh;
   configPath = ./zsh;
   zsh-nix-shell = {
     name = "zsh-nix-shell";
@@ -14,7 +14,7 @@ let
     };
   };
 in {
-  options.homeCfg.zsh = {
+  options.my.home.zsh = {
     enable = mkEnableOption "zsh";
   };
   config = mkIf cfg.enable {

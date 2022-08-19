@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkOption types;
-  cfg = config.systemCfg.docker;
+  cfg = config.my.system.docker;
 in {
-  options.systemCfg.docker = {
+  options.my.system.docker = {
     enable = mkEnableOption "docker";
     privilegedUsers = mkOption {
       type = types.listOf types.string;

@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.homeCfg.alacritty;
+  cfg = config.my.home.alacritty;
 in {
-  options.homeCfg.alacritty = {
+  options.my.home.alacritty = {
     enable = mkEnableOption "alacritty";
   };
   config = mkIf cfg.enable {

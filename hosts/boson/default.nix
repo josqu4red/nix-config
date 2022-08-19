@@ -1,4 +1,12 @@
-{ config, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
+let
+  my = import ../..;
+in {
+  imports = [
+    ./hardware.nix
+    my.system
+  ];
+
   networking.hostName = "boson";
 
   services.xserver = {
@@ -12,9 +20,16 @@
   };
   hardware.opengl.enable = true;
 
+  services.openssh.enable = true;
+  security.sudo.wheelNeedsPassword = false;
   users.users.jamiez = {
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = [ "wheel" ];
   };
+
+  my.system.workstation.enable = true;
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.users.jamiez = import ./home.nix;
 }

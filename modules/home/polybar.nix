@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.homeCfg.polybar;
+  cfg = config.my.home.polybar;
   ac = "#1E88E5";
   mf = "#383838";
   bg = "#00000000";
@@ -19,7 +19,7 @@ let
   # Red
   urgency = "#e74c3c";
 in {
-  options.homeCfg.polybar = {
+  options.my.home.polybar = {
     enable = mkEnableOption "polybar";
   };
   config = mkIf cfg.enable {

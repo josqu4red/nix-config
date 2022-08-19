@@ -19,15 +19,8 @@
           inherit system;
           specialArgs = { inherit system inputs; };
           modules = [
-            ./hosts/${name}/hardware.nix
-            ./hosts/${name}/configuration.nix
-            ./modules/base.nix
-            ./modules/workstation.nix
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.users.jamiez = import ./hosts/${name}/home.nix;
-            }
+            ./hosts/${name}
           ];
         };
       in

@@ -1,4 +1,7 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+let
+  my = import ../..;
+in {
   home.stateVersion = "22.05";
   home.username = "jamiez";
   home.homeDirectory = "/home/jamiez";
@@ -6,9 +9,9 @@
 
   home.packages = with pkgs; [ spotify ];
 
-  imports = import ../../modules/home;
+  imports = [ my.home ];
 
-  homeCfg = {
+  my.home = {
     alacritty.enable = true;
     firefox.enable = true;
     i3.enable = true;
