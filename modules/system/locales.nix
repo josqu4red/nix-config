@@ -1,8 +1,9 @@
 { config, pkgs, ... }: {
   config = {
-    i18n.defaultLocale = "en_US.utf8";
+    #i18n.defaultLocale = "en_US.utf8";
 
     i18n.extraLocaleSettings = {
+      LC_ALL = "en_US.utf8";
       LC_ADDRESS = "fr_FR.utf8";
       LC_IDENTIFICATION = "fr_FR.utf8";
       LC_MEASUREMENT = "fr_FR.utf8";
