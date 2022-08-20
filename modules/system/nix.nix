@@ -6,6 +6,7 @@
     package = pkgs.nixFlakes;
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
+      cores = 0;
     };
   };
 }
