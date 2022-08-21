@@ -19,13 +19,16 @@ in {
         modifier = mod;
         # Use Mouse+$mod to drag floating windows to their wanted position
         floating.modifier = mod;
-        window.border = 1;
+        window = {
+          border = 1;
+          titlebar = false;
+        };
         focus.followMouse = false;
         fonts.names = ["JetBrainsMono Nerd Font"];
 
-        keybindings = lib.mkOptionDefault {
+        keybindings = {
           "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
-          "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun";
+          "${mod}+t" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun";
           # modes
           "${mod}+r" = "mode resize";
           "${mod}+x" = "mode ${exitMode}";
@@ -42,9 +45,9 @@ in {
           # change focus between tiling / floating windows
           "${mod}+space" = "focus mode_toggle";
           # focus the parent container
-          #"${mod}+q" = "focus parent";
+          "${mod}+q" = "focus parent";
           # focus the child container
-          #"${mod}+d" = "focus child";
+          "${mod}+d" = "focus child";
           # move focused window
           "${mod}+Shift+H" = "move left";
           "${mod}+Shift+J" = "move down";
@@ -98,11 +101,6 @@ in {
         };
 
         startup = [
-          {
-            command = "exec --no-startup-id i3-msg workspace 1";
-            always = true;
-            notification = false;
-          }
           {
             command = "systemctl --user restart polybar.service";
             always = true;

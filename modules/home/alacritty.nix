@@ -10,6 +10,7 @@ in {
     programs.alacritty = {
       enable = true;
       settings = {
+        window.title = "Term";
         font = {
           normal.family = "JetBrainsMono Nerd Font";
           size = 12.0;
