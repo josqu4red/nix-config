@@ -10,11 +10,18 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, ... }: {
+  outputs = inputs @ { self, nixpkgs, home-manager, ... }:
+  let
+    system = "x86_64-linux";
+    pkgs = import inputs.nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+      #overlays = [];
+    };
+  in
+  {
     nixosConfigurations =
       let
-        system = "x86_64-linux";
-
         mkLinuxSystem = name: nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit system inputs; };
@@ -28,5 +35,10 @@
         boson = mkLinuxSystem "boson";
         neutrino = mkLinuxSystem "neutrino";
       };
+
+    devShells.${system} = {
+      #default = import ./shells/nix.nix { inherit pkgs; } # TODO
+      go = import ./shells/go.nix { inherit pkgs; };
+    };
   };
 }
