@@ -28,6 +28,9 @@ in {
         size = 1000;
         save = 1000000;
       };
+      envExtra = ''
+        export PATH=~/bin:$PATH
+      '';
       initExtra = with builtins;
         lib.strings.concatStringsSep "\n"
         (lib.attrsets.mapAttrsToList (n: v: readFile (configPath + "/${n}"))

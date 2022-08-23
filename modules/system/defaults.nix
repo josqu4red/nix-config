@@ -26,5 +26,7 @@
       EDITOR = "vim";
       PAGER = "less";
     };
+
+    environment.shells = [ pkgs.zsh ];
   };
 }
