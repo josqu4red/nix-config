@@ -24,7 +24,10 @@ in {
           titlebar = false;
         };
         focus.followMouse = false;
-        fonts.names = ["JetBrainsMono Nerd Font"];
+        fonts = {
+          names = ["JetBrains Mono"];
+          size = 13.0;
+        };
 
         keybindings = {
           "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";

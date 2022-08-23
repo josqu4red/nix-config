@@ -22,7 +22,7 @@ in {
         update.mode = "none";
         editor = {
           bracketPairColorization.enabled = true;
-          fontFamily = "JetBrainsMono Nerd Font";
+          fontFamily = "JetBrains Mono";
           fontLigatures = true;
           fontSize = 14;
         };

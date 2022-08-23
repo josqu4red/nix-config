@@ -12,7 +12,7 @@ in {
       settings = {
         window.title = "Term";
         font = {
-          normal.family = "JetBrainsMono Nerd Font";
+          normal.family = "JetBrains Mono";
           size = 12.0;
         };
       };

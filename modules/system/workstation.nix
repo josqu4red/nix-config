@@ -25,12 +25,10 @@ in {
 
     environment.pathsToLink = [ "/share/zsh" ];
 
-    fonts.fonts = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono"]; })
-    ];
+    fonts.fonts = with pkgs; [ jetbrains-mono ];
 
     console = {
-      font = "JetBrainsMono Nerd Font";
+      font = "JetBrains Mono";
       useXkbConfig = true;
     };
 
