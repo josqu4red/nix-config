@@ -6,7 +6,6 @@
     ./i3.nix
     ./nix-tools.nix
     ./pass.nix
-    ./polybar.nix
     ./tmux.nix
     ./vim.nix
     ./vscode.nix

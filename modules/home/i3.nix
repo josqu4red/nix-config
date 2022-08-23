@@ -105,11 +105,6 @@ in {
 
         startup = [
           {
-            command = "systemctl --user restart polybar.service";
-            always = true;
-            notification = false;
-          }
-          {
             command = "${pkgs.feh}/bin/feh --bg-scale ~/.background.png";
             always = true;
             notification = false;
