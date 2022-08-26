@@ -1,5 +1,7 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, hostname, ... }: {
   config = {
+    networking.hostName = hostname;
+
     environment.systemPackages = with pkgs; [
       bc
       colordiff

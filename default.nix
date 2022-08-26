@@ -1,8 +1,4 @@
 {
-  home = {
-    imports = [ ./modules/home ];
-  };
-  system = {
-    imports = [ ./modules/system ];
-  };
+  home = import ./modules/home;
+  system = import ./modules/system;
 }

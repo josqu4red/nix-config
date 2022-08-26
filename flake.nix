@@ -10,35 +10,35 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, ... }:
+  outputs = inputs:
   let
-    system = "x86_64-linux";
-    pkgs = import inputs.nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-      #overlays = [];
-    };
+    lib = import ./lib { inherit inputs; };
+    inherit (lib) forAllSystems mkHome mkSystem;
+
+    legacyPackages = forAllSystems (system:
+      import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        #overlays = [];
+      }
+    );
   in
   {
-    nixosConfigurations =
-      let
-        mkLinuxSystem = name: nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit system inputs; };
-          modules = [
-            home-manager.nixosModules.home-manager
-            ./hosts/${name}
-          ];
-        };
-      in
-      {
-        boson = mkLinuxSystem "boson";
-        neutrino = mkLinuxSystem "neutrino";
-      };
+    inherit legacyPackages;
 
-    devShells.${system} = {
-      #default = import ./shells/nix.nix { inherit pkgs; } # TODO
-      go = import ./shells/go.nix { inherit pkgs; };
+    nixosConfigurations = {
+      boson = mkSystem { hostname = "boson"; pkgs = legacyPackages.x86_64-linux; system = "x86_64-linux"; };
+      neutrino = mkSystem { hostname = "neutrino"; pkgs = legacyPackages.x86_64-linux; system = "x86_64-linux"; };
     };
+
+    homeConfigurations = {
+      "jamiez@boson" = mkHome { username = "jamiez"; hostname = "boson"; };
+      "jamiez@neutrino" = mkHome { username = "jamiez"; hostname = "neutrino"; };
+    };
+
+    devShells = forAllSystems (system: {
+      #default = import ./shells/nix.nix { inherit pkgs; } # TODO
+      go = import ./shells/go.nix { pkgs = legacyPackages; };
+    });
   };
 }

@@ -1,13 +1,6 @@
 { config, lib, pkgs, ... }:
-let
-  my = import ../..;
-in {
-  imports = [
-    ./hardware.nix
-    my.system
-  ];
-
-  networking.hostName = "neutrino";
+{
+  imports = [ ./hardware.nix ];
 
   services.xserver = {
     enable = true;
@@ -35,6 +28,5 @@ in {
 
   my.system.workstation.enable = true;
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.users.jamiez = import ./home.nix;
+  system.stateVersion = "22.05";
 }

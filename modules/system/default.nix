@@ -1,13 +1,10 @@
 {
-  imports = [
-    ./defaults.nix
-    ./docker.nix
-    ./ledger.nix
-    ./locales.nix
-    ./nix.nix
-    ./qFlipper.nix
-    ./workstation.nix
-    ./yubikey.nix
-  ];
-  system.stateVersion = "22.05";
+  defaults = import ./defaults.nix;
+  docker = import ./docker.nix;
+  ledger = import ./ledger.nix;
+  locales = import ./locales.nix;
+  nix = import ./nix.nix;
+  qFlipper = import ./qFlipper.nix;
+  workstation = import ./workstation.nix;
+  yubikey = import ./yubikey.nix;
 }
