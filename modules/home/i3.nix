@@ -15,7 +15,6 @@ in {
     xsession.windowManager.i3 = {
       enable = true;
       config = {
-        bars = [];
         modifier = mod;
         # Use Mouse+$mod to drag floating windows to their wanted position
         floating.modifier = mod;
@@ -98,7 +97,7 @@ in {
           "l" = "exec i3-msg exit";
           "h" = "exec systemctl hibernate";
           "r" = "exec systemctl reboot";
-          "s" = "exec systemctl shutdown";
+          "s" = "exec systemctl poweroff";
           "Return" = "mode default";
           "Escape" = "mode default";
         };
