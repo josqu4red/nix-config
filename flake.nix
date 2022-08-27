@@ -15,11 +15,13 @@
     lib = import ./lib { inherit inputs; };
     inherit (lib) forAllSystems mkHome mkSystem;
 
+    overlay = final: _prev: import ./pkgs { pkgs = final; };
+
     legacyPackages = forAllSystems (system:
       import inputs.nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        #overlays = [];
+        overlays = [ overlay ];
       }
     );
   in
