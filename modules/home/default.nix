@@ -1,5 +1,6 @@
 {
   alacritty = import ./alacritty.nix;
+  autocutsel = import ./autocutsel.nix;
   firefox = import ./firefox.nix;
   gpg = import ./gpg.nix;
   i3 = import ./i3.nix;
