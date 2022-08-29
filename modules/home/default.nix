@@ -6,6 +6,7 @@
   i3 = import ./i3.nix;
   nix-tools = import ./nix-tools.nix;
   pass = import ./pass.nix;
+  ruby = import ./ruby.nix;
   tmux = import ./tmux.nix;
   vim = import ./vim.nix;
   vscode = import ./vscode.nix;

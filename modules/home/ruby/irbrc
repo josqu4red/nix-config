@@ -1,0 +1,14 @@
+IRB.conf[:SAVE_HISTORY] = 10000
+IRB.conf[:HISTORY_FILE] = "#{ENV["HOME"]}/.irb_history"
+
+class Array
+  def self.toy(n=10, &block)
+    block_given? ? Array.new(n,&block) : Array.new(n) {|i| i+1}
+  end
+end
+
+class Hash
+  def self.toy(n=10)
+    Hash[Array.toy(n){|c| (96+(c+1)).chr}.zip(Array.toy(n))]
+  end
+end
