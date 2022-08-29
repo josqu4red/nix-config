@@ -13,7 +13,7 @@
   outputs = inputs:
   let
     lib = import ./lib { inherit inputs; };
-    inherit (lib) forAllSystems mkHome mkSystem;
+    inherit (lib) forAllSystems mapHomes mkSystem;
 
     overlay = final: _prev: import ./pkgs { pkgs = final; };
 
@@ -37,10 +37,7 @@
       neutrino = mkSystem { hostname = "neutrino"; users = [ "jamiez" ]; inherit system pkgs; };
     };
 
-    homeConfigurations = {
-      "jamiez@boson" = mkHome { username = "jamiez"; hostname = "boson"; };
-      "jamiez@neutrino" = mkHome { username = "jamiez"; hostname = "neutrino"; };
-    };
+    homeConfigurations = mapHomes;
 
     devShells = forAllSystems (system: {
       #default = import ./shells/nix.nix { inherit pkgs; } # TODO

@@ -3,19 +3,11 @@ let
   inherit (inputs) self home-manager nixpkgs;
   inherit (self) outputs;
 
-  inherit (builtins) elemAt match any attrValues pathExists;
-  inherit (nixpkgs.lib) nixosSystem genAttrs mapAttrs' optional;
+  inherit (builtins) attrNames attrValues listToAttrs pathExists;
+  inherit (nixpkgs.lib) nixosSystem filterAttrs flatten genAttrs nameValuePair optional;
   inherit (home-manager.lib) homeManagerConfiguration;
 in
 rec {
-  # Applies a function to a attrset's names, while keeping the values
-  mapAttrNames = f: mapAttrs' (name: value: { name = f name; inherit value; });
-
-  has = element: any (x: x == element);
-
-  getUsername = string: elemAt (match "(.*)@(.*)" string) 0;
-  getHostname = string: elemAt (match "(.*)@(.*)" string) 1;
-
   systems = [
     "aarch64-linux"
     "x86_64-linux"
@@ -38,6 +30,17 @@ rec {
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
     };
+
+  hostUsers = host:
+    attrNames (filterAttrs (n: v: v.isNormalUser) outputs.nixosConfigurations.${host}.config.users.users);
+
+  mapHomes = listToAttrs (flatten(
+    map (hostname:
+      map (username:
+        nameValuePair "${username}@${hostname}" (mkHome { inherit username hostname; })
+      ) (hostUsers hostname)
+    ) (attrNames outputs.nixosConfigurations)
+  ));
 
   mkHome =
     { username
