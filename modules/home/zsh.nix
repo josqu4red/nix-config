@@ -1,8 +1,10 @@
 { config, lib, pkgs, ... }:
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (builtins) readDir readFile;
+  inherit (lib) mapAttrs' mkEnableOption mkIf nameValuePair;
+
   cfg = config.my.home.zsh;
-  configPath = ./zsh;
+  hist-size = 1000000;
   zsh-nix-shell = {
     name = "zsh-nix-shell";
     file = "nix-shell.plugin.zsh";
@@ -17,7 +19,9 @@ in {
   options.my.home.zsh = {
     enable = mkEnableOption "zsh";
   };
+
   config = mkIf cfg.enable {
+    xdg.configFile = mapAttrs' (n: v: nameValuePair "zsh/${n}.zsh" { source = ./zsh/${n}; }) (readDir ./zsh);
     programs.zsh = {
       enable = true;
       enableCompletion = true;
@@ -25,20 +29,24 @@ in {
       history = {
         expireDuplicatesFirst = true;
         extended = true;
-        size = 1000;
-        save = 1000000;
+        ignoreDups = true;
+        ignorePatterns = [ "rm *" "l *" "cd *" ];
+        ignoreSpace = true;
+        save = hist-size;
+        share = true;
+        size = hist-size;
       };
       envExtra = ''
         export PATH=~/bin:$PATH
       '';
-      initExtra = with builtins;
-        lib.strings.concatStringsSep "\n"
-        (lib.attrsets.mapAttrsToList (n: _v: readFile (configPath + "/${n}"))
-          (readDir configPath));
+      initExtra = ''
+        for config_file (${config.xdg.configHome}/zsh/*.zsh); do
+          source $config_file
+        done
+      '';
       oh-my-zsh = {
         enable = true;
         plugins = ["extract"];
-        # theme = "agnoster";
       };
       plugins = [zsh-nix-shell];
     };

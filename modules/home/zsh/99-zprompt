@@ -9,6 +9,10 @@ for color in {000..255}; do
     BG[$color]="%{[48;5;${color}m%}"
 done
 
+function collapsed_wd() {
+  echo $(pwd | perl -pe "s|^$HOME|~|g; s|/([^/]{${ZSH_THEME_DIR_SLICE:=1}})[^/]*(?=/)|/\$1|g")
+}
+
 function spectrum_ls() {
   count=0
   for code in {000..015}; do
