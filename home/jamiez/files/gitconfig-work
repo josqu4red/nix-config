@@ -1,0 +1,5 @@
+[user]
+  name = Jonathan Amiez
+  email = j.amiez@criteo.com
+[core]
+  hooksPath = ~/work/.githooks
