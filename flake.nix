@@ -41,6 +41,7 @@
     devShells = forAllSystems (system: {
       #default = import ./shells/nix.nix { inherit pkgs; } # TODO
       go = import ./shells/go.nix { pkgs = legacyPackages; };
+      python = import ./shells/python.nix { pkgs = legacyPackages; };
     });
   };
 }
