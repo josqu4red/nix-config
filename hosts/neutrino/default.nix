@@ -1,6 +1,9 @@
-{ lib, pkgs, ... }:
+{ inputs, lib, pkgs, ... }:
 {
-  imports = [ ./hardware.nix ];
+  imports = [
+    ./hardware.nix
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
+  ];
 
   services.xserver = {
     enable = true;
