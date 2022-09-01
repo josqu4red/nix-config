@@ -13,7 +13,6 @@
   };
   hardware.opengl.enable = true;
 
-  services.openssh.enable = true;
   security.sudo.wheelNeedsPassword = false;
   users.users.jamiez = {
     isNormalUser = true;
@@ -22,6 +21,7 @@
   };
 
   my.system.workstation.enable = true;
+  my.system.sshd.enable = true;
 
   system.stateVersion = "22.05";
 }

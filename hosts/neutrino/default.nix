@@ -18,7 +18,6 @@
   programs.gnome-terminal.enable = true;
   environment.systemPackages = [ pkgs.gnome.gnome-tweaks ];
 
-  services.openssh.enable = true;
   security.sudo.wheelNeedsPassword = false;
   users.users.jamiez = {
     isNormalUser = true;
