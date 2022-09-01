@@ -13,13 +13,6 @@
   };
   hardware.opengl.enable = true;
 
-  security.sudo.wheelNeedsPassword = false;
-  users.users.jamiez = {
-    isNormalUser = true;
-    shell = pkgs.zsh;
-    extraGroups = [ "wheel" ];
-  };
-
   my.system.workstation.enable = true;
   my.system.sshd.enable = true;
 

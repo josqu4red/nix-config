@@ -9,6 +9,8 @@ in {
     networking.networkmanager.enable = true;
     users.extraGroups.networkmanager.members = [ "jamiez" ];
 
+    security.sudo.wheelNeedsPassword = false;
+
     services.fwupd.enable = true;
     services.pcscd.enable = true;
     services.printing.enable = true;

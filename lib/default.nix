@@ -3,8 +3,8 @@ let
   inherit (inputs) self home-manager nixpkgs;
   inherit (self) outputs;
 
-  inherit (builtins) elemAt match any attrValues;
-  inherit (nixpkgs.lib) nixosSystem genAttrs mapAttrs';
+  inherit (builtins) elemAt match any attrValues pathExists;
+  inherit (nixpkgs.lib) nixosSystem genAttrs mapAttrs' optional;
   inherit (home-manager.lib) homeManagerConfiguration;
 in
 rec {
@@ -24,13 +24,16 @@ rec {
 
   mkSystem =
     { hostname
+    , users ? []
     , pkgs
     , system
     }:
     nixosSystem {
       inherit pkgs system;
       specialArgs = { inherit inputs outputs hostname; };
-      modules = attrValues (import ../modules/system) ++ [ ../hosts/${hostname} ];
+      modules = attrValues (import ../modules/system)
+                ++ [ ../hosts/${hostname} ]
+                ++ map (u: ../users/${u}) users;
     };
 
   mkHome =
@@ -46,7 +49,8 @@ rec {
         inherit inputs outputs hostname username features;
       };
       homeDirectory = "/home/${username}";
-      extraModules = attrValues (import ../modules/home) ++ [ ../home/${username} ];
-      configuration = ../hosts/${hostname}/home.nix ;
+      extraModules = attrValues (import ../modules/home)
+                     ++ optional (pathExists ../users/${username}/${hostname}.nix) ../users/${username}/${hostname}.nix;
+      configuration = ../users/${username}/home.nix ;
     };
 }

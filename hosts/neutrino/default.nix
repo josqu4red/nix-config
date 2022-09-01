@@ -18,13 +18,6 @@
   programs.gnome-terminal.enable = true;
   environment.systemPackages = [ pkgs.gnome.gnome-tweaks ];
 
-  security.sudo.wheelNeedsPassword = false;
-  users.users.jamiez = {
-    isNormalUser = true;
-    shell = pkgs.zsh;
-    extraGroups = [ "wheel" ];
-  };
-
   my.system.workstation.enable = true;
 
   system.stateVersion = "22.05";
