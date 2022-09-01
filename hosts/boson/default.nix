@@ -6,9 +6,8 @@
     enable = true;
     videoDrivers = [ "nvidia" ];
     layout = "fr";
-    displayManager.gdm.enable = true;
+    displayManager.lightdm.enable = true;
     displayManager.defaultSession = "none+i3";
-    desktopManager.gnome.enable = false;
     windowManager.i3.enable = true;
   };
   hardware.opengl.enable = true;
