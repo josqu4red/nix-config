@@ -50,6 +50,7 @@
   };
 
   my.home = {
+    autocutsel.enable = true;
     firefox.enable = true;
     gpg.enable = true;
     nix-tools.enable = true;
