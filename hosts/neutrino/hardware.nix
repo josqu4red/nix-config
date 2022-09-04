@@ -5,9 +5,14 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices.luks-root = {
-    device = "/dev/disk/by-label/luks-root";
-    preLVM = true;
+  boot.initrd.luks = {
+    fido2Support = true;
+    devices.luks-root = {
+      device = "/dev/disk/by-label/luks-root";
+      preLVM = true;
+      fido2.credential = "8ade4e84782523170000a7f93662ae5f89e6eb40452d1abb01f81256fc8be0cedb6af128c5cb9c007112fafed78711d9";
+      fido2.passwordLess = true;
+    };
   };
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
