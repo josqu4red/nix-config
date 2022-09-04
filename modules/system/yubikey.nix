@@ -5,7 +5,7 @@ let
 in {
   options.my.system.yubikey.enable = mkEnableOption "yubikey";
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ yubico-piv-tool yubikey-personalization yubioath-desktop yubikey-personalization-gui ];
+    environment.systemPackages = with pkgs; [ yubikey-manager yubikey-personalization yubikey-personalization-gui yubico-piv-tool yubioath-desktop ];
     services.udev.packages = [ pkgs.yubikey-personalization ];
   };
 }
