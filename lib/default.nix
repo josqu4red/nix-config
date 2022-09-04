@@ -22,6 +22,9 @@ rec {
   ];
   forAllSystems = genAttrs systems;
 
+  ifExists = path:
+    optional (pathExists path) path;
+
   mkSystem =
     { hostname
     , users ? []
@@ -32,7 +35,7 @@ rec {
       inherit pkgs system;
       specialArgs = { inherit inputs outputs hostname; };
       modules = attrValues (import ../modules/system)
-                ++ [ ../hosts/${hostname} ]
+                ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
     };
 
@@ -50,7 +53,7 @@ rec {
       };
       homeDirectory = "/home/${username}";
       extraModules = attrValues (import ../modules/home)
-                     ++ optional (pathExists ../users/${username}/${hostname}.nix) ../users/${username}/${hostname}.nix;
+                     ++ ifExists ../users/${username}/${hostname}.nix;
       configuration = ../users/${username}/home.nix ;
     };
 }

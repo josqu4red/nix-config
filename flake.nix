@@ -28,9 +28,13 @@
   {
     inherit legacyPackages;
 
-    nixosConfigurations = {
-      boson = mkSystem { hostname = "boson"; users = [ "jamiez" ]; pkgs = legacyPackages.x86_64-linux; system = "x86_64-linux"; };
-      neutrino = mkSystem { hostname = "neutrino"; users = [ "jamiez" ]; pkgs = legacyPackages.x86_64-linux; system = "x86_64-linux"; };
+    nixosConfigurations = let
+      system = "x86_64-linux";
+      pkgs = legacyPackages.${system};
+    in
+    {
+      boson = mkSystem { hostname = "boson"; users = [ "jamiez" ]; inherit system pkgs; };
+      neutrino = mkSystem { hostname = "neutrino"; users = [ "jamiez" ]; inherit system pkgs; };
     };
 
     homeConfigurations = {
