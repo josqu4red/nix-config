@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkOption types;
   cfg = config.my.system.docker;

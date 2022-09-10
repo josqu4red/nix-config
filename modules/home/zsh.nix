@@ -33,7 +33,7 @@ in {
       '';
       initExtra = with builtins;
         lib.strings.concatStringsSep "\n"
-        (lib.attrsets.mapAttrsToList (n: v: readFile (configPath + "/${n}"))
+        (lib.attrsets.mapAttrsToList (n: _v: readFile (configPath + "/${n}"))
           (readDir configPath));
       oh-my-zsh = {
         enable = true;

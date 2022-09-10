@@ -1,6 +1,3 @@
-# sudo nixos-rebuild switch --flake /etc/nixos
-# sudo nix flake update --commit-lock-file /etc/nixos
-
 {
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-22.05";
@@ -41,8 +38,8 @@
 
     devShells = forAllSystems (system: {
       #default = import ./shells/nix.nix { inherit pkgs; } # TODO
-      go = import ./shells/go.nix { pkgs = legacyPackages; };
-      python = import ./shells/python.nix { pkgs = legacyPackages; };
+      go = import ./shells/go.nix { pkgs = legacyPackages.${system}; };
+      python = import ./shells/python.nix { pkgs = legacyPackages.${system}; };
     });
   };
 }

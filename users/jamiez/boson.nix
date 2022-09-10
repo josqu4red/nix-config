@@ -1,4 +1,4 @@
-{ config, ... }:
+{ ... }:
 {
   my.home = {
     alacritty.enable = true;

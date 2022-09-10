@@ -17,7 +17,7 @@ stdenv.mkDerivation {
 
   meta = with lib; {
     description = "gws is a KISS, bash, colorful helper to manage workspaces composed of Git repositories.";
-    homepage    = https://github.com/StreakyCobra/gws;
+    homepage    = "https://github.com/StreakyCobra/gws";
     license     = licenses.mit;
   };
 }

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [ gws kubernetes-helm-wrapped kubectl slack zoom-us ];
 

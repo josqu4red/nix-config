@@ -32,7 +32,7 @@ rec {
     };
 
   hostUsers = host:
-    attrNames (filterAttrs (n: v: v.isNormalUser) outputs.nixosConfigurations.${host}.config.users.users);
+    attrNames (filterAttrs (_n: v: v.isNormalUser) outputs.nixosConfigurations.${host}.config.users.users);
 
   mapHomes = listToAttrs (flatten(
     map (hostname:

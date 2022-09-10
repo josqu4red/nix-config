@@ -5,6 +5,8 @@ Nixos configurations for my Linux machines.
 ## System REPL
 
 ```
-nix repl '<nixpkgs>'
-:lf <nixpkgs/nixos>
+nix repl
+:lf .
+:l <nixpkgs>
+:l <nixpkgs/nixos>
 ```
