@@ -21,4 +21,6 @@
   my.system.workstation.enable = true;
 
   system.stateVersion = "22.05";
+
+  services.flatpak.enable = true;
 }
