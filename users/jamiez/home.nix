@@ -43,10 +43,10 @@
         };
       };
     };
-    includes = inputs.nixpkgs.lib.optional (builtins.pathExists ./files/gitconfig-work) [{
+    includes = lib.optional (builtins.pathExists ./files/gitconfig-work) {
       condition = "gitdir:~/work/";
       path = ./files/gitconfig-work;
-    }];
+    };
   };
 
   my.home = {
