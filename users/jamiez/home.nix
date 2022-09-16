@@ -54,6 +54,7 @@
     autocutsel.enable = true;
     firefox.enable = true;
     gpg.enable = true;
+    neovim.enable = true;
     nix-tools.enable = true;
     pass.enable = true;
     tmux.enable = true;
