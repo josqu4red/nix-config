@@ -15,7 +15,6 @@
   services.gnome.core-utilities.enable = false;
   services.gnome.gnome-online-miners.enable = lib.mkForce false;
   services.gnome.evolution-data-server.enable = lib.mkForce false;
-  programs.gnome-terminal.enable = true;
   environment.systemPackages = [ pkgs.gnome.gnome-tweaks ];
 
   my.system.workstation.enable = true;
