@@ -1,5 +1,6 @@
 {
   defaults = import ./defaults.nix;
+  chrysalis = import ./chrysalis.nix;
   docker = import ./docker.nix;
   ledger = import ./ledger.nix;
   locales = import ./locales.nix;
