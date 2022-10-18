@@ -25,6 +25,10 @@ in {
             text = "#2e3440";
             cursor = "#d8dee9";
           };
+          footer_bar = {
+            background = "#434c5e";
+            foreground = "#d8dee9";
+          };
           vi_mode_cursor = {
             text = "#2e3440";
             cursor = "#d8dee9";
@@ -37,10 +41,6 @@ in {
             matches = {
               foreground = "CellBackground";
               background = "#88c0d0";
-            };
-            bar = {
-              background = "#434c5e";
-              foreground = "#d8dee9";
             };
           };
           normal = {
