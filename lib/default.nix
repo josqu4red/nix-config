@@ -21,10 +21,9 @@ rec {
     { hostname
     , users ? []
     , pkgs
-    , system
     }:
     nixosSystem {
-      inherit pkgs system;
+      inherit pkgs;
       specialArgs = { inherit inputs outputs hostname; };
       modules = attrValues (import ../modules/system)
                 ++ ifExists ../hosts/${hostname}
@@ -46,17 +45,24 @@ rec {
     { username
     , hostname ? null
     , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
-    , system ? outputs.nixosConfigurations.${hostname}.system
     , features ? [ ]
     }:
     homeManagerConfiguration {
-      inherit pkgs system username;
+      inherit pkgs;
       extraSpecialArgs = {
         inherit inputs outputs hostname username features;
       };
-      homeDirectory = "/home/${username}";
-      extraModules = attrValues (import ../modules/home)
-                     ++ ifExists ../users/${username}/${hostname}.nix;
-      configuration = ../users/${username}/home.nix ;
+      modules = [
+        {
+          home = {
+            inherit username;
+            homeDirectory = "/home/${username}";
+            stateVersion = "22.05";
+          };
+        }
+        ../users/${username}/home.nix
+      ]
+      ++ attrValues (import ../modules/home)
+      ++ ifExists ../users/${username}/${hostname}.nix;
     };
 }

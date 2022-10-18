@@ -1,8 +1,8 @@
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-22.05";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-22.05";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -30,8 +30,8 @@
       pkgs = legacyPackages.${system};
     in
     {
-      boson = mkSystem { hostname = "boson"; users = [ "jamiez" ]; inherit system pkgs; };
-      neutrino = mkSystem { hostname = "neutrino"; users = [ "jamiez" ]; inherit system pkgs; };
+      boson = mkSystem { hostname = "boson"; users = [ "jamiez" ]; inherit pkgs; };
+      neutrino = mkSystem { hostname = "neutrino"; users = [ "jamiez" ]; inherit pkgs; };
     };
 
     homeConfigurations = mapHomes;
