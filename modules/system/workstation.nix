@@ -29,10 +29,7 @@ in {
 
     fonts.fonts = with pkgs; [ jetbrains-mono ];
 
-    console = {
-      font = "JetBrains Mono";
-      useXkbConfig = true;
-    };
+    console.useXkbConfig = true;
 
     my.system.docker = {
       enable = true;
