@@ -7,6 +7,8 @@ in {
 
   config = mkIf cfg.enable {
     networking.networkmanager.enable = true;
+    networking.resolvconf.enable = false;
+    services.resolved.enable = true;
     users.extraGroups.networkmanager.members = [ "jamiez" ];
 
     security.sudo.wheelNeedsPassword = false;
