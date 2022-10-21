@@ -1,0 +1,11 @@
+#!bash -e
+
+usage() {
+  echo "$0 <path> <host>"
+}
+
+path=$1
+host=$2
+
+nix-copy-closure --to $host $path
+ssh -t $host sudo -- "sh -c 'nix-env --profile /nix/var/nix/profiles/system --set $path && /nix/var/nix/profiles/system/bin/switch-to-configuration switch'"
