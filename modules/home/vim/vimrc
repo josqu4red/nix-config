@@ -11,7 +11,7 @@ set foldlevel=1
 set foldmethod=indent
 set foldnestmax=10
 set incsearch
-"set list listchars=tab:··,trail:·
+set list listchars=tab:>·,trail:·
 set nobackup
 set nofoldenable
 set noswapfile
@@ -48,8 +48,6 @@ noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
 
-nnoremap Y y$
-nnoremap <leader>d ddO
 nnoremap - ddkP
 nnoremap _ ddp
 
