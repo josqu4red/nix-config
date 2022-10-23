@@ -13,7 +13,7 @@ in {
         window.decorations = "None";
         font = {
           normal.family = "JetBrains Mono";
-          size = 14.0;
+          size = 12.0;
         };
         colors = { # https://github.com/arcticicestudio/nord-alacritty
           primary = {
