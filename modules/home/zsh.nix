@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
-  inherit (builtins) readDir readFile;
-  inherit (lib) mapAttrs' mkEnableOption mkIf nameValuePair;
+  inherit (builtins) listToAttrs readDir;
+  inherit (lib) mapAttrs' mkEnableOption mkIf mkOption nameValuePair types;
 
   cfg = config.my.home.zsh;
   hist-size = 1000000;
@@ -15,13 +15,26 @@ let
       sha256 = "0za4aiwwrlawnia4f29msk822rj9bgcygw6a8a6iikiwzjjz0g91";
     };
   };
+
+  zshFile = path:
+    let name = baseNameOf path;
+    in nameValuePair "zsh/${name}" { source = path; };
+
+  default-config = mapAttrs' (n: v: zshFile ./zsh/${n}) (readDir ./zsh);
+  extra-config = listToAttrs (map (f: zshFile f) cfg.extras);
 in {
   options.my.home.zsh = {
     enable = mkEnableOption "zsh";
+    extras = mkOption {
+      type = with types; listOf path;
+      default = [];
+      example = [ ./a/file ];
+      description = "Extra config for zsh (settings, functions)";
+    };
   };
 
   config = mkIf cfg.enable {
-    xdg.configFile = mapAttrs' (n: v: nameValuePair "zsh/${n}.zsh" { source = ./zsh/${n}; }) (readDir ./zsh);
+    xdg.configFile = default-config // extra-config;
     programs.zsh = {
       enable = true;
       enableCompletion = true;
