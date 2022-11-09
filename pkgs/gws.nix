@@ -1,12 +1,16 @@
 { stdenv, fetchFromGitHub, lib }:
-stdenv.mkDerivation {
-  name = "gws";
+let
+  pname = "gws";
+  version = "0.2.0";
+  sha256 = "sha256-/m7b0m8RHouL6Gppca3f7G4aIy3sJ1kkYQGGNh9ZkMc=";
+in stdenv.mkDerivation {
+  name = "${pname}-${version}";
 
   src = fetchFromGitHub {
     owner = "StreakyCobra";
-    repo = "gws";
-    rev = "0.2.0";
-    sha256 = "sha256-/m7b0m8RHouL6Gppca3f7G4aIy3sJ1kkYQGGNh9ZkMc=";
+    repo = pname;
+    rev = version;
+    inherit sha256;
   };
 
   installPhase = ''
