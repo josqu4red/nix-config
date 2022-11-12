@@ -41,5 +41,9 @@
       go = import ./shells/go.nix { pkgs = legacyPackages.${system}; };
       python = import ./shells/python.nix { pkgs = legacyPackages.${system}; };
     });
+
+    packages = forAllSystems (system:
+      import ./pkgs { pkgs = legacyPackages.${system}; }
+    );
   };
 }
