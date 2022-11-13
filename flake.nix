@@ -36,11 +36,9 @@
 
     homeConfigurations = mapHomes;
 
-    devShells = forAllSystems (system: {
-      #default = import ./shells/nix.nix { inherit pkgs; } # TODO
-      go = import ./shells/go.nix { pkgs = legacyPackages.${system}; };
-      python = import ./shells/python.nix { pkgs = legacyPackages.${system}; };
-    });
+    devShells = forAllSystems (system:
+      import ./shells { pkgs = legacyPackages.${system}; }
+    );
 
     packages = forAllSystems (system:
       import ./pkgs { pkgs = legacyPackages.${system}; }
