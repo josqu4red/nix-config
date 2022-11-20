@@ -7,6 +7,7 @@
       colordiff
       curl
       dig
+      file
       git
       htop
       jq
