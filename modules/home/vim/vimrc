@@ -51,6 +51,8 @@ noremap <C-h> <C-w>h
 nnoremap - ddkP
 nnoremap _ ddp
 
+nnoremap Q <nop>
+
 " NERDTree
 let NERDTreeHighlightCursorline=1
 nnoremap <leader>n :NERDTreeToggle<CR>
