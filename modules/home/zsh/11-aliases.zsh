@@ -1,7 +1,6 @@
 # List direcory contents
 alias l='ls -lh'
 alias la='ls -Alh'
-alias rm='rm -i'
 alias rr='rm -rf'
 alias sudo='sudo '
 alias halt='sudo shutdown -h -P now'

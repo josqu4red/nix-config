@@ -63,5 +63,9 @@ in {
       };
       plugins = [zsh-nix-shell];
     };
+    programs.fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
   };
 }

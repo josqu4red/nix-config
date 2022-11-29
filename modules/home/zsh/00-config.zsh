@@ -1,5 +1,4 @@
-bindkey '^r' history-incremental-search-backward
-bindkey '^f' history-incremental-search-forward
+bindkey '^r' fzf-history-widget
 setopt ALWAYS_TO_END        # Move cursor to the end of a completed word.
 setopt AUTO_CD              # If command is a dir, cd to it.
 setopt AUTO_MENU            # Show completion menu on a successive tab press.
