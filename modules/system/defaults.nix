@@ -4,6 +4,7 @@
 
     environment.systemPackages = with pkgs; [
       bc
+      binutils
       colordiff
       curl
       dig
