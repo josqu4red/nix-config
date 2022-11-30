@@ -6,6 +6,8 @@ in {
   options.my.system.workstation.enable = mkEnableOption "workstation";
 
   config = mkIf cfg.enable {
+    boot.kernelPackages = pkgs.linuxPackages_latest;
+
     networking.networkmanager.enable = true;
     networking.resolvconf.enable = false;
     services.resolved.enable = true;
