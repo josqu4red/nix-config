@@ -14,6 +14,15 @@ function dockrun() {
   docker run --rm -it -w $(pwd) -v $(pwd):$(pwd) $@
 }
 
+function nixsh() {
+  [ $# -lt 1 ] && echo "Need package argument(s)" && return
+  pkgs=()
+  for pkg in "$@"; do
+    pkgs+=("/home/jamiez/code/nix-config#$pkg")
+  done
+  nix shell "${pkgs[@]}"
+}
+
 function ghclone() {
   dir="~/code/github.com/${1%/*}"
   mkdir -p $dir
