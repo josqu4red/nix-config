@@ -1,14 +1,14 @@
 {
-  alacritty = import ./alacritty.nix;
-  autocutsel = import ./autocutsel.nix;
-  firefox = import ./firefox.nix;
-  gpg = import ./gpg.nix;
-  i3 = import ./i3.nix;
-  nix-tools = import ./nix-tools.nix;
-  pass = import ./pass.nix;
-  ruby = import ./ruby.nix;
-  tmux = import ./tmux.nix;
-  vim = import ./vim.nix;
-  vscode = import ./vscode.nix;
-  zsh = import ./zsh.nix;
+  alacritty = import ./alacritty;
+  autocutsel = import ./autocutsel;
+  firefox = import ./firefox;
+  gpg = import ./gpg;
+  i3 = import ./i3;
+  nix-tools = import ./nix-tools;
+  pass = import ./pass;
+  ruby = import ./ruby;
+  tmux = import ./tmux;
+  vim = import ./vim;
+  vscode = import ./vscode;
+  zsh = import ./zsh;
 }

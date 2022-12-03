@@ -1,12 +1,12 @@
 {
-  base = import ./base.nix;
-  chrysalis = import ./chrysalis.nix;
-  cli-tools = import ./cli-tools.nix;
-  docker = import ./docker.nix;
-  ledger = import ./ledger.nix;
-  nix = import ./nix.nix;
-  qFlipper = import ./qFlipper.nix;
-  sshd = import ./sshd.nix;
-  workstation = import ./workstation.nix;
-  yubikey = import ./yubikey.nix;
+  base = import ./base;
+  chrysalis = import ./chrysalis;
+  cli-tools = import ./cli-tools;
+  docker = import ./docker;
+  ledger = import ./ledger;
+  nix = import ./nix;
+  qFlipper = import ./qFlipper;
+  sshd = import ./sshd;
+  workstation = import ./workstation;
+  yubikey = import ./yubikey;
 }

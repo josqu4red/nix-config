@@ -18,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     programs.vim = {
       enable = true;
-      extraConfig = builtins.readFile ./vim/vimrc;
+      extraConfig = builtins.readFile ./vimrc;
       plugins = with pkgs.vimPlugins; [
         delimitMate
         nerdtree

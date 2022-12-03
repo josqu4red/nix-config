@@ -9,8 +9,8 @@ in {
   config = mkIf cfg.enable {
     home.packages = [ pkgs.ruby ];
     home.file = {
-      ".gemrc".source = ./ruby/gemrc;
-      ".irbrc".source = ./ruby/irbrc;
+      ".gemrc".source = ./gemrc;
+      ".irbrc".source = ./irbrc;
     };
   };
 }

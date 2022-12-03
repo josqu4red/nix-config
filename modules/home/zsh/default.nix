@@ -20,7 +20,7 @@ let
     let name = baseNameOf path;
     in nameValuePair "zsh/${name}" { source = path; };
 
-  default-config = mapAttrs' (n: v: zshFile ./zsh/${n}) (readDir ./zsh);
+  default-config = mapAttrs' (n: v: zshFile ./config/${n}) (readDir ./config);
   extra-config = listToAttrs (map (f: zshFile f) cfg.extras);
 in {
   options.my.home.zsh = {
