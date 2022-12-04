@@ -3,13 +3,17 @@ let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.my.home.i3;
   mod = "Mod4";
-  exitMode = "Exit: [l]ogout [h]ibernate [r]eboot [s]hutdown";
+  exitMode = "Exit: [l]ogout [s]uspend [r]eboot [p]oweroff";
 in {
   options.my.home.i3 = {
     enable = mkEnableOption "i3";
   };
   config = mkIf cfg.enable {
-    programs.rofi.enable = true;
+    services.picom.enable = true;
+    programs.rofi = {
+      enable = true;
+      theme = "solarized_alternate";
+    };
     home.packages = [ pkgs.feh ];
 
     xsession.windowManager.i3 = {
@@ -30,7 +34,7 @@ in {
 
         keybindings = {
           "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
-          "${mod}+t" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun";
+          "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun";
           # modes
           "${mod}+r" = "mode resize";
           "${mod}+x" = "mode ${exitMode}";
@@ -49,7 +53,7 @@ in {
           # focus the parent container
           "${mod}+q" = "focus parent";
           # focus the child container
-          "${mod}+d" = "focus child";
+          "${mod}+a" = "focus child";
           # move focused window
           "${mod}+Shift+H" = "move left";
           "${mod}+Shift+J" = "move down";
@@ -95,9 +99,9 @@ in {
 
         modes."${exitMode}" = {
           "l" = "exec i3-msg exit";
-          "h" = "exec systemctl hibernate";
+          "s" = "exec systemctl suspend";
           "r" = "exec systemctl reboot";
-          "s" = "exec systemctl poweroff";
+          "p" = "exec systemctl poweroff";
           "Return" = "mode default";
           "Escape" = "mode default";
         };
@@ -113,9 +117,3 @@ in {
     };
   };
 }
-
-#bindsym F9 exec /etc/i3/lock
-#
-#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pactl info | awk '/Default Sink/ {print $NF}') +10%
-#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pactl info | awk '/Default Sink/ {print $NF}') -10%
-#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pactl info | awk '/Default Sink/ {print $NF}') toggle
