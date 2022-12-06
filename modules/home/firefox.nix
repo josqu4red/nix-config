@@ -8,9 +8,12 @@ in {
   };
 
   config = mkIf cfg.enable {
+    home.file.".mozilla/native-messaging-hosts/passff.json".source = "${pkgs.passff-host}/share/passff-host/passff.json";
     programs.firefox = {
       enable = true;
-      package = pkgs.firefox-wayland;
+      package = pkgs.firefox-wayland.override {
+        cfg.extraNativeMessagingHosts = [ pkgs.passff-host ];
+      };
       profiles."default" = {
         userChrome = ''
           #TabsToolbar {
