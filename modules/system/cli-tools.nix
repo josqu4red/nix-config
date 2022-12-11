@@ -1,7 +1,10 @@
-{ config, pkgs, hostname, ... }: {
-  config = {
-    networking.hostName = hostname;
-
+{ config, lib, pkgs, hostname, ... }:
+let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.my.system.cli-tools;
+in {
+  options.my.system.cli-tools.enable = mkEnableOption "cli-tools";
+  config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       bc
       binutils
@@ -30,7 +33,5 @@
       EDITOR = "vim";
       PAGER = "less";
     };
-
-    environment.shells = [ pkgs.zsh ];
   };
 }
