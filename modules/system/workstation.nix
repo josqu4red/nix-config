@@ -35,9 +35,12 @@ in {
 
     console.useXkbConfig = true;
 
-    my.system.docker = {
-      enable = true;
-      privilegedUsers = [ "jamiez" ];
+    my.system = {
+      cli-tools.enable = true;
+      docker = {
+        enable = true;
+        privilegedUsers = [ "jamiez" ];
+      };
     };
   };
 }
