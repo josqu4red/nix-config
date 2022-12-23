@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkOption types;
   cfg = config.my.system.docker;
@@ -14,6 +14,7 @@ in {
   };
   config = mkIf cfg.enable {
     virtualisation.docker.enable = true;
+    environment.systemPackages = [ pkgs.docker-compose ];
     users.extraGroups.docker.members = cfg.privilegedUsers;
   };
 }
