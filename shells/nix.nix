@@ -27,7 +27,8 @@ let
     ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake .
     ${pkgs.nvd}/bin/nvd diff /nix/var/nix/profiles/system result
     if apply; then
-      ${pkgs.sudo}/bin/sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .
+      # TODO: pkgs.sudo: /nix/store/yvf9z9p3ghlpixikxk02ad6l5lnl1krg-sudo-1.9.12p1/bin/sudo must be owned by uid 0 and have the setuid bit set
+      sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .
     fi
   '';
 in
