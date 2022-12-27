@@ -12,7 +12,7 @@ in {
       settings = {
         window.decorations = "None";
         font = {
-          normal.family = "JetBrains Mono";
+          normal.family = "JetBrainsMono Nerd Font";
           size = 12.0;
         };
         colors = { # https://github.com/arcticicestudio/nord-alacritty

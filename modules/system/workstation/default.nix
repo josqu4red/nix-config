@@ -31,7 +31,9 @@ in {
 
     environment.pathsToLink = [ "/share/zsh" ];
 
-    fonts.fonts = with pkgs; [ jetbrains-mono ];
+    fonts.fonts = with pkgs; [
+      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    ];
 
     console.useXkbConfig = true;
 

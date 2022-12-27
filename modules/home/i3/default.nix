@@ -28,7 +28,7 @@ in {
         };
         focus.followMouse = false;
         fonts = {
-          names = ["JetBrains Mono"];
+          names = ["JetBrainsMono Nerd Font"];
           size = 13.0;
         };
 
