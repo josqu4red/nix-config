@@ -15,6 +15,4 @@
   my.system.workstation.enable = true;
   my.system.sshd.enable = true;
   my.system.chrysalis.enable = true;
-
-  system.stateVersion = "22.05";
 }

@@ -1,4 +1,6 @@
 { hostname, ... }: {
+  system.stateVersion = "22.05";
+
   networking.hostName = hostname;
 
   #i18n.defaultLocale = "en_US.utf8";

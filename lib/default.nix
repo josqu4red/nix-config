@@ -45,6 +45,7 @@ rec {
     { username
     , hostname ? null
     , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
+    , stateVersion ? outputs.nixosConfigurations.${hostname}.config.system.stateVersion
     , features ? [ ]
     }:
     homeManagerConfiguration {
@@ -55,9 +56,8 @@ rec {
       modules = [
         {
           home = {
-            inherit username;
+            inherit username stateVersion;
             homeDirectory = "/home/${username}";
-            stateVersion = "22.05";
           };
         }
         ../users/${username}/home.nix
