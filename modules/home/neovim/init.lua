@@ -7,6 +7,7 @@ g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 
 vim.opt.cursorline = true
+vim.opt.number = true
 vim.opt.laststatus = 3 -- full-width status line
 vim.opt.backup = false
 vim.opt.swapfile = false

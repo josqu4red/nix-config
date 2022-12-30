@@ -35,6 +35,7 @@ in {
         # Syntax
         nvim-treesitter-setup
         nvim-ts-rainbow
+        vim-better-whitespace
         vim-json
         # Visuals
         neoscroll-nvim
