@@ -6,6 +6,15 @@ let
   nvim-treesitter-setup = pkgs.vimPlugins.nvim-treesitter.withPlugins (p:
     [ p.go p.hcl p.json p.jsonnet p.nix p.ruby ]
   );
+  nvim-treesitter-endwise = pkgs.vimUtils.buildVimPlugin {
+    name = "nvim-treesitter-endwise";
+    src = pkgs.fetchFromGitHub {
+      owner = "RRethy";
+      repo = "nvim-treesitter-endwise";
+      rev = "0cf4601c330cf724769a2394df555a57d5fd3f34";
+      sha256 = "sha256-Pns+3gLlwhrojKQWN+zOFxOmgRkG3vTPGoLX90Sg+oo=";
+    };
+  };
 in {
   options.my.home.neovim = {
     enable = mkEnableOption "neovim";
@@ -16,7 +25,7 @@ in {
       vimAlias = true;
       vimdiffAlias = true;
       extraConfig = "lua << EOF\n" + builtins.readFile ./init.lua + "\nEOF";
-      extraPackages = with pkgs; [ rnix-lsp rubyPackages.solargraph ];
+      extraPackages = with pkgs; [ gopls nodePackages.pyright rnix-lsp rubyPackages.solargraph ];
       plugins = with pkgs.vimPlugins; [
         # Layout
         bufferline-nvim
@@ -34,6 +43,7 @@ in {
         luasnip
         # Syntax
         nvim-treesitter-setup
+        nvim-treesitter-endwise
         nvim-ts-rainbow
         vim-better-whitespace
         vim-json
