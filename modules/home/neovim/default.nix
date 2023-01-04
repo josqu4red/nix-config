@@ -37,7 +37,10 @@ in {
         gitsigns-nvim
         # LSP
         nvim-cmp
+        cmp-buffer
+        cmp-cmdline
         cmp-nvim-lsp
+        cmp-path
         nvim-lspconfig
         nvim-surround
         luasnip
@@ -47,6 +50,7 @@ in {
         nvim-ts-rainbow
         vim-better-whitespace
         vim-json
+        delimitMate
         # Visuals
         neoscroll-nvim
         onedark-nvim

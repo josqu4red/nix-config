@@ -74,7 +74,7 @@ local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local luasnip = require 'luasnip'
 local cmp = require 'cmp'
-cmp.setup {
+cmp.setup({
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -110,8 +110,26 @@ cmp.setup {
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+  }, {
+    { name = 'buffer' },
   }),
-}
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
