@@ -51,7 +51,6 @@
 
   my.home = {
     alacritty.enable = true;
-    autocutsel.enable = true;
     firefox.enable = true;
     gpg.enable = true;
     neovim.enable = true;

@@ -1,6 +1,5 @@
 {
   alacritty = import ./alacritty;
-  autocutsel = import ./autocutsel;
   firefox = import ./firefox;
   gpg = import ./gpg;
   i3 = import ./i3;
