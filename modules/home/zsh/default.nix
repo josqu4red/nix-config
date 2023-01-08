@@ -21,7 +21,7 @@ let
     in nameValuePair "zsh/${name}" { source = path; };
 
   default-config = mapAttrs' (n: v: zshFile ./config/${n}) (readDir ./config);
-  extra-config = listToAttrs (map (f: zshFile f) cfg.extras);
+  extra-config = listToAttrs (map zshFile cfg.extras);
 in {
   options.my.home.zsh = {
     enable = mkEnableOption "zsh";
