@@ -16,7 +16,6 @@
   services.gnome.evolution-data-server.enable = lib.mkForce false;
   environment.systemPackages = [ pkgs.gnome.gnome-tweaks ];
 
-  my.system.workstation.enable = true;
   my.system.chrysalis.enable = true;
 
   services.flatpak.enable = true;

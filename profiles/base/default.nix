@@ -3,8 +3,6 @@
 
   networking.hostName = hostname;
 
-  #i18n.defaultLocale = "en_US.utf8";
-
   i18n.extraLocaleSettings = {
     LC_ALL = "en_US.utf8";
     LC_ADDRESS = "fr_FR.utf8";
@@ -17,6 +15,4 @@
     LC_TELEPHONE = "fr_FR.utf8";
     LC_TIME = "fr_FR.utf8";
   };
-
-  time.timeZone = "Europe/Paris"; # TODO UTC for servers
 }

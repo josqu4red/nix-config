@@ -19,13 +19,15 @@ rec {
 
   mkSystem =
     { hostname
+    , profile
     , users ? []
     , pkgs
     }:
     nixosSystem {
       inherit pkgs;
-      specialArgs = { inherit inputs outputs hostname; };
+      specialArgs = { inherit inputs outputs hostname users; };
       modules = attrValues (import ../modules/system)
+                ++ [ ../profiles/${profile} ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
     };

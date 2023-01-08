@@ -30,8 +30,8 @@
       pkgs = legacyPackages.${system};
     in
     {
-      boson = mkSystem { hostname = "boson"; users = [ "jamiez" ]; inherit pkgs; };
-      neutrino = mkSystem { hostname = "neutrino"; users = [ "jamiez" ]; inherit pkgs; };
+      boson = mkSystem { hostname = "boson"; profile = "desktop"; users = [ "jamiez" ]; inherit pkgs; };
+      neutrino = mkSystem { hostname = "neutrino"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs; };
     };
 
     homeConfigurations = mapHomes;

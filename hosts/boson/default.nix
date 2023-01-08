@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   imports = [ ./hardware.nix ];
 
@@ -12,7 +12,6 @@
   };
   hardware.opengl.enable = true;
 
-  my.system.workstation.enable = true;
   my.system.sshd.enable = true;
   my.system.chrysalis.enable = true;
   my.system.qFlipper.enable = true;
