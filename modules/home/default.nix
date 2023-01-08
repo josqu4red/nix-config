@@ -1,6 +1,7 @@
 {
   alacritty = import ./alacritty;
   firefox = import ./firefox;
+  git = import ./git;
   gpg = import ./gpg;
   i3 = import ./i3;
   neovim = import ./neovim;
