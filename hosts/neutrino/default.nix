@@ -5,10 +5,6 @@
   services.xserver = {
     enable = true;
     layout = "us";
-    # Use if change does not apply on gnome
-    # /!\ resets input methods
-    # gsettings reset org.gnome.desktop.input-sources xkb-options
-    # xkbOptions = "caps:swapescape";
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
