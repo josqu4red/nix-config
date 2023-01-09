@@ -15,7 +15,7 @@ let
 
   build-home = pkgs.writeScriptBin "build-home" ''
     ${apply}
-    ${pkgs.home-manager}/bin/home-manager build --flake .
+    ${pkgs.home-manager}/bin/home-manager build --flake . || exit 1
     ${pkgs.nvd}/bin/nvd diff /nix/var/nix/profiles/per-user/jamiez/home-manager result
     if apply; then
       ${pkgs.home-manager}/bin/home-manager switch --flake .
@@ -24,7 +24,7 @@ let
 
   build-system = pkgs.writeScriptBin "build-system" ''
     ${apply}
-    ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake .
+    ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake . || exit 1
     ${pkgs.nvd}/bin/nvd diff /nix/var/nix/profiles/system result
     if apply; then
       # TODO: pkgs.sudo: /nix/store/yvf9z9p3ghlpixikxk02ad6l5lnl1krg-sudo-1.9.12p1/bin/sudo must be owned by uid 0 and have the setuid bit set
