@@ -1,10 +1,16 @@
 { config, lib, ... }:
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf mkOption types;
   cfg = config.my.home.git;
 in {
   options.my.home.git = {
     enable = mkEnableOption "git";
+    includes = mkOption {
+      type = with types; listOf attrs;
+      default = [];
+      example = [ ./a/file ];
+      description = "Extra includes for gitconfig (per directory, ...)";
+    };
   };
   config = mkIf cfg.enable {
     programs.git = {
@@ -47,10 +53,7 @@ in {
           };
         };
       };
-      includes = lib.optional (builtins.pathExists ./files/gitconfig-work) {
-        condition = "gitdir:~/work/";
-        path = ./files/gitconfig-work;
-      };
+      includes = cfg.includes;
     };
   };
 }
