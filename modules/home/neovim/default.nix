@@ -15,6 +15,15 @@ let
       sha256 = "sha256-Pns+3gLlwhrojKQWN+zOFxOmgRkG3vTPGoLX90Sg+oo=";
     };
   };
+  nvim-ts-rainbow2 = pkgs.vimUtils.buildVimPlugin {
+    name = "nvim-ts-rainbow2";
+    src = pkgs.fetchFromGitLab {
+      owner = "HiPhish";
+      repo = "nvim-ts-rainbow2";
+      rev = "09dcb851701747b3f4c5c1088befc88e1601942d";
+      sha256 = "sha256-n83wbP18NaZ6/F6gFYdvaYBjXSVlePZ0954H4DUuICk=";
+    };
+  };
 in {
   options.my.home.neovim = {
     enable = mkEnableOption "neovim";
@@ -47,7 +56,7 @@ in {
         # Syntax
         nvim-treesitter-setup
         nvim-treesitter-endwise
-        nvim-ts-rainbow
+        nvim-ts-rainbow2
         vim-better-whitespace
         vim-json
         delimitMate

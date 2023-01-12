@@ -14,6 +14,7 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.mouse = 'r'
 
 vim.opt.expandtab = true
 vim.opt.tabstop = 2
