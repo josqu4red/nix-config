@@ -33,5 +33,5 @@ let
   '';
 in
 pkgs.mkShell {
-  buildInputs = [ build-home build-system ];
+  buildInputs = [ build-home build-system pkgs.deadnix pkgs.statix ];
 }

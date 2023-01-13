@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, ... }: {
+{ pkgs, ... }: {
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [ spotify ];
