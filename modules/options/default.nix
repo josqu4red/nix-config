@@ -1,0 +1,3 @@
+{
+  options = import ./options.nix;
+}

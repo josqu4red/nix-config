@@ -43,4 +43,8 @@
       privilegedUsers = users;
     };
   };
+
+  my.options = {
+    userShell = pkgs.zsh;
+  };
 }
