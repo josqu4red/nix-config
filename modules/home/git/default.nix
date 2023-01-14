@@ -33,6 +33,7 @@ in {
         core = { whitespace = "trailing-space,cr-at-eol"; };
         push.default = "simple";
         pull.ff = "only";
+        init.defaultBranch = "main";
         color = {
           diff = {
            meta = "blue bold";
