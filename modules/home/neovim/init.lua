@@ -18,7 +18,12 @@ vim.opt.mouse = 'r'
 
 vim.opt.expandtab = true
 vim.opt.tabstop = 2
+vim.opt.shiftround = true
+vim.opt.shiftwidth = 2
+vim.opt.autoindent = true
+vim.opt.smartindent = true
 
+vim.opt.list = true
 vim.opt.listchars = { tab = '>·', trail = '·' }
 
 map.set('n', '-', 'ddkP')
