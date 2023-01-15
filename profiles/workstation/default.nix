@@ -37,7 +37,6 @@
   console.useXkbConfig = true;
 
   my.system = {
-    cli-tools.enable = true;
     docker = {
       enable = true;
       privilegedUsers = users;

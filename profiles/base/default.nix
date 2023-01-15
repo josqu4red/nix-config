@@ -15,4 +15,6 @@
     LC_TELEPHONE = "fr_FR.utf8";
     LC_TIME = "fr_FR.utf8";
   };
+
+  my.system.cli-tools.enable = true;
 }
