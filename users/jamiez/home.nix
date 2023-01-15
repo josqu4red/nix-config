@@ -9,7 +9,6 @@
     git.enable = true;
     gpg.enable = true;
     neovim.enable = true;
-    nix-tools.enable = true;
     pass.enable = true;
     tmux.enable = true;
     vim.enable = true;
