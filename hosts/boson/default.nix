@@ -9,4 +9,5 @@
   my.system.desktop.layout = "fr";
   my.system.chrysalis.enable = true;
   my.system.qFlipper.enable = true;
+  my.system.nix.cachix.enable = true;
 }

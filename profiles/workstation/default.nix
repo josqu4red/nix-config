@@ -50,6 +50,8 @@
 
   console.useXkbConfig = true;
 
+  my.system.nix.flakesNixpkgsInNixPath = true;
+
   my.options = {
     userShell = pkgs.zsh;
   };
