@@ -26,8 +26,6 @@ in {
         br = "branch";
         amend = "commit --amend --no-edit";
         difc = "diff --cached";
-        gr = "!g() { if [ $# -eq 1 ]; then b=$1; else b=master; fi; git push origin HEAD:refs/for/$b/$(git rev-parse --abbrev-ref HEAD); }; g";
-        grd = "!gd() { if [ $# -eq 1 ]; then b=$1; else b=master; fi; git push origin HEAD:refs/drafts/$b/$(git rev-parse --abbrev-ref HEAD); }; gd";
       };
       extraConfig = {
         core = { whitespace = "trailing-space,cr-at-eol"; };
