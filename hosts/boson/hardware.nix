@@ -2,26 +2,11 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.loader.systemd-boot = {
-    enable = true;
-    consoleMode = "max";
-  };
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.initrd.luks = {
-    fido2Support = true;
-    devices.luks-root = {
-      device = "/dev/disk/by-label/luks-root";
-      preLVM = true;
-      fido2.credential = "8ade4e84782523170000a7f93662ae5f89e6eb40452d1abb01f81256fc8be0cedb6af128c5cb9c007112fafed78711d9";
-      fido2.passwordLess = true;
-    };
-  };
+  boot.loader.systemd-boot.consoleMode = "max";
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/8b8ff36f-2ece-4287-b185-953345531852";
@@ -45,11 +30,6 @@
   };
 
   swapDevices = [{ device = "/dev/disk/by-uuid/f93b64e9-cee8-42ed-ae0d-6e1daf4f778b"; }];
-
-  networking.useDHCP = lib.mkDefault true;
-
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   nixpkgs.hostPlatform = "x86_64-linux";
 }
