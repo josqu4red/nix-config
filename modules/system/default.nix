@@ -1,6 +1,7 @@
 {
   chrysalis = import ./chrysalis;
   cli-tools = import ./cli-tools;
+  desktop = import ./desktop;
   docker = import ./docker;
   ledger = import ./ledger;
   nix = import ./nix;

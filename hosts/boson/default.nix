@@ -1,16 +1,12 @@
-{ ... }:
+{ inputs, ... }:
 {
-  imports = [ ./hardware.nix ];
+  imports = [
+    ./hardware.nix
+    inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
+  ];
 
-  services.xserver = {
-    enable = true;
-    videoDrivers = [ "nvidia" ];
-    layout = "fr";
-    displayManager.lightdm.enable = true;
-    displayManager.defaultSession = "none+i3";
-    windowManager.i3.enable = true;
-  };
-
+  my.system.desktop.i3 = true;
+  my.system.desktop.layout = "fr";
   my.system.chrysalis.enable = true;
   my.system.qFlipper.enable = true;
 }
