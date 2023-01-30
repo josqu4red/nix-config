@@ -31,7 +31,20 @@ let
       sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .
     fi
   '';
+
+  cleanix = pkgs.writeScriptBin "cleanix" ''
+    [ $# -ne 1 ] && echo "cleanix <number of generations to keep>" && exit 1
+    keep=$1
+
+    # home
+    nix-env --delete-generations +$keep
+    home-manager remove-generations $(home-manager generations | awk "(NR>$keep) {print \$5}" | tr '\n' ' ')
+
+    # system
+    sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +$keep
+    sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --flake .
+  '';
 in
 pkgs.mkShell {
-  buildInputs = with pkgs; [ build-home build-system deadnix nix-diff nix-index nvd statix ];
+  buildInputs = with pkgs; [ build-home build-system cleanix deadnix nix-diff nix-index nvd statix ];
 }
