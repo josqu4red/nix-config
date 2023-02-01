@@ -46,5 +46,5 @@ let
   '';
 in
 pkgs.mkShell {
-  buildInputs = with pkgs; [ build-home build-system cleanix deadnix nix-diff nix-index nvd statix ];
+  buildInputs = with pkgs; [ build-home build-system cleanix deadnix nix-diff nix-index nurl nvd statix ];
 }
