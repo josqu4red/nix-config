@@ -8,4 +8,5 @@
   my.system.desktop.gnome = true;
   my.system.chrysalis.enable = true;
   services.flatpak.enable = true;
+  services.resolved.dnssec = "false"; # https://github.com/systemd/systemd/issues/10579
 }
