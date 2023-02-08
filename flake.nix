@@ -38,7 +38,7 @@
     in {
       boson = mkSystem { hostname = "boson"; profile = "desktop"; users = [ "jamiez" ]; inherit pkgs; };
       neutrino = mkSystem { hostname = "neutrino"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs; };
-      quark = mkSystem { hostname = "quark"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs; };
+      quark = mkSystem { hostname = "quark"; profile = "laptop"; users = [ "jamiez" "sev" ]; inherit pkgs; };
     };
 
     homeConfigurations = mapHomes;
