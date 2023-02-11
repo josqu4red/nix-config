@@ -50,13 +50,6 @@
 
   console.useXkbConfig = true;
 
-  my.system = {
-    docker = {
-      enable = true;
-      privilegedUsers = users;
-    };
-  };
-
   my.options = {
     userShell = pkgs.zsh;
   };
