@@ -3,8 +3,5 @@
     ../workstation
   ];
 
-  my.system.sshd = {
-    enable = true;
-    passwordAuth = true;
-  };
+  my.system.sshd.passwordAuth = true;
 }

@@ -17,4 +17,5 @@
   };
 
   my.system.cli-tools.enable = true;
+  my.system.sshd.enable = true;
 }
