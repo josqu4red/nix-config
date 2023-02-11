@@ -15,6 +15,10 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
@@ -66,7 +70,8 @@
     ));
 
     devShells = forAllSystems (system: {
-      default = import ./shell.nix { pkgs = legacyPackages.${system}; };
+      default = import ./shell.nix { pkgs = legacyPackages.${system};
+                                     sops-import-keys-hook = inputs.sops-nix.packages.${system}.sops-import-keys-hook; };
     });
 
     packages.x86_64-linux = {

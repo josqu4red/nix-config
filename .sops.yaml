@@ -1,0 +1,7 @@
+keys:
+- &jamiez C32756FA98BAE710FC2616BB4BBCA7023906BA07
+creation_rules:
+- path_regex: secrets/[^/]+\.yaml$
+  key_groups:
+  - pgp:
+    - *jamiez

@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, sops-import-keys-hook }:
 let
   apply = ''
     # get user input
@@ -61,9 +61,19 @@ let
       sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +$keep
       sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --flake .
     '')
+
+    (pkgs.writeShellScriptBin "get-sops-key" ''
+      [ $# -lt 1 ] && echo "get-sops-key <host> [name]" && exit 1
+      host=$1
+      [ $# -ne 2 ] && name=$1 || name=$2
+      # https://github.com/Mic92/ssh-to-pgp/issues/61
+      ssh $host "sudo cat /etc/ssh/ssh_host_rsa_key" | ${pkgs.ssh-to-pgp}/bin/ssh-to-pgp -o .sops/host-$name.asc -email host@$name -comment "" -name $name
+    '')
   ];
 
 in
 pkgs.mkShell {
-  buildInputs = with pkgs; [ deadnix git-crypt nix-diff nix-index nix-prefetch-github nix-tree nurl nvd statix ] ++ scripts;
+  sopsPGPKeyDirs = [ ./.sops ];
+  nativeBuildInputs = [ sops-import-keys-hook ];
+  buildInputs = with pkgs; [ deadnix git-crypt nix-diff nix-index nix-prefetch-github nix-tree nurl nvd sops statix ] ++ scripts;
 }
