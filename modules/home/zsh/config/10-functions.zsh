@@ -14,6 +14,10 @@ function dockrun() {
   docker run --rm -it -w $(pwd) -v $(pwd):$(pwd) $@
 }
 
+function urlencode() {
+  printf %s "$1" | jq -sRr @uri
+}
+
 function nixsh() {
   [ $# -lt 1 ] && echo "Need package argument(s)" && return
   pkgs=()
