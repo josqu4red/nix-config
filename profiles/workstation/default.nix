@@ -31,15 +31,6 @@
   services.pcscd.enable = true;
   services.printing.enable = true;
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-
   environment.pathsToLink = [ "/share/zsh" ];
 
   fonts.fonts = with pkgs; [
@@ -50,7 +41,10 @@
 
   console.useXkbConfig = true;
 
-  my.system.nix.flakesNixpkgsInNixPath = true;
+  my.system = {
+    nix.flakesNixpkgsInNixPath = true;
+    pipewire.enable = true;
+  };
 
   my.options = {
     userShell = pkgs.zsh;

@@ -5,6 +5,7 @@
   docker = import ./docker;
   ledger = import ./ledger;
   nix = import ./nix;
+  pipewire = import ./pipewire;
   podman = import ./podman;
   qFlipper = import ./qFlipper;
   sshd = import ./sshd;
