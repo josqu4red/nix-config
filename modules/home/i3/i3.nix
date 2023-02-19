@@ -84,6 +84,15 @@ in {
       "${mod}+Shift+4" = "move container to workspace 4; workspace 4";
       "${mod}+Shift+5" = "move container to workspace 5; workspace 5";
       "${mod}+Shift+6" = "move container to workspace 6; workspace 6";
+      # multimedia
+      "XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume 0 +5%";
+      "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume 0 -5%";
+      "XF86AudioMute" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute 0 toggle";
+      "XF86AudioPlay" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl play-pause";
+      "XF86AudioNext" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl next";
+      "XF86AudioPrev" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl previous";
+      "XF86MonBrightnessUp" = "exec --no-startup-id ${pkgs.xorg.xbacklight}/bin/xbacklight -inc 10";
+      "XF86MonBrightnessDown" = "exec --no-startup-id ${pkgs.xorg.xbacklight}/bin/xbacklight -dec 10";
     };
 
     modes.resize = {
