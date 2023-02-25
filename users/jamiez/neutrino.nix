@@ -4,6 +4,5 @@
 
   my.home = {
     ruby.enable = true;
-    vscode.enable = true;
   };
 }
