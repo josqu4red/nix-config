@@ -22,12 +22,12 @@ rec {
     , profile
     , users ? []
     , pkgs
+    , mods ? []
     }:
     nixosSystem {
       inherit pkgs;
       specialArgs = { inherit inputs outputs hostname users; };
-      modules = attrValues (import ../modules/options)
-                ++ attrValues (import ../modules/system)
+      modules = mods
                 ++ [ ../profiles/${profile} ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
