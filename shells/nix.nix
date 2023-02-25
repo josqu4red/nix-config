@@ -22,6 +22,20 @@ let
     fi
   '';
 
+  build-remote = pkgs.writeScriptBin "build-remote" ''
+    [ $# -ne 1 ] && echo "build-remote <confname> [hostname]" && exit 1
+    host=$1
+    [ $# -ne 2 ] && fqdn=$1 || fqdn=$2
+    ${apply}
+    ${pkgs.nix}/bin/nix build .#nixosConfigurations.$host.config.system.build.toplevel || exit 1
+    result=$(readlink -f result)
+    ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake .#$host --target-host $fqdn --use-remote-sudo || exit 1
+    ${pkgs.openssh}/bin/ssh -t $fqdn -- nix-shell -p nvd --run \"nvd diff /nix/var/nix/profiles/system $result\"
+    if apply; then
+      ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .#$host --target-host $fqdn --use-remote-sudo || exit 1
+    fi
+  '';
+
   build-system = pkgs.writeScriptBin "build-system" ''
     ${apply}
     ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake . || exit 1
@@ -46,5 +60,5 @@ let
   '';
 in
 pkgs.mkShell {
-  buildInputs = with pkgs; [ build-home build-system cleanix deadnix nix-diff nix-index nurl nvd statix ];
+  buildInputs = with pkgs; [ build-home build-remote build-system cleanix deadnix nix-diff nix-index nurl nvd statix ];
 }
