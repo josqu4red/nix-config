@@ -49,6 +49,7 @@
       boson = mkSystem { hostname = "boson"; profile = "desktop"; users = [ "jamiez" ]; inherit pkgs mods; };
       neutrino = mkSystem { hostname = "neutrino"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs mods; };
       quark = mkSystem { hostname = "quark"; profile = "laptop"; users = [ "jamiez" "sev" ]; inherit pkgs mods; };
+      tau = mkSystem { hostname = "tau"; profile = "server"; users = [ "jamiez" ]; inherit pkgs mods; };
     };
 
     homeConfigurations = mapHomes;
