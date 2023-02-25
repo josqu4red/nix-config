@@ -7,6 +7,10 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -33,7 +37,7 @@
 
     systemModules = attrValues (import ./modules/options)
                     ++ attrValues (import ./modules/system)
-                    ++ [ ];
+                    ++ [ inputs.disko.nixosModules.disko ];
   in {
     inherit legacyPackages;
 
