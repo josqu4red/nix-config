@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let
   inherit (builtins) listToAttrs readDir;
   inherit (lib) mapAttrs' mkEnableOption mkIf mkOption nameValuePair types;

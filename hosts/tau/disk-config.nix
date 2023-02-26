@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   disk.system = {
     type = "disk";
     device = "/dev/nvme0n1";

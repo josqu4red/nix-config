@@ -1,6 +1,6 @@
 { config, inputs, lib, pkgs, ... }:
 let
-  inherit (lib) mkEnableOption mkIf mkMerge mkOption types;
+  inherit (lib) mkEnableOption mkIf mkMerge;
   cfg = config.my.system.nix;
 
   nixpkgsPath = "/etc/nixpkgs/channels/nixpkgs";

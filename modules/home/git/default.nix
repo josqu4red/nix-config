@@ -52,7 +52,7 @@ in {
           };
         };
       };
-      includes = cfg.includes;
+      inherit (cfg) includes;
     };
   };
 }

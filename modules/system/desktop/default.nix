@@ -16,7 +16,7 @@ in {
     (mkIf (cfg.gnome || cfg.i3) {
       services.xserver = {
         enable = true;
-        layout = cfg.layout;
+        inherit (cfg) layout;
       };
     })
     (mkIf cfg.gnome {
