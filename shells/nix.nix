@@ -13,7 +13,7 @@ let
     }
   '';
 
-  build-home = pkgs.writeScriptBin "build-home" ''
+  build-home = pkgs.writeShellScriptBin "build-home" ''
     ${apply}
     ${pkgs.home-manager}/bin/home-manager build --flake . || exit 1
     ${pkgs.nvd}/bin/nvd diff /nix/var/nix/profiles/per-user/jamiez/home-manager result
@@ -22,7 +22,7 @@ let
     fi
   '';
 
-  build-remote = pkgs.writeScriptBin "build-remote" ''
+  build-remote = pkgs.writeShellScriptBin "build-remote" ''
     [ $# -ne 1 ] && echo "build-remote <confname> [hostname]" && exit 1
     host=$1
     [ $# -ne 2 ] && fqdn=$1 || fqdn=$2
@@ -36,7 +36,7 @@ let
     fi
   '';
 
-  build-system = pkgs.writeScriptBin "build-system" ''
+  build-system = pkgs.writeShellScriptBin "build-system" ''
     ${apply}
     ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake . || exit 1
     ${pkgs.nvd}/bin/nvd diff /nix/var/nix/profiles/system result
@@ -46,7 +46,7 @@ let
     fi
   '';
 
-  cleanix = pkgs.writeScriptBin "cleanix" ''
+  cleanix = pkgs.writeShellScriptBin "cleanix" ''
     [ $# -ne 1 ] && echo "cleanix <number of generations to keep>" && exit 1
     keep=$1
 
