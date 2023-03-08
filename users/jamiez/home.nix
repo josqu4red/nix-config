@@ -4,10 +4,10 @@
   home.packages = with pkgs; [ slack spotify ];
 
   my.home = {
-    alacritty.enable = true;
     firefox.enable = true;
     git.enable = true;
     gpg.enable = true;
+    kitty.enable = true;
     neovim.enable = true;
     pass.enable = true;
     tmux.enable = true;

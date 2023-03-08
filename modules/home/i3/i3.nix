@@ -23,7 +23,7 @@ in {
     };
     bars = [];
     keybindings = {
-      "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
+      "${mod}+Return" = "exec ${pkgs.kitty}/bin/kitty";
       "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun";
       # modes
       "${mod}+r" = "mode resize";
