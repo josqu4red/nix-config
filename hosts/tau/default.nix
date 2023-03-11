@@ -12,6 +12,7 @@
     kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [ "libata.noacpi=1" ];
     supportedFilesystems = [ "zfs" ];
+    zfs.extraPools = [ "tank" ];
   };
 
   networking.hostId = "d11630ed";
