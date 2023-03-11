@@ -1,7 +1,6 @@
 {
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    custom-nixpkgs.url = "github:josqu4red/nixpkgs/master";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -20,18 +19,12 @@
     inherit (builtins) attrValues;
 
     local-pkgs = final: _prev: import ./pkgs { pkgs = final; };
-    custom-pkgs = system: _final: _prev: {
-      custom-pkgs = import inputs.custom-nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-    };
 
     legacyPackages = forAllSystems (system:
       import inputs.nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        overlays = [ (custom-pkgs system) local-pkgs ];
+        overlays = [ local-pkgs ];
       }
     );
 

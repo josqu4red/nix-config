@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "custom-nixpkgs": {
-      "locked": {
-        "lastModified": 1673268556,
-        "narHash": "sha256-UXUJ+xDIpQGaZpGGYCjB+qz6t/JPYIw3AR/4SdI7scg=",
-        "owner": "josqu4red",
-        "repo": "nixpkgs",
-        "rev": "799547ee20b781134b9c05904d3f4580577c9599",
-        "type": "github"
-      },
-      "original": {
-        "owner": "josqu4red",
-        "ref": "master",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -90,7 +74,6 @@
     },
     "root": {
       "inputs": {
-        "custom-nixpkgs": "custom-nixpkgs",
         "disko": "disko",
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
