@@ -47,6 +47,9 @@ in {
           source $config_file
         done
       '';
+      profileExtra = lib.optionalString (config.home.sessionPath != [ ]) ''
+        export PATH="$PATH''${PATH:+:}${lib.concatStringsSep ":" config.home.sessionPath}"
+      '';
       oh-my-zsh = {
         enable = true;
         plugins = ["extract"];

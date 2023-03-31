@@ -7,6 +7,7 @@
   };
 
   home.packages = with pkgs; [ slack spotify ];
+  home.sessionPath = [ "$HOME/.local/bin" ];
 
   my.home = {
     firefox.enable = true;
