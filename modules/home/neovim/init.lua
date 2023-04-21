@@ -26,6 +26,16 @@ vim.opt.smartindent = true
 vim.opt.list = true
 vim.opt.listchars = { tab = '>·', trail = '·' }
 
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*" },
+  command = [[%s/\s\+$//e]],
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*" },
+  command = "set filetype=jsonnet",
+})
+
 map.set('n', '-', 'ddkP')
 map.set('n', '_', 'ddp')
 
