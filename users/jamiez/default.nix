@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  programs.zsh.enable = config.my.options.userShell.pname == "zsh";
+  programs.zsh.enable = builtins.match "^zsh-" config.my.options.userShell.name != null;
   users.users.jamiez = {
     isNormalUser = true;
     shell = config.my.options.userShell;
