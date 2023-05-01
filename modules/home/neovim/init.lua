@@ -20,8 +20,6 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 2
-vim.opt.autoindent = true
-vim.opt.smartindent = true
 
 vim.opt.list = true
 vim.opt.listchars = { tab = '>·', trail = '·' }
@@ -32,7 +30,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*" },
+  pattern = { "*.libsonnet" },
   command = "set filetype=jsonnet",
 })
 
@@ -58,10 +56,10 @@ require('nvim-treesitter.configs').setup {
   },
   rainbow = {
     enable = true,
-    extended_mode = true,
-    max_file_lines = nil,
   }
 }
+
+require('treesitter-context').setup()
 
 require('nvim-tree').setup {
   open_on_setup = true,
@@ -83,9 +81,16 @@ require('neoscroll').setup()
 
 require('gitsigns').setup()
 
+require('telescope').setup()
+map.set('n', '<Leader>tb', ':Telescope buffers<CR>')
+map.set('n', '<Leader>tf', ':Telescope find_files<CR>')
+map.set('n', '<Leader>tg', ':Telescope live_grep<CR>')
+map.set('n', '<Leader>ts', ':Telescope symbols<CR>')
+
+require('nvim-autopairs').setup()
+
 -- Completion/LSP
 
-local servers = {'gopls', 'pyright', 'rnix', 'solargraph'}
 local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local luasnip = require 'luasnip'
@@ -180,6 +185,8 @@ local on_attach = function(client, bufnr)
 end
 
 -- Enable LSP servers
+-- TODO: hls
+local servers = {'gopls', 'pyright', 'rnix', 'solargraph'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,

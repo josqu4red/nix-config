@@ -4,6 +4,7 @@ let
   cfg = config.my.home.neovim;
 
   nvim-treesitter-setup = pkgs.vimPlugins.nvim-treesitter.withPlugins (p:
+    # TODO: p.haskell
     [ p.dockerfile p.go p.hcl p.json p.jsonnet p.nix p.python p.regex p.ruby ]
   );
   nvim-treesitter-endwise = pkgs.vimUtils.buildVimPlugin {
@@ -20,12 +21,12 @@ let
     src = pkgs.fetchFromGitLab {
       owner = "HiPhish";
       repo = "nvim-ts-rainbow2";
-      rev = "09dcb851701747b3f4c5c1088befc88e1601942d";
-      sha256 = "sha256-n83wbP18NaZ6/F6gFYdvaYBjXSVlePZ0954H4DUuICk=";
+      rev = "3bfcb9a7dd55d106f2e8afd3dcaec1ac624db2db";
+      sha256 = "sha256-rfD0HcwxYM7u/D+MN8tDue+4dZfTZcCxLEOKOGYRAe4=";
     };
   };
-
-  extraPackages = with pkgs; [ gopls nodePackages.pyright rnix-lsp rubyPackages.solargraph ];
+  # TODO: haskell-language-server
+  extraPackages = with pkgs; [ fd gopls nodePackages.pyright ripgrep rnix-lsp rubyPackages.solargraph ];
 in {
   options.my.home.neovim = {
     enable = mkEnableOption "neovim";
@@ -53,19 +54,26 @@ in {
         cmp-nvim-lsp
         cmp-path
         nvim-lspconfig
-        nvim-surround
         luasnip
         # Syntax
         nvim-treesitter-setup
         nvim-treesitter-endwise
+        nvim-treesitter-context
+        # nvim-treesitter-textobjects
         nvim-ts-rainbow2
         vim-better-whitespace
         vim-json
         vim-nix
-        delimitMate
+        nvim-autopairs
         # Visuals
         neoscroll-nvim
         onedark-nvim
+
+        telescope-nvim
+        #telescope-file-browser-nvim
+        telescope-fzf-native-nvim
+        telescope-symbols-nvim
+        #telescope_hoogle
       ];
     };
   };
