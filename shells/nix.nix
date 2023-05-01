@@ -60,5 +60,5 @@ let
   '';
 in
 pkgs.mkShell {
-  buildInputs = with pkgs; [ build-home build-remote build-system cleanix deadnix nix-diff nix-index nurl nvd statix ];
+  buildInputs = with pkgs; [ build-home build-remote build-system cleanix deadnix manix nix-diff nix-index nurl nvd statix ];
 }
