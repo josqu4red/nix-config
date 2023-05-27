@@ -9,4 +9,4 @@ In particular:
 * https://github.com/delroth/infra.delroth.net - the initial one that made me start with Nix
 * https://github.com/hlissner/dotfiles - make sure to read the Frequently Asked Questions
 * https://github.com/Misterio77/nix-config
-* and many more <3
+* https://github.com/ryan4yin/nixos-rk3588 - for OrangePi 5 parts
