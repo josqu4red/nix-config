@@ -3,6 +3,7 @@
   cli-tools = import ./cli-tools;
   desktop = import ./desktop;
   docker = import ./docker;
+  kdeconnect = import ./kdeconnect;
   ledger = import ./ledger;
   nix = import ./nix;
   pipewire = import ./pipewire;
