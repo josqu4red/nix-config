@@ -8,7 +8,6 @@ _: {
       partitions = [
         {
           name = "boot";
-          type = "partition";
           start = "1MiB";
           end = "1GiB";
           bootable = true;
@@ -20,7 +19,6 @@ _: {
         }
         {
           name = "swap";
-          type = "partition";
           start = "1GiB";
           end = "9GiB";
           content = {
@@ -29,7 +27,6 @@ _: {
         }
         {
           name = "root";
-          type = "partition";
           start = "9GiB";
           end = "100%";
           content = {
