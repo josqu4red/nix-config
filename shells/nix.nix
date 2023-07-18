@@ -16,7 +16,7 @@ let
   build-home = pkgs.writeShellScriptBin "build-home" ''
     ${apply}
     ${pkgs.home-manager}/bin/home-manager build --flake . || exit 1
-    ${pkgs.nvd}/bin/nvd diff /nix/var/nix/profiles/per-user/jamiez/home-manager result
+    ${pkgs.nvd}/bin/nvd diff ~/.local/state/nix/profiles/home-manager result
     if apply; then
       ${pkgs.home-manager}/bin/home-manager switch --flake .
     fi
