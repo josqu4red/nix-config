@@ -94,3 +94,27 @@ If `services.xserver.xkbOptions = "caps:swapescape"` has no effect:
 gsettings reset org.gnome.desktop.input-sources xkb-options
 ```
 /!\ resets input methods
+
+### Foreign architectures
+
+#### Cross-compilation
+
+Use pkgsCross package set on target host:
+
+```
+target = mkSystem { pkgs = pkgs.pkgsCross.aarch64-multiplatform; ... };
+```
+
+#### Emulation
+
+Enable QEMU binfmt wrapper on build host:
+
+```
+boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+```
+
+Use target architecture package set on target host + pass pkgsCross if needed:
+
+```
+target = mkSystem { pkgs = legacyPackages."aarch64-linux"; extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; };
+```

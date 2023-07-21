@@ -35,8 +35,8 @@
     inherit legacyPackages;
 
     nixosConfigurations = let
-      system = "x86_64-linux";
-      pkgs = legacyPackages.${system};
+      pkgs = legacyPackages."x86_64-linux";
+      aarch64-pkgs = legacyPackages."aarch64-linux";
       mods = systemModules;
     in {
       boson = mkSystem { hostname = "boson"; profile = "desktop"; users = [ "jamiez" ]; inherit pkgs mods; };

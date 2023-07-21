@@ -23,10 +23,11 @@ rec {
     , users ? []
     , pkgs
     , mods ? []
+    , extraArgs ? {}
     }:
     nixosSystem {
       inherit pkgs;
-      specialArgs = { inherit inputs outputs hostname users; };
+      specialArgs = { inherit inputs outputs hostname users; } // extraArgs;
       modules = mods
                 ++ [ ../profiles/${profile} ]
                 ++ ifExists ../hosts/${hostname}

@@ -23,7 +23,7 @@ let
   '';
 
   build-remote = pkgs.writeShellScriptBin "build-remote" ''
-    [ $# -ne 1 ] && echo "build-remote <confname> [hostname]" && exit 1
+    [ $# -lt 1 ] && echo "build-remote <confname> [hostname]" && exit 1
     host=$1
     [ $# -ne 2 ] && fqdn=$1 || fqdn=$2
     ${apply}
