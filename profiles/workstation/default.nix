@@ -33,7 +33,7 @@
 
   environment.pathsToLink = [ "/share/zsh" ];
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
 

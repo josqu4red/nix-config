@@ -5,9 +5,9 @@
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
   ];
 
-  environment.sessionVariables = {
-    QT_QPA_PLATFORM = "wayland";
-  };
+  # environment.sessionVariables = {
+  #   QT_QPA_PLATFORM = "wayland";
+  # };
 
   my.system = {
     desktop.gnome = true;

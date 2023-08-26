@@ -6,7 +6,7 @@ in {
   options.my.system.docker = {
     enable = mkEnableOption "docker";
     privilegedUsers = mkOption {
-      type = types.listOf types.string;
+      type = types.listOf types.str;
       default = [];
       example = [ "jdoe" ];
       description = "Users allowed to run docker commands";

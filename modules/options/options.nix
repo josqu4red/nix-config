@@ -11,7 +11,7 @@ in {
     };
     defaultInterface = {
       name = mkOption {
-        type = types.string;
+        type = types.str;
         default = "";
         example = "eth0";
         description = "System's default network interface";
