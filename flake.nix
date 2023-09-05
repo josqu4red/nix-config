@@ -47,12 +47,8 @@
 
     homeConfigurations = mapHomes;
 
-    devShells = forAllSystems (system:
-      import ./shells { pkgs = legacyPackages.${system}; }
-    );
-
-    packages = forAllSystems (system:
-      import ./pkgs { pkgs = legacyPackages.${system}; }
-    );
+    devShells = forAllSystems (system: {
+      default = import ./shell.nix { pkgs = legacyPackages.${system}; };
+    });
   };
 }
