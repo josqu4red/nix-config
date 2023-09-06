@@ -11,10 +11,25 @@ in {
       example = [ "jdoe" ];
       description = "Users allowed to run docker commands";
     };
+    flavor = mkOption {
+      type = types.str;
+      default = "docker";
+      example = "podman";
+      description = "Install docker or podman";
+    };
   };
-  config = mkIf cfg.enable {
-    virtualisation.docker.enable = true;
-    environment.systemPackages = [ pkgs.docker-compose ];
-    users.extraGroups.docker.members = cfg.privilegedUsers;
+  config = let
+    settings = {
+      docker = {};
+      podman = {
+        dockerCompat = true;
+      };
+    };
+  in mkIf cfg.enable {
+    virtualisation.${cfg.flavor} = {
+      enable = true;
+    } // settings.${cfg.flavor};
+    environment.systemPackages = [ pkgs."${cfg.flavor}-compose" ];
+    users.extraGroups.${cfg.flavor}.members = cfg.privilegedUsers;
   };
 }
