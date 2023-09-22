@@ -27,6 +27,7 @@ in {
     programs.zsh = {
       enable = true;
       enableCompletion = true;
+      syntaxHighlighting.enable = true;
       dotDir = ".config/zsh";
       history = {
         expireDuplicatesFirst = true;
@@ -58,5 +59,6 @@ in {
       enable = true;
       enableZshIntegration = true;
     };
+    programs.ripgrep.enable = true;
   };
 }
