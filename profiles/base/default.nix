@@ -1,5 +1,6 @@
 { hostname, ... }: {
   system.stateVersion = "22.05";
+  boot.swraid.enable = false; # true for stateVersion < 23.11
 
   networking.hostName = hostname;
 
