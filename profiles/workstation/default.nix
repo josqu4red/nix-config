@@ -25,8 +25,6 @@
   services.resolved.enable = true;
   users.extraGroups.networkmanager.members = users;
 
-  security.sudo.wheelNeedsPassword = false;
-
   services.fwupd.enable = true;
   services.pcscd.enable = true;
   services.printing.enable = true;
@@ -41,10 +39,7 @@
 
   console.useXkbConfig = true;
 
-  my.system = {
-    nix.flakesNixpkgsInNixPath = true;
-    pipewire.enable = true;
-  };
+  my.system.pipewire.enable = true;
 
   my.options = {
     userShell = pkgs.zsh;

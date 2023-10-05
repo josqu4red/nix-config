@@ -17,6 +17,11 @@
     LC_TIME = "fr_FR.utf8";
   };
 
-  my.system.cli-tools.enable = true;
-  my.system.sshd.enable = true;
+  security.sudo.wheelNeedsPassword = false;
+
+  my.system = {
+    cli-tools.enable = true;
+    nix.flakesNixpkgsInNixPath = true;
+    sshd.enable = true;
+  };
 }

@@ -5,5 +5,5 @@
 
   time.timeZone = "UTC";
 
-  my.system.sshd.enable = true;
+  nix.settings.trusted-users = [ "@wheel" ]; # TODO: figure out signing
 }

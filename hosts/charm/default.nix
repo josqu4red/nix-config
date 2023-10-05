@@ -6,6 +6,7 @@
 in {
   imports = [ ./sd-image.nix ];
 
+  nixpkgs.hostPlatform = "aarch64-linux";
   hardware = {
     deviceTree = {
       name = "rockchip/rk3588s-orangepi-5.dtb";
@@ -40,8 +41,5 @@ in {
     }];
   };
 
-  nixpkgs.hostPlatform = "aarch64-linux";
-  nix.settings.trusted-users = [ "@wheel" ]; # TODO: figure out signing
-  security.sudo.wheelNeedsPassword = false;
   services.chrony.enable = true;
 }

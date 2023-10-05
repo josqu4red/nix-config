@@ -17,11 +17,6 @@
 
   networking.hostId = "d11630ed";
 
-  security.sudo.wheelNeedsPassword = false;
-
-  my.system.nix.flakesNixpkgsInNixPath = true;
-  nix.settings.trusted-users = [ "@wheel" ]; # TODO: figure out signing
-
   services.transmission = {
     enable = true;
     settings = {
