@@ -6,6 +6,7 @@
     nix-direnv.enable = true;
   };
 
+  nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [ slack spotify ];
   home.sessionPath = [ "$HOME/.local/bin" ];
 
