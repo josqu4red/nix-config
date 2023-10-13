@@ -9,7 +9,7 @@ alias dd='dd status=progress'
 alias md='mkdir -p'
 alias rd=rmdir
 
-export GREP_COLOR='1;32'
+export GREP_COLOR='mt=1;32'
 alias grep='grep --color=auto'
 
 alias -g ...='../..'
