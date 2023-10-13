@@ -47,15 +47,14 @@ rec {
 
   mkHome =
     { username
-    , hostname ? null
+    , hostname
     , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
     , stateVersion ? outputs.nixosConfigurations.${hostname}.config.system.stateVersion
-    , features ? [ ]
     }:
     homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = {
-        inherit inputs outputs hostname username features;
+        inherit inputs outputs hostname username;
       };
       modules = [
         {
