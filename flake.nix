@@ -28,26 +28,21 @@
       }
     );
 
-    systemModules = attrValues (import ./modules/options)
-                    ++ attrValues (import ./modules/system)
-                    ++ [ inputs.disko.nixosModules.disko ];
+    pkgs = legacyPackages."x86_64-linux";
+    aarch64-pkgs = legacyPackages."aarch64-linux";
   in {
     inherit legacyPackages;
 
-    nixosConfigurations = let
-      pkgs = legacyPackages."x86_64-linux";
-      aarch64-pkgs = legacyPackages."aarch64-linux";
-      mods = systemModules;
-    in {
-      boson = mkSystem { hostname = "boson"; profile = "desktop"; users = [ "jamiez" ]; inherit pkgs mods; };
+    nixosConfigurations = {
+      boson = mkSystem { hostname = "boson"; profile = "desktop"; users = [ "jamiez" ]; inherit pkgs; };
       charm = mkSystem { hostname = "charm"; profile = "server"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
-                            extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; inherit mods; };
-      neutrino = mkSystem { hostname = "neutrino"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs mods; };
-      quark = mkSystem { hostname = "quark"; profile = "laptop"; users = [ "jamiez" "sev" ]; inherit pkgs mods; };
-      tau = mkSystem { hostname = "tau"; profile = "server"; users = [ "jamiez" ]; inherit pkgs mods; };
+                            extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; };
+      neutrino = mkSystem { hostname = "neutrino"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs; };
+      quark = mkSystem { hostname = "quark"; profile = "laptop"; users = [ "jamiez" "sev" ]; inherit pkgs; };
+      tau = mkSystem { hostname = "tau"; profile = "server"; users = [ "jamiez" ]; inherit pkgs; };
     };
 
-    homeConfigurations = mapHomes;
+    homeConfigurations = mapHomes { inherit pkgs; };
 
     devShells = forAllSystems (system: {
       default = import ./shell.nix { pkgs = legacyPackages.${system}; };

@@ -8,10 +8,9 @@ let
   inherit (home-manager.lib) homeManagerConfiguration;
 in
 rec {
-  systems = [
-    "aarch64-linux"
-    "x86_64-linux"
-  ];
+  stateVersion = "22.05";
+  systems = [ "aarch64-linux" "x86_64-linux" ];
+
   forAllSystems = genAttrs systems;
 
   ifExists = path:
@@ -22,13 +21,13 @@ rec {
     , profile
     , users ? []
     , pkgs
-    , mods ? []
     , extraArgs ? {}
     }:
     nixosSystem {
       inherit pkgs;
-      specialArgs = { inherit inputs outputs hostname users; } // extraArgs;
-      modules = mods
+      specialArgs = { inherit inputs outputs hostname stateVersion users; } // extraArgs;
+      modules = attrValues (import ../modules/options)
+                ++ attrValues (import ../modules/system)
                 ++ [ ../profiles/${profile} ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
@@ -37,10 +36,10 @@ rec {
   hostUsers = host:
     attrNames (filterAttrs (_n: v: v.isNormalUser) outputs.nixosConfigurations.${host}.config.users.users);
 
-  mapHomes = listToAttrs (flatten(
+  mapHomes = { pkgs }: listToAttrs (flatten(
     map (hostname:
       map (username:
-        nameValuePair "${username}@${hostname}" (mkHome { inherit username hostname; })
+        nameValuePair "${username}@${hostname}" (mkHome { inherit username hostname pkgs; })
       ) (hostUsers hostname)
     ) (attrNames outputs.nixosConfigurations)
   ));
@@ -48,14 +47,10 @@ rec {
   mkHome =
     { username
     , hostname
-    , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
-    , stateVersion ? outputs.nixosConfigurations.${hostname}.config.system.stateVersion
+    , pkgs
     }:
     homeManagerConfiguration {
       inherit pkgs;
-      extraSpecialArgs = {
-        inherit inputs outputs hostname username;
-      };
       modules = [
         {
           home = {
