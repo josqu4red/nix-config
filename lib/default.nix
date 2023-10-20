@@ -40,6 +40,7 @@ rec {
     }:
     homeManagerConfiguration {
       inherit pkgs;
+      extraSpecialArgs = { hmConfPath = ../configs/home-manager; };
       modules = [
         {
           home = {
@@ -49,7 +50,6 @@ rec {
         }
         ../users/${username}/home.nix
       ]
-      ++ attrValues (import ../modules/home)
       ++ ifExists ../users/${username}/${hostname}.nix;
     };
 }

@@ -1,8 +1,6 @@
-{ pkgs, ... }:
+{ hmConfPath, pkgs, ... }:
 {
-  home.packages = with pkgs; [ gws kubernetes-helm-wrapped kubectl ];
+  imports = map (c: (hmConfPath + "/${c}")) [ "ruby" ];
 
-  my.home = {
-    ruby.enable = true;
-  };
+  home.packages = with pkgs; [ gws kubernetes-helm-wrapped kubectl ];
 }

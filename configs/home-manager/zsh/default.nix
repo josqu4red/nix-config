@@ -1,9 +1,9 @@
 { config, lib, ... }:
 let
   inherit (builtins) listToAttrs readDir;
-  inherit (lib) mapAttrs' mkEnableOption mkIf mkOption nameValuePair types;
+  inherit (lib) mapAttrs' mkOption nameValuePair types;
 
-  cfg = config.my.home.zsh;
+  cfg = config.custom.zsh;
   hist-size = 1000000;
 
   zshFile = path:
@@ -13,8 +13,7 @@ let
   default-config = mapAttrs' (n: _: zshFile ./config/${n}) (readDir ./config);
   extra-config = listToAttrs (map zshFile cfg.extras);
 in {
-  options.my.home.zsh = {
-    enable = mkEnableOption "zsh";
+  options.custom.zsh = {
     extras = mkOption {
       type = with types; listOf path;
       default = [];
@@ -23,7 +22,7 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
+  config = {
     xdg.configFile = default-config // extra-config;
     programs.zsh = {
       enable = true;

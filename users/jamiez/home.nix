@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ hmConfPath, pkgs, ... }: {
+  imports = map (c: (hmConfPath + "/${c}")) [ "firefox" "git" "gpg" "kitty" "neovim" "pass" "tmux" "zsh" ];
+
   programs.home-manager.enable = true;
 
   programs.direnv = {
@@ -9,17 +11,6 @@
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [ slack spotify tig ];
   home.sessionPath = [ "$HOME/.local/bin" ];
-
-  my.home = {
-    firefox.enable = true;
-    git.enable = true;
-    gpg.enable = true;
-    kitty.enable = true;
-    neovim.enable = true;
-    pass.enable = true;
-    tmux.enable = true;
-    zsh.enable = true;
-  };
 
   xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
     [Desktop Entry]
