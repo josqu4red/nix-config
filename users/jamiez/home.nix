@@ -18,7 +18,6 @@
     neovim.enable = true;
     pass.enable = true;
     tmux.enable = true;
-    vim.enable = true;
     zsh.enable = true;
   };
 

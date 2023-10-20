@@ -8,7 +8,6 @@
   pass = import ./pass;
   ruby = import ./ruby;
   tmux = import ./tmux;
-  vim = import ./vim;
   vscode = import ./vscode;
   zsh = import ./zsh;
 }
