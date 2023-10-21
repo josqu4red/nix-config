@@ -17,6 +17,7 @@ in {
           experimental-features = [ "nix-command" "flakes" ];
           cores = 0;
           auto-optimise-store = true;
+          warn-dirty = false;
         };
         gc = {
           automatic = true;

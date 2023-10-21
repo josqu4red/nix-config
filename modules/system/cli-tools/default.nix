@@ -36,6 +36,7 @@ in {
     };
   };
   config = mkIf cfg.enable {
+    programs.nano.enable = false;
     environment = {
       systemPackages = lib.lists.subtractLists cfg.excludePackages defaultPackages;
       variables = {
