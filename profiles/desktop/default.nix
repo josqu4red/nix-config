@@ -3,5 +3,5 @@
     ../workstation
   ];
 
-  my.system.sshd.passwordAuth = true;
+  custom.sshd.passwordAuth = true;
 }

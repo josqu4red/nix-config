@@ -1,4 +1,6 @@
-{ hostname, stateVersion, ... }: {
+{ hostname, stateVersion, nxConfPath, ... }: {
+  imports = map (c: (nxConfPath + "/${c}")) [ "cli-tools" "nix" "sshd" "users" ];
+
   system.stateVersion = stateVersion;
   boot.swraid.enable = false; # true for stateVersion < 23.11
 
@@ -19,9 +21,5 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  my.system = {
-    cli-tools.enable = true;
-    nix.flakesNixpkgsInNixPath = true;
-    sshd.enable = true;
-  };
+  custom.nix.flakesNixpkgsInNixPath = true;
 }

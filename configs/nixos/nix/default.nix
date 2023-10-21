@@ -1,11 +1,11 @@
 { config, inputs, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkMerge;
-  cfg = config.my.system.nix;
+  cfg = config.custom.nix;
 
   nixpkgsPath = "/etc/nixpkgs/channels/nixpkgs";
 in {
-  options.my.system.nix = {
+  options.custom.nix = {
     flakesNixpkgsInNixPath = mkEnableOption "flakesNixpkgsInNixPath";
     cachix.enable = mkEnableOption "cachix";
   };

@@ -1,7 +1,7 @@
-{ pkgs, users, ... }: {
+{ pkgs, users, nxConfPath, ... }: {
   imports = [
     ../base
-  ];
+  ] ++ map (c: (nxConfPath + "/${c}")) [ "desktop" "pipewire" ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -39,9 +39,5 @@
 
   console.useXkbConfig = true;
 
-  my.system.pipewire.enable = true;
-
-  my.options = {
-    userShell = pkgs.zsh;
-  };
+  custom.userShell = pkgs.zsh;
 }

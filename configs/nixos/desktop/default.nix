@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkMerge mkOption types;
-  cfg = config.my.system.desktop;
+  cfg = config.custom.desktop;
 in {
-  options.my.system.desktop = {
+  options.custom.desktop = {
     gnome = mkEnableOption "gnome";
     i3 = mkEnableOption "i3";
     layout = mkOption {

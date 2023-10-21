@@ -1,19 +1,16 @@
-{ inputs, users, ... }:
+{ inputs, users, nxConfPath, ... }:
 {
   imports = [
     ./hardware.nix
     inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
-  ];
+  ] ++ map (c: (nxConfPath + "/${c}")) [ "chrysalis" "docker" "qFlipper" ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  my.system = {
+  custom = {
     desktop.i3 = true;
     desktop.layout = "fr";
-    chrysalis.enable = true;
-    qFlipper.enable = true;
     nix.cachix.enable = true;
-    docker.enable = true;
     docker.privilegedUsers = users;
   };
   services.udisks2.enable = true;

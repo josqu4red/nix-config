@@ -1,10 +1,9 @@
 { config, lib, ... }:
 let
-  inherit (lib) mkEnableOption mkIf mkOption types;
-  cfg = config.my.system.sshd;
+  inherit (lib) mkOption types;
+  cfg = config.custom.sshd;
 in {
-  options.my.system.sshd = {
-    enable = mkEnableOption "sshd";
+  options.custom.sshd = {
     passwordAuth = mkOption {
       type = types.bool;
       default = false;
@@ -12,7 +11,7 @@ in {
       description = "Allow password authentication";
     };
   };
-  config = mkIf cfg.enable {
+  config = {
     services.openssh = {
       enable = true;
       settings = {

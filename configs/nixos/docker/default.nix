@@ -1,10 +1,9 @@
 { config, lib, pkgs, ... }:
 let
-  inherit (lib) mkEnableOption mkIf mkOption types;
-  cfg = config.my.system.docker;
+  inherit (lib) mkOption types;
+  cfg = config.custom.docker;
 in {
-  options.my.system.docker = {
-    enable = mkEnableOption "docker";
+  options.custom.docker = {
     privilegedUsers = mkOption {
       type = types.listOf types.str;
       default = [];
@@ -25,7 +24,7 @@ in {
         dockerCompat = true;
       };
     };
-  in mkIf cfg.enable {
+  in {
     virtualisation.${cfg.flavor} = {
       enable = true;
     } // settings.${cfg.flavor};

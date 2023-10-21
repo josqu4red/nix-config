@@ -25,10 +25,8 @@ rec {
     }:
     nixosSystem {
       inherit pkgs;
-      specialArgs = { inherit inputs outputs hostname stateVersion users; } // extraArgs;
-      modules = attrValues (import ../modules/options)
-                ++ attrValues (import ../modules/system)
-                ++ [ ../profiles/${profile} ]
+      specialArgs = { inherit inputs outputs hostname stateVersion users; nxConfPath = ../configs/nixos; } // extraArgs;
+      modules = [ ../profiles/${profile} ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
     };
