@@ -14,9 +14,10 @@
 
   outputs = inputs:
   let
-    lib = import ./lib { inherit inputs; };
-    inherit (lib) forAllSystems mapHomes mkSystem;
-    inherit (builtins) attrValues;
+    xlib = import ./lib { inherit inputs; };
+    inherit (xlib) forAllSystems mkSystem mkHome;
+    inherit (builtins) listToAttrs;
+    inherit (inputs.nixpkgs.lib) flatten nameValuePair;
 
     local-pkgs = final: _prev: import ./pkgs { pkgs = final; };
 
@@ -30,19 +31,27 @@
 
     pkgs = legacyPackages."x86_64-linux";
     aarch64-pkgs = legacyPackages."aarch64-linux";
+
+    hosts = [
+      { hostname = "boson"; profile = "desktop"; users = [ "jamiez" ]; inherit pkgs; }
+      { hostname = "charm"; profile = "server"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
+        extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; }
+      { hostname = "neutrino"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs; }
+      { hostname = "quark"; profile = "laptop"; users = [ "jamiez" "sev" ]; inherit pkgs; }
+      { hostname = "tau"; profile = "server"; users = [ "jamiez" ]; inherit pkgs; }
+    ];
   in {
     inherit legacyPackages;
 
-    nixosConfigurations = {
-      boson = mkSystem { hostname = "boson"; profile = "desktop"; users = [ "jamiez" ]; inherit pkgs; };
-      charm = mkSystem { hostname = "charm"; profile = "server"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
-                            extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; };
-      neutrino = mkSystem { hostname = "neutrino"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs; };
-      quark = mkSystem { hostname = "quark"; profile = "laptop"; users = [ "jamiez" "sev" ]; inherit pkgs; };
-      tau = mkSystem { hostname = "tau"; profile = "server"; users = [ "jamiez" ]; inherit pkgs; };
-    };
+    nixosConfigurations = listToAttrs (map (h: nameValuePair h.hostname (mkSystem h)) hosts);
 
-    homeConfigurations = mapHomes { inherit pkgs; };
+    homeConfigurations = listToAttrs (flatten(
+      map (host:
+        map (username:
+          nameValuePair "${username}@${host.hostname}" (mkHome { inherit (host) hostname; inherit username pkgs; })
+        ) host.users
+      ) hosts
+    ));
 
     devShells = forAllSystems (system: {
       default = import ./shell.nix { pkgs = legacyPackages.${system}; };

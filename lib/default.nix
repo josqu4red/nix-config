@@ -3,8 +3,8 @@ let
   inherit (inputs) self home-manager nixpkgs;
   inherit (self) outputs;
 
-  inherit (builtins) attrNames attrValues listToAttrs pathExists;
-  inherit (nixpkgs.lib) nixosSystem filterAttrs flatten genAttrs nameValuePair optional;
+  inherit (builtins) attrValues listToAttrs map pathExists;
+  inherit (nixpkgs.lib) nixosSystem genAttrs optional;
   inherit (home-manager.lib) homeManagerConfiguration;
 in
 rec {
@@ -32,17 +32,6 @@ rec {
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
     };
-
-  hostUsers = host:
-    attrNames (filterAttrs (_n: v: v.isNormalUser) outputs.nixosConfigurations.${host}.config.users.users);
-
-  mapHomes = { pkgs }: listToAttrs (flatten(
-    map (hostname:
-      map (username:
-        nameValuePair "${username}@${hostname}" (mkHome { inherit username hostname pkgs; })
-      ) (hostUsers hostname)
-    ) (attrNames outputs.nixosConfigurations)
-  ));
 
   mkHome =
     { username
