@@ -62,7 +62,6 @@ require('nvim-treesitter.configs').setup {
 require('treesitter-context').setup()
 
 require('nvim-tree').setup {
-  open_on_setup = true,
   tab = {
     sync = {
       open = true,

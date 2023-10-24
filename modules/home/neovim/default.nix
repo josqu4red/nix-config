@@ -12,17 +12,17 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "RRethy";
       repo = "nvim-treesitter-endwise";
-      rev = "0cf4601c330cf724769a2394df555a57d5fd3f34";
-      sha256 = "sha256-Pns+3gLlwhrojKQWN+zOFxOmgRkG3vTPGoLX90Sg+oo=";
+      rev = "4c344ffc8d54d7e1ba2cefaaa2c10ea93aa1cc2d";
+      sha256 = "sha256-fkZjVQvlJpcKrmX8ST7TQ9VpCZ9U1dM5OLz6P8KnQAw=";
     };
   };
   nvim-ts-rainbow2 = pkgs.vimUtils.buildVimPlugin {
     name = "nvim-ts-rainbow2";
-    src = pkgs.fetchFromGitLab {
+    src = pkgs.fetchFromGitHub {
       owner = "HiPhish";
       repo = "nvim-ts-rainbow2";
-      rev = "3bfcb9a7dd55d106f2e8afd3dcaec1ac624db2db";
-      sha256 = "sha256-rfD0HcwxYM7u/D+MN8tDue+4dZfTZcCxLEOKOGYRAe4=";
+      rev = "v2.3.0";
+      sha256 = "sha256-u3+v55on4kzPcnotMz4tb7TcuPeTgpGVY2hz1OYFT1Y=";
     };
   };
   # TODO: haskell-language-server
