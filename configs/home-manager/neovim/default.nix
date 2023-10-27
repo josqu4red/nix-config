@@ -13,7 +13,7 @@ let
       sha256 = "sha256-fkZjVQvlJpcKrmX8ST7TQ9VpCZ9U1dM5OLz6P8KnQAw=";
     };
   };
-  nvim-ts-rainbow2 = pkgs.vimUtils.buildVimPlugin {
+  nvim-treesitter-rainbow = pkgs.vimUtils.buildVimPlugin {
     name = "nvim-ts-rainbow2";
     src = pkgs.fetchFromGitHub {
       owner = "HiPhish";
@@ -23,23 +23,33 @@ let
     };
   };
   # TODO: haskell-language-server
-  extraPackages = with pkgs; [ fd gopls nodePackages.pyright ripgrep rnix-lsp rubyPackages.solargraph ];
+  extraPackages = with pkgs; [ fd gopls nodePackages.pyright ripgrep nil rubyPackages.solargraph ];
 in {
   programs.neovim = {
     enable = true;
     vimAlias = true;
     vimdiffAlias = true;
     inherit extraPackages;
-    extraConfig = "lua << EOF\n" + builtins.readFile ./init.lua + "\nEOF";
+    extraLuaConfig = builtins.readFile ./init.lua;
     plugins = with pkgs.vimPlugins; [
-      # Layout
-      bufferline-nvim
-      lualine-nvim
+      # Visuals
+      neoscroll-nvim
+      onedark-nvim
       nvim-web-devicons
-      nvim-tree-lua
-      # Git
+      lualine-nvim
+      vim-better-whitespace
+      indent-blankline-nvim
+      # Tools
       conflict-marker-vim
       gitsigns-nvim
+      neogit
+      # noice-nvim
+      nvim-tree-lua
+      telescope-nvim
+      telescope-file-browser-nvim
+      telescope-fzf-native-nvim
+      telescope-symbols-nvim
+      telescope-undo-nvim
       # LSP
       nvim-cmp
       cmp-buffer
@@ -52,21 +62,9 @@ in {
       nvim-treesitter-setup
       nvim-treesitter-endwise
       nvim-treesitter-context
-      # nvim-treesitter-textobjects
-      nvim-ts-rainbow2
-      vim-better-whitespace
+      nvim-treesitter-rainbow
       vim-json
-      vim-nix
-      nvim-autopairs
-      # Visuals
-      neoscroll-nvim
-      onedark-nvim
-
-      telescope-nvim
-      #telescope-file-browser-nvim
-      telescope-fzf-native-nvim
-      telescope-symbols-nvim
-      #telescope_hoogle
+      nvim-autopairs  #replace? lexima-vim
     ];
   };
 }

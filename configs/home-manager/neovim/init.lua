@@ -1,5 +1,6 @@
 local g = vim.g
 local map = vim.keymap
+local autocmd = vim.api.nvim_create_autocmd
 
 g.mapleader = ','
 g.localleader = ','
@@ -24,18 +25,24 @@ vim.opt.shiftwidth = 2
 vim.opt.list = true
 vim.opt.listchars = { tab = '>·', trail = '·' }
 
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+autocmd({ "BufWritePre" }, {
   pattern = { "*" },
   command = [[%s/\s\+$//e]],
 })
 
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "*.libsonnet" },
   command = "set filetype=jsonnet",
 })
 
-map.set('n', '-', 'ddkP')
-map.set('n', '_', 'ddp')
+autocmd({ "BufEnter" }, {
+  pattern = { "*.yml", "*.yaml" },
+  command = "set indentkeys-=0#",
+})
+
+map.set('n', '-', 'ddkP') -- swap above
+map.set('n', '_', 'ddp')  -- swap below
+map.set('v', 'p', '"_dP', { noremap = true }) -- dont yank on paste
 
 -- Plugins
 
@@ -61,37 +68,68 @@ require('nvim-treesitter.configs').setup {
 
 require('treesitter-context').setup()
 
-require('nvim-tree').setup {
-  tab = {
-    sync = {
-      open = true,
-      close = true,
-    },
-  },
-}
-map.set('n', '<Leader>n', ':NvimTreeToggle<CR>')
-
-vim.o.termguicolors = true
-require('bufferline').setup()
+require('nvim-tree').setup()
+map.set('n', '<Leader>n', ':NvimTreeFindFileToggle<CR>')
 
 require('lualine').setup()
 
 require('neoscroll').setup()
 
-require('gitsigns').setup()
+require('ibl').setup()
 
-require('telescope').setup()
-map.set('n', '<Leader>tb', ':Telescope buffers<CR>')
-map.set('n', '<Leader>tf', ':Telescope find_files<CR>')
-map.set('n', '<Leader>tg', ':Telescope live_grep<CR>')
-map.set('n', '<Leader>ts', ':Telescope symbols<CR>')
+require('gitsigns').setup{
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', function()
+      if vim.wo.diff then return ']c' end
+      vim.schedule(function() gs.next_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    map('n', '[c', function()
+      if vim.wo.diff then return '[c' end
+      vim.schedule(function() gs.prev_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    -- Actions
+    map('n', '<Leader>gs', gs.stage_hunk)
+    map('n', '<Leader>gr', gs.reset_hunk)
+    map('v', '<Leader>gs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+    map('v', '<Leader>gr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+    map('n', '<Leader>gS', gs.stage_buffer)
+    map('n', '<Leader>gR', gs.reset_buffer)
+    map('n', '<Leader>gu', gs.undo_stage_hunk)
+    map('n', '<Leader>gp', gs.preview_hunk)
+    map('n', '<Leader>gb', gs.toggle_current_line_blame)
+    map('n', '<Leader>gd', gs.toggle_deleted)
+  end
+}
+
+telescope = require('telescope')
+telescope.load_extension('file_browser')
+telescope.load_extension("undo")
+local builtin = require('telescope.builtin')
+map.set('n', '<leader>fb', builtin.buffers, {})
+map.set('n', '<leader>ff', builtin.find_files, {})
+map.set('n', '<leader>fg', builtin.live_grep, {})
+map.set('n', '<leader>fh', builtin.help_tags, {})
+map.set('n', '<leader>fs', builtin.symbols, {})
+map.set('n', '<leader>ft', telescope.extensions.file_browser.file_browser, {})
+map.set('n', '<leader>fu', telescope.extensions.undo.undo, {})
 
 require('nvim-autopairs').setup()
 
 -- Completion/LSP
 
-local lspconfig = require('lspconfig')
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local luasnip = require 'luasnip'
 local cmp = require 'cmp'
 cmp.setup({
@@ -104,6 +142,7 @@ cmp.setup({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
@@ -152,43 +191,47 @@ cmp.setup.cmdline(':', {
 })
 
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  local attach_opts = { silent = true, buffer = bufnr }
+  map.set('n', 'gd', vim.lsp.buf.definition, attach_opts)
+  map.set('n', 'gi', vim.lsp.buf.implementation, attach_opts)
+  map.set('n', '<leader>D', vim.lsp.buf.type_definition, attach_opts)
+  map.set('n', '<space>', vim.lsp.buf.hover, attach_opts)
+  map.set('n', '<space>s', vim.lsp.buf.signature_help, attach_opts)
+  map.set('n', '<leader>rn', vim.lsp.buf.rename, attach_opts)
+  map.set('n', 'so', require('telescope.builtin').lsp_references, attach_opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.server_capabilities.document_formatting then
-      buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+      map.set('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', attach_opts)
   elseif client.server_capabilities.document_range_formatting then
-      buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+      map.set('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', attach_opts)
   end
 end
 
 -- Enable LSP servers
+local lspconfig = require('lspconfig')
+local capabilities = vim.tbl_deep_extend(
+  'force',
+  vim.lsp.protocol.make_client_capabilities(),
+  require('cmp_nvim_lsp').default_capabilities(),
+  { workspace = { didChangeWatchedFiles = { dynamicRegistration = true } } }
+);
+
 -- TODO: hls
-local servers = {'gopls', 'pyright', 'rnix', 'solargraph'}
+local servers = {'gopls', 'pyright', 'nil_ls', 'solargraph'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
   }
 end
+
+-- require("noice").setup({
+--   lsp = {
+--     override = {
+--       ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+--       ["vim.lsp.util.stylize_markdown"] = true,
+--       ["cmp.entry.get_documentation"] = true,
+--     },
+--   },
+-- })
