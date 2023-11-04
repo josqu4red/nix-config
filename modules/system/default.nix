@@ -3,6 +3,7 @@
   cli-tools = import ./cli-tools;
   desktop = import ./desktop;
   docker = import ./docker;
+  fake-hwclock = import ./fake-hwclock;
   kdeconnect = import ./kdeconnect;
   ledger = import ./ledger;
   nix = import ./nix;
