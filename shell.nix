@@ -33,7 +33,7 @@ let
       ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake .#$host --target-host $fqdn --use-remote-sudo || exit 1
       ${pkgs.openssh}/bin/ssh -t $fqdn -- nix-shell -p nvd --run \"nvd diff /nix/var/nix/profiles/system $result\"
       if apply; then
-        ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .#$host --target-host $fqdn --use-remote-sudo || exit 1
+        ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --flake .#$host --target-host $fqdn --use-remote-sudo || exit 1
       fi
     '')
 
@@ -43,7 +43,7 @@ let
       ${pkgs.nvd}/bin/nvd diff /nix/var/nix/profiles/system result
       if apply; then
         # TODO: pkgs.sudo: /nix/store/yvf9z9p3ghlpixikxk02ad6l5lnl1krg-sudo-1.9.12p1/bin/sudo must be owned by uid 0 and have the setuid bit set
-        sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .
+        sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --flake .
       fi
     '')
 
