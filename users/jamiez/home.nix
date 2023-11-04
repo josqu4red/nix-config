@@ -7,7 +7,7 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  home.packages = with pkgs; [ slack spotify ];
+  home.packages = with pkgs; [ slack spotify tig ];
   home.sessionPath = [ "$HOME/.local/bin" ];
 
   my.home = {
