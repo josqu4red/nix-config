@@ -6,15 +6,14 @@ let
   inherit (builtins) attrValues listToAttrs map pathExists;
   inherit (nixpkgs.lib) nixosSystem genAttrs optional;
   inherit (home-manager.lib) homeManagerConfiguration;
-in
-rec {
-  stateVersion = "22.05";
-  systems = [ "aarch64-linux" "x86_64-linux" ];
-
-  forAllSystems = genAttrs systems;
 
   ifExists = path:
     optional (pathExists path) path;
+
+  stateVersion = "22.05";
+  systems = [ "aarch64-linux" "x86_64-linux" ];
+in {
+  forAllSystems = genAttrs systems;
 
   mkSystem =
     { hostname
@@ -26,7 +25,7 @@ rec {
     nixosSystem {
       inherit pkgs;
       specialArgs = { inherit inputs outputs hostname stateVersion users; nxConfPath = ../configs/nixos; } // extraArgs;
-      modules = [ ../profiles/${profile} ]
+      modules = [ ../configs/profiles/${profile} ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
     };
