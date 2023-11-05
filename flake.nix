@@ -43,6 +43,8 @@
   in {
     inherit legacyPackages;
 
+    nixosModules = import ./modules/nixos;
+
     nixosConfigurations = listToAttrs (map (h: nameValuePair h.hostname (mkSystem h)) hosts);
 
     homeConfigurations = listToAttrs (flatten(
