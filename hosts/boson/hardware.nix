@@ -1,12 +1,18 @@
-{ modulesPath, ... }:
+{ inputs, lib, modulesPath, ... }:
 {
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
+  ];
 
   boot.loader.systemd-boot.consoleMode = "max";
+  boot.plymouth.enable = lib.mkForce false;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
+
+  hardware.nvidia.modesetting.enable = true;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/8b8ff36f-2ece-4287-b185-953345531852";

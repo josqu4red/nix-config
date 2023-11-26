@@ -1,8 +1,7 @@
-{ inputs, users, nxConfPath, ... }:
+{ users, nxConfPath, ... }:
 {
   imports = [
     ./hardware.nix
-    inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
   ] ++ map (c: (nxConfPath + "/${c}")) [ "chrysalis" "docker" "qFlipper" ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
