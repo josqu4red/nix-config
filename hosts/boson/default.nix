@@ -2,7 +2,7 @@
 {
   imports = [
     ./hardware.nix
-  ] ++ map (c: (nxConfPath + "/${c}")) [ "chrysalis" "docker" "qFlipper" ];
+  ] ++ map (c: (nxConfPath + "/${c}")) [ "chrysalis" "docker" "ledger" "qFlipper" ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
