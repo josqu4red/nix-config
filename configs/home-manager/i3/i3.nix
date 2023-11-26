@@ -22,7 +22,7 @@ in {
       size = 13.0;
     };
     bars = [];
-    keybindings = {
+    keybindings = { # xmodmap -pke
       "${mod}+Return" = "exec ${pkgs.kitty}/bin/kitty";
       "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun";
       # modes
@@ -70,20 +70,14 @@ in {
       "${mod}+z" = "layout tabbed";
       "${mod}+e" = "layout toggle split";
       # workspaces
-      "${mod}+ampersand" = "workspace 1";
-      "${mod}+eacute" = "workspace 2";
-      "${mod}+quotedbl" = "workspace 3";
-      "${mod}+apostrophe" = "workspace 4";
-      "${mod}+parenleft" = "workspace 5";
-      "${mod}+minus" = "workspace 6";
-      "${mod}+parenright" = "workspace prev";
-      "${mod}+equal" = "workspace next";
-      "${mod}+Shift+1" = "move container to workspace 1; workspace 1";
-      "${mod}+Shift+2" = "move container to workspace 2; workspace 2";
-      "${mod}+Shift+3" = "move container to workspace 3; workspace 3";
-      "${mod}+Shift+4" = "move container to workspace 4; workspace 4";
-      "${mod}+Shift+5" = "move container to workspace 5; workspace 5";
-      "${mod}+Shift+6" = "move container to workspace 6; workspace 6";
+      "${mod}+1" = "workspace 1";
+      "${mod}+2" = "workspace 2";
+      "${mod}+3" = "workspace 3";
+      "${mod}+4" = "workspace 4";
+      "${mod}+Shift+exclam" = "move container to workspace 1; workspace 1";
+      "${mod}+Shift+at" = "move container to workspace 2; workspace 2";
+      "${mod}+Shift+numbersign" = "move container to workspace 3; workspace 3";
+      "${mod}+Shift+dollar" = "move container to workspace 4; workspace 4";
       # multimedia
       "XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume 0 +5%";
       "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume 0 -5%";

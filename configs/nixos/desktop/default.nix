@@ -6,17 +6,13 @@ in {
   options.custom.desktop = {
     gnome = mkEnableOption "gnome";
     i3 = mkEnableOption "i3";
-    layout = mkOption {
-      type = types.str;
-      default = "us";
-      example = "fr";
-    };
   };
   config = mkMerge [
     (mkIf (cfg.gnome || cfg.i3) {
       services.xserver = {
         enable = true;
-        inherit (cfg) layout;
+        layout = "us";
+        xkbVariant = "altgr-intl";
       };
     })
     (mkIf cfg.gnome {

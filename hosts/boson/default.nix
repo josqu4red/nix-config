@@ -9,7 +9,6 @@
 
   custom = {
     desktop.i3 = true;
-    desktop.layout = "fr";
     nix.cachix.enable = true;
     docker.privilegedUsers = users;
   };
