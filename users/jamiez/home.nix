@@ -9,7 +9,7 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  home.packages = with pkgs; [ slack spotify tig ];
+  home.packages = with pkgs; [ logseq slack spotify tig ];
   home.sessionPath = [ "$HOME/.local/bin" ];
 
   xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
