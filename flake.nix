@@ -36,6 +36,8 @@
       { hostname = "boson"; profile = "desktop"; users = [ "jamiez" ]; inherit pkgs; }
       { hostname = "charm"; profile = "server"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
         extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; }
+      { hostname = "electron"; profile = "server"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
+        extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; }
       { hostname = "neutrino"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs; }
       { hostname = "quark"; profile = "laptop"; users = [ "jamiez" "sev" ]; inherit pkgs; }
       { hostname = "tau"; profile = "server"; users = [ "jamiez" ]; inherit pkgs; }
