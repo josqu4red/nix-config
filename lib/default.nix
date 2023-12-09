@@ -25,7 +25,7 @@ in {
     nixosSystem {
       inherit pkgs;
       specialArgs = { inherit inputs outputs hostname stateVersion users; nxConfPath = ../configs/nixos; } // extraArgs;
-      modules = [ ../configs/profiles/${profile} ]
+      modules = [ self.nixosModules.default ../configs/profiles/${profile} ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
     };
