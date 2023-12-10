@@ -1,7 +1,7 @@
 { lib, pkgs, defaultFont }: let
   inherit (lib) concatStringsSep;
   mod = "Mod4";
-  floating = [ "Bluetooth Devices" "Network Connections" ];
+  floating = [ "Bluetooth Devices" "Network Connections" "Zoom Cloud Meetings" ];
   rofi-drun = "${pkgs.rofi}/bin/rofi -show drun -modi drun";
   rofi-power = "${pkgs.rofi}/bin/rofi -show power-menu -modi power-menu:${pkgs.rofi-power-menu}/bin/rofi-power-menu";
 in {
@@ -27,13 +27,29 @@ in {
       "${mod}+Return" = "exec ${pkgs.kitty}/bin/kitty";
       "${mod}+d" = ''exec "${rofi-drun} -theme-str 'window {width: 24em;}'"'';
       "${mod}+x" = ''exec "${rofi-power} -theme-str 'window {width: 12em;} listview {lines: 6;}'"'';
-      # modes
-      "${mod}+r" = "mode resize";
-      # actions
-      #"${$mod}+Shift+A" = "kill";
+      "${mod}+Escape" = "kill";
       "${mod}+Shift+c" = "reload";
       "${mod}+Shift+r" = "restart";
       "${mod}+Shift+e" = "exit";
+      # modes
+      "${mod}+r" = "mode resize";
+      # change container layout
+      "${mod}+q" = "layout stacking";
+      "${mod}+w" = "layout tabbed";
+      "${mod}+e" = "layout toggle split";
+      # enter fullscreen mode for the focused container
+      "${mod}+f" = "fullscreen toggle";
+      # split container
+      "${mod}+b" = "split h";
+      "${mod}+v" = "split v";
+      # focus the parent container
+      "${mod}+a" = "focus parent";
+      # focus the child container
+      "${mod}+s" = "focus child";
+      # change focus between tiling / floating windows
+      "${mod}+space" = "focus mode_toggle";
+      # toggle tiling / floating focus
+      "${mod}+Shift+space" = "floating toggle";
       # change focus
       "${mod}+h" = "focus left";
       "${mod}+j" = "focus down";
@@ -43,12 +59,6 @@ in {
       "${mod}+Down" = "focus down";
       "${mod}+Up" = "focus up";
       "${mod}+Right" = "focus right";
-      # change focus between tiling / floating windows
-      "${mod}+space" = "focus mode_toggle";
-      # focus the parent container
-      "${mod}+q" = "focus parent";
-      # focus the child container
-      "${mod}+a" = "focus child";
       # move focused window
       "${mod}+Shift+H" = "move left";
       "${mod}+Shift+J" = "move down";
@@ -58,18 +68,6 @@ in {
       "${mod}+Shift+Down" = "move down";
       "${mod}+Shift+Up" = "move up";
       "${mod}+Shift+Right" = "move right";
-      # toggle tiling / floating focus
-      "${mod}+Shift+space" = "floating toggle";
-      # split in horizontal orientation
-      "${mod}+b" = "split h";
-      # split in vertical orientation
-      "${mod}+v" = "split v";
-      # enter fullscreen mode for the focused container
-      "${mod}+f" = "fullscreen toggle";
-      # change container layout (stacked, tabbed, toggle split)
-      "${mod}+s" = "layout stacking";
-      "${mod}+z" = "layout tabbed";
-      "${mod}+e" = "layout toggle split";
       # workspaces
       "${mod}+1" = "workspace 1";
       "${mod}+2" = "workspace 2";
