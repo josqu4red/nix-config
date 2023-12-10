@@ -1,8 +1,9 @@
 { lib, pkgs, defaultFont }: let
   inherit (lib) concatStringsSep;
   mod = "Mod4";
-  exitMode = "Exit: [l]ogout [s]uspend [r]eboot [p]oweroff";
   floating = [ "Bluetooth Devices" "Network Connections" ];
+  rofi-drun = "${pkgs.rofi}/bin/rofi -show drun -modi drun";
+  rofi-power = "${pkgs.rofi}/bin/rofi -show power-menu -modi power-menu:${pkgs.rofi-power-menu}/bin/rofi-power-menu";
 in {
   enable = true;
   config = {
@@ -24,10 +25,10 @@ in {
     bars = [];
     keybindings = { # xmodmap -pke
       "${mod}+Return" = "exec ${pkgs.kitty}/bin/kitty";
-      "${mod}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -modi drun";
+      "${mod}+d" = ''exec "${rofi-drun} -theme-str 'window {width: 24em;}'"'';
+      "${mod}+x" = ''exec "${rofi-power} -theme-str 'window {width: 12em;} listview {lines: 6;}'"'';
       # modes
       "${mod}+r" = "mode resize";
-      "${mod}+x" = "mode ${exitMode}";
       # actions
       #"${$mod}+Shift+A" = "kill";
       "${mod}+Shift+c" = "reload";
@@ -94,15 +95,6 @@ in {
       "j" = "resize grow height 10 px or 10 ppt";
       "k" = "resize shrink height 10 px or 10 ppt";
       "l" = "resize grow width 10 px or 10 ppt";
-      "Return" = "mode default";
-      "Escape" = "mode default";
-    };
-
-    modes."${exitMode}" = {
-      "l" = "exec i3-msg exit";
-      "s" = "exec systemctl suspend";
-      "r" = "exec systemctl reboot";
-      "p" = "exec systemctl poweroff";
       "Return" = "mode default";
       "Escape" = "mode default";
     };
