@@ -9,7 +9,7 @@
       modules.center = "date";
       modules.right = "cpu memory battery backlight sound";
       font = [ "${defaultFont}:size=16;4" ];
-      separator = "|";
+      separator = ""; # f444
       background = colors.darker;
       foreground = colors.light;
       padding = 1;
@@ -21,11 +21,11 @@
     "module/i3" = {
       type = "internal/i3";
       show.urgent = true;
-      label.focused.text = "󰮕";
+      label.focused.text = "󰮕"; # f0b95
       label.focused.padding = 1;
-      label.unfocused.text = "󰝦";
+      label.unfocused.text = "󰝦"; # f0766
       label.unfocused.padding = 1;
-      label.urgent.text = "󰗖";
+      label.urgent.text = "󰗖"; # f05d6
       label.urgent.padding = 1;
     };
     "module/backlight" = {
@@ -37,7 +37,7 @@
     "module/cpu" = {
       type = "internal/cpu";
       format.text = "<ramp-coreload><label>";
-      format.suffix.text = "%{T10}龍%{T-}";
+      format.suffix.text = "%{T10}󰓅%{T-}"; # f04c5
       format.suffix.padding = 1;
       label = "%percentage:3%%";
       ramp.coreload.text = [ "▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" ];
@@ -46,7 +46,7 @@
     "module/memory" = {
       type = "internal/memory";
       format.text = "<label>";
-      format.suffix.text = "%{T10}%{T-}";
+      format.suffix.text = "%{T10}󰍛%{T-}"; # f035b
       format.suffix.padding = 1;
       label = "%percentage_used:3%%";
     };
@@ -62,12 +62,13 @@
       interval = 1;
       format-volume = "<ramp-volume> <label-volume>";
       label-volume = "%percentage%%";
-      ramp-volume-0 = "󰕿";
-      ramp-volume-1 = "󰖀";
-      ramp-volume-2 = "󰕾";
+      ramp-volume-0 = "󰕿"; # f057f
+      ramp-volume-1 = "󰖀"; # f0580
+      ramp-volume-2 = "󰕾"; # f057e
       format-muted = "<label-muted>";
-      label-muted = "󰸈 %percentage%%";
+      label-muted = "󰸈 %percentage%%"; # f0e08
       click-right = "pavucontrol";
+      # "󰍬" "󰍭"
     };
   };
 }
