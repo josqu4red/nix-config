@@ -15,6 +15,7 @@
     };
     extraConfig = {
       core = { whitespace = "trailing-space,cr-at-eol"; };
+      advice.diverging = "false";
       push.default = "simple";
       pull.ff = "only";
       init.defaultBranch = "main";
