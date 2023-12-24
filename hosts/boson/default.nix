@@ -11,9 +11,6 @@
     nix.cachix.enable = true;
     docker.privilegedUsers = users;
   };
-  services.udisks2.enable = true;
-  services.blueman.enable = true;
-  hardware.bluetooth.enable = true;
   virtualisation.libvirtd.enable = true;
   users.extraGroups.libvirtd.members = users;
 }

@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  inherit (lib) mkEnableOption mkIf mkMerge mkOption types;
+  inherit (lib) mkEnableOption mkIf mkMerge;
   cfg = config.custom.desktop;
 in {
   options.custom.desktop = {
@@ -8,13 +8,13 @@ in {
     i3 = mkEnableOption "i3";
   };
   config = mkMerge [
-    (mkIf (cfg.gnome || cfg.i3) {
+    {
       services.xserver = {
         enable = true;
         layout = "us";
         xkbVariant = "altgr-intl";
       };
-    })
+    }
     (mkIf cfg.gnome {
       services.xserver = {
         displayManager.gdm.enable = true;
@@ -30,6 +30,7 @@ in {
         displayManager.defaultSession = "none+i3";
         windowManager.i3.enable = true;
       };
+      services.blueman.enable = true;
     })
   ];
 }
