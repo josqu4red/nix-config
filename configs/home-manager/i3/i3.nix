@@ -1,9 +1,12 @@
 { lib, pkgs, defaultFont }: let
   inherit (lib) concatStringsSep;
   mod = "Mod4";
-  floating = [ "Bluetooth Devices" "Network Connections" "Zoom Cloud Meetings" ];
+  floating = [ "Bluetooth Devices" "Network Connections" "Volume Control" "Zoom Cloud Meetings" ];
   rofi-drun = "${pkgs.rofi}/bin/rofi -show drun -modi drun";
   rofi-power = "${pkgs.rofi}/bin/rofi -show power-menu -modi power-menu:${pkgs.rofi-power-menu}/bin/rofi-power-menu";
+  pactl = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl";
+  playerctl = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl";
+  brightnessctl = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl";
 in {
   enable = true;
   config = {
@@ -31,6 +34,7 @@ in {
       "${mod}+Shift+c" = "reload";
       "${mod}+Shift+r" = "restart";
       "${mod}+Shift+e" = "exit";
+      "${mod}+Shift+x" = "exec ${pkgs.betterlockscreen}/bin/betterlockscreen -l dim";
       # modes
       "${mod}+r" = "mode resize";
       # change container layout
@@ -78,14 +82,14 @@ in {
       "${mod}+Shift+numbersign" = "move container to workspace 3; workspace 3";
       "${mod}+Shift+dollar" = "move container to workspace 4; workspace 4";
       # multimedia
-      "XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume 0 +5%";
-      "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume 0 -5%";
-      "XF86AudioMute" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute 0 toggle";
-      "XF86AudioPlay" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl play-pause";
-      "XF86AudioNext" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl next";
-      "XF86AudioPrev" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl previous";
-      "XF86MonBrightnessUp" = "exec --no-startup-id ${pkgs.xorg.xbacklight}/bin/xbacklight -inc 10";
-      "XF86MonBrightnessDown" = "exec --no-startup-id ${pkgs.xorg.xbacklight}/bin/xbacklight -dec 10";
+      "XF86AudioRaiseVolume"  = "${pactl} set-sink-volume 0 +5%";
+      "XF86AudioLowerVolume"  = "${pactl} set-sink-volume 0 -5%";
+      "XF86AudioMute"         = "${pactl} set-sink-mute 0 toggle";
+      "XF86AudioPlay"         = "${playerctl} play-pause";
+      "XF86AudioNext"         = "${playerctl} next";
+      "XF86AudioPrev"         = "${playerctl} previous";
+      "XF86MonBrightnessUp"   = "${brightnessctl} set 10%+";
+      "XF86MonBrightnessDown" = "${brightnessctl} set 10%-";
     };
 
     modes.resize = {

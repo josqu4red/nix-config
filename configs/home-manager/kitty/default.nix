@@ -4,7 +4,7 @@
     theme = "Nord";
     settings = {
       enable_audio_bell = "no";
-      bell_on_tab = "󰗖 ";
+      bell_on_tab = "󰗖";
       font_size = "12.0";
       tab_bar_style = "powerline";
       active_tab_foreground = "#4c566a";
