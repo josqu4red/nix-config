@@ -1,9 +1,6 @@
-{ inputs, ... }:
+{ ... }:
 {
-  imports = [
-    ./hardware.nix
-    inputs.nixos-hardware.nixosModules.system76
-  ];
+  imports = [ ./hardware.nix ];
 
   custom.desktop.gnome = true;
   custom.desktop.i3 = true;
