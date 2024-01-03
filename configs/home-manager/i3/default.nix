@@ -16,13 +16,13 @@ in {
   services.dunst = import ./dunst.nix { inherit pkgs colors defaultFont; };
   programs.rofi = import ./rofi.nix { inherit pkgs; };
   xsession.windowManager.i3 = import ./i3.nix { inherit lib pkgs defaultFont; };
-  services.screen-locker = {
+  services.xidlehook = {
     enable = true;
-    inactiveInterval = 5;
-    lockCmd = "${pkgs.betterlockscreen}/bin/betterlockscreen -l dim";
-    xautolock.extraOptions = [
-      "-killtime 10"
-      "-killer 'systemctl suspend'"
+    detect-sleep = true;
+    not-when-fullscreen = true;
+    timers = [
+      { delay = 120; command = "${pkgs.betterlockscreen}/bin/betterlockscreen -l dim"; }
+      { delay = 600; command = "${pkgs.systemd}/bin/systemctl suspend"; }
     ];
   };
 }
