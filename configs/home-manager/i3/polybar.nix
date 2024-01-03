@@ -1,6 +1,7 @@
-{ pkgs, colors, defaultFont }: let
+{ pkgs, lib, colors, defaultFont }: let
   font = id: str: "%{T${id}}${str}%{T-}";
   padPct = "%percentage:3%%";
+  transparentBg = "#cc" + lib.strings.removePrefix "#" colors.darker;
 in {
   enable = true;
   package = pkgs.polybarFull;
@@ -15,7 +16,7 @@ in {
                "Noto Color Emoji:scale=10;4"
                "MaterialSymbolsSharp:size=14;4" ];
       separator = "%{F${colors.dark}}/%{F-}";
-      background = colors.darker;
+      background = transparentBg;
       foreground = colors.light;
       padding = 1;
       module.margin = 1;

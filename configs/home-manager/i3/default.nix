@@ -12,7 +12,7 @@ in {
     enable = true;
     automount = false;
   };
-  services.polybar = import ./polybar.nix { inherit pkgs colors defaultFont; };
+  services.polybar = import ./polybar.nix { inherit pkgs lib colors defaultFont; };
   services.dunst = import ./dunst.nix { inherit pkgs colors defaultFont; };
   programs.rofi = import ./rofi.nix { inherit pkgs; };
   xsession.windowManager.i3 = import ./i3.nix { inherit lib pkgs defaultFont; };
