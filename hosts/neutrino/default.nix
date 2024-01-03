@@ -5,6 +5,7 @@
 
   custom = {
     desktop.gnome = true;
+    desktop.i3 = true;
     docker.privilegedUsers = users;
   };
 
