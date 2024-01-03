@@ -3,7 +3,7 @@ let
   inherit (inputs) self home-manager nixpkgs;
   inherit (self) outputs;
 
-  inherit (builtins) attrValues listToAttrs map pathExists;
+  inherit (builtins) map pathExists;
   inherit (nixpkgs.lib) nixosSystem genAttrs optional;
   inherit (home-manager.lib) homeManagerConfiguration;
 

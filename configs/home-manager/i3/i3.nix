@@ -108,7 +108,7 @@ in {
         notification = false;
       }
       {
-        command = "${pkgs.feh}/bin/feh --bg-scale ~/.background.png";
+        command = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ~/.local/share/backgrounds";
         always = true;
         notification = false;
       }

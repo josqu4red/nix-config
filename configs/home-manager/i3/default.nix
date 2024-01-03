@@ -1,9 +1,17 @@
 { lib, pkgs, ... }:
 let
+  inherit (builtins) readDir;
+  inherit (lib) filterAttrs mapAttrs' nameValuePair;
+  # TODO: move to shared lib, use in zsh
+  xdgFilesFromDir = target: path:
+    let files = filterAttrs (n: v: v == "regular") (readDir path);
+    in mapAttrs' (k: v: nameValuePair "${target}/${k}" { source = "${path}/${k}"; }) files;
+
   defaultFont = "JetBrainsMono Nerd Font";
   colors = import ./nord.nix { inherit lib; };
 in {
   home.packages = with pkgs; [ material-symbols noto-fonts-color-emoji ];
+  xdg.dataFile = xdgFilesFromDir "backgrounds" ./walls;
   xsession.enable = true; # to create tray.target
   services.picom.enable = true;
   services.network-manager-applet.enable = true;
