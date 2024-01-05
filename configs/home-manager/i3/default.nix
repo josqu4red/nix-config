@@ -33,4 +33,5 @@ in {
       { delay = 1200; command = "${pkgs.systemd}/bin/systemctl suspend"; }
     ];
   };
+  services.flameshot = import ./flameshot.nix { inherit colors; };
 }
