@@ -29,8 +29,8 @@ in {
     detect-sleep = true;
     not-when-fullscreen = true;
     timers = [
-      { delay = 120; command = "${pkgs.betterlockscreen}/bin/betterlockscreen -l dim"; }
-      { delay = 600; command = "${pkgs.systemd}/bin/systemctl suspend"; }
+      { delay = 600; command = "${pkgs.betterlockscreen}/bin/betterlockscreen -l dim"; }
+      { delay = 1200; command = "${pkgs.systemd}/bin/systemctl suspend"; }
     ];
   };
 }

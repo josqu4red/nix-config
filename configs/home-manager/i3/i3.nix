@@ -1,7 +1,8 @@
 { lib, pkgs, defaultFont }: let
   inherit (lib) concatStringsSep;
   mod = "Mod4";
-  floating = [ "Bluetooth Devices" "Network Connections" "Volume Control" "Zoom Cloud Meetings" ];
+  floating = [ "nm-applet" "nm-connection-editor" ".blueman-manager-wrapped" "pavucontrol" "zoom" ]; # class
+  # floating = [ "Bluetooth Devices" "Network Connections" "Volume Control" "Zoom Cloud Meetings" ]; # title
   rofi-drun = "${pkgs.rofi}/bin/rofi -show drun -modi drun";
   rofi-power = "${pkgs.rofi}/bin/rofi -show power-menu -modi power-menu:${pkgs.rofi-power-menu}/bin/rofi-power-menu";
   pactl = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl";
@@ -17,7 +18,7 @@ in {
       border = 1;
       titlebar = false;
       commands = [
-        { command = "floating enable"; criteria = { title = "(${concatStringsSep "|" floating})"; }; }
+        { command = "floating enable"; criteria = { class = "(${concatStringsSep "|" floating})"; }; }
       ];
     };
     focus.followMouse = false;
@@ -82,14 +83,16 @@ in {
       "${mod}+Shift+numbersign" = "move container to workspace 3; workspace 3";
       "${mod}+Shift+dollar" = "move container to workspace 4; workspace 4";
       # multimedia
-      "XF86AudioRaiseVolume"  = "${pactl} set-sink-volume 0 +5%";
-      "XF86AudioLowerVolume"  = "${pactl} set-sink-volume 0 -5%";
-      "XF86AudioMute"         = "${pactl} set-sink-mute 0 toggle";
+      "XF86AudioRaiseVolume"  = "${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
+      "XF86AudioLowerVolume"  = "${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
+      "XF86AudioMute"         = "${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
+      "XF86AudioMicMute"      = "${pactl} set-source-mute @DEFAULT_SOURCE@ toggle";
+      "XF86Launch7"           = "${pactl} set-source-mute @DEFAULT_SOURCE@ toggle";
       "XF86AudioPlay"         = "${playerctl} play-pause";
       "XF86AudioNext"         = "${playerctl} next";
       "XF86AudioPrev"         = "${playerctl} previous";
-      "XF86MonBrightnessUp"   = "${brightnessctl} set 10%+";
-      "XF86MonBrightnessDown" = "${brightnessctl} set 10%-";
+      "XF86MonBrightnessUp"   = "${brightnessctl} set 5%+";
+      "XF86MonBrightnessDown" = "${brightnessctl} set 5%-";
     };
 
     modes.resize = {
