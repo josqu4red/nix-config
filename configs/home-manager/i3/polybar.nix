@@ -73,9 +73,9 @@ in {
       use-ui-max = false;
       interval = 1;
       format-volume = "<ramp-volume><label-volume>";
-      format-muted = "<label-muted><label-volume>";
+      format-muted = "<label-muted>";
       label-volume = padPct;
-      label.muted = font "3" ""; # e04f
+      label.muted = (font "3" "") + padPct; # e04f
       # MaterialSymbolsSharp e04e e04d e050
       ramp.volume.text = map (font "3") [ "" "" "" ];
     };
