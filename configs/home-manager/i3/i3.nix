@@ -9,6 +9,7 @@
   playerctl = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl";
   brightnessctl = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl";
   flameshot = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot";
+  autorandr = "exec --no-startup-id ${pkgs.autorandr}/bin/autorandr";
 in {
   enable = true;
   config = {
@@ -94,6 +95,8 @@ in {
       "XF86AudioPrev"         = "${playerctl} previous";
       "XF86MonBrightnessUp"   = "${brightnessctl} set 5%+";
       "XF86MonBrightnessDown" = "${brightnessctl} set 5%-";
+      "XF86Display"           = "${autorandr} --change";
+      "XF86Launch6"           = "${autorandr} --change";
       "Print"                 = "${flameshot} gui";
     };
 
