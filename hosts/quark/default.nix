@@ -2,8 +2,5 @@
 {
   imports = [ ./hardware.nix ];
 
-  custom.desktop = {
-    gnome = true;
-    i3 = true;
-  };
+  custom.desktop.gnome = true;
 }
