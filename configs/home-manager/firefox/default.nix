@@ -1,4 +1,6 @@
-{ ... }: {
+{ inputs, pkgs, ... }: let
+  firefox-addons = inputs.firefox-addons.packages."${pkgs.system}";
+in {
   programs.firefox = {
     enable = true;
     profiles."default" = {
@@ -13,6 +15,7 @@
       settings = {
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
       };
+      extensions = with firefox-addons; [ tabcenter-reborn ];
     };
   };
 }
