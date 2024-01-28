@@ -1,5 +1,5 @@
-{ hmConfPath, pkgs, ... }: {
-  imports = map (c: (hmConfPath + "/${c}")) [ "firefox" "git" "gpg" "kitty" "neovim" "pass" "tmux" "zsh" ];
+{ inputs, pkgs, ... }: {
+  imports = with inputs.self.homeConfigs; [ firefox git gpg kitty neovim pass tmux zsh ];
 
   programs.home-manager.enable = true;
 

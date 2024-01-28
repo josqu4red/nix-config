@@ -1,8 +1,7 @@
-{ users, nxConfPath, ... }:
+{ inputs, users, ... }:
 {
-  imports = [
-    ./hardware.nix
-  ] ++ map (c: (nxConfPath + "/${c}")) [ "chrysalis" "docker" "ledger" "qFlipper" ];
+  imports = [ ./hardware.nix ]
+    ++ (with inputs.self.nixosConfigs; [ chrysalis docker ledger qFlipper ]);
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 

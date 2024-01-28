@@ -1,3 +1,3 @@
-{ hmConfPath, ... }: {
-  imports = [ (hmConfPath + "/i3") ];
+{ inputs, ... }: {
+  imports = with inputs.self.homeConfigs; [ i3 ];
 }

@@ -1,5 +1,5 @@
-{ hostname, stateVersion, nxConfPath, ... }: {
-  imports = map (c: (nxConfPath + "/${c}")) [ "cli-tools" "nix" "sshd" "users" ];
+{ inputs, hostname, stateVersion, ... }: {
+  imports = with inputs.self.nixosConfigs; [ cli-tools nix sshd users ];
 
   system.stateVersion = stateVersion;
   boot.swraid.enable = false; # true for stateVersion < 23.11

@@ -1,7 +1,6 @@
-{ pkgs, users, nxConfPath, ... }: {
-  imports = [
-    ../base
-  ] ++ map (c: (nxConfPath + "/${c}")) [ "desktop" "pipewire" ];
+{ inputs, pkgs, users, ... }: {
+  imports = [ ../base ]
+    ++ (with inputs.self.nixosConfigs; [ desktop pipewire ]);
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

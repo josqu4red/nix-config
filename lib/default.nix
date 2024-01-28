@@ -24,7 +24,7 @@ in {
     }:
     nixosSystem {
       inherit pkgs;
-      specialArgs = { inherit inputs outputs hostname stateVersion users; nxConfPath = ../configs/nixos; } // extraArgs;
+      specialArgs = { inherit inputs outputs hostname stateVersion users; } // extraArgs;
       modules = [ self.nixosModules.default ../configs/profiles/${profile} ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
@@ -37,7 +37,7 @@ in {
     }:
     homeManagerConfiguration {
       inherit pkgs;
-      extraSpecialArgs = { hmConfPath = ../configs/home-manager; };
+      extraSpecialArgs = { inherit inputs; };
       modules = [
         {
           home = {

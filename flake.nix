@@ -12,17 +12,17 @@
     };
   };
 
-  outputs = inputs:
+  outputs = { nixpkgs, ... }@inputs:
   let
     xlib = import ./lib { inherit inputs; };
     inherit (xlib) forAllSystems mkSystem mkHome;
     inherit (builtins) listToAttrs;
-    inherit (inputs.nixpkgs.lib) flatten nameValuePair;
+    inherit (nixpkgs.lib) flatten nameValuePair;
 
     local-pkgs = final: _prev: import ./pkgs { pkgs = final; };
 
     legacyPackages = forAllSystems (system:
-      import inputs.nixpkgs {
+      import nixpkgs {
         inherit system;
         config.allowUnfree = true;
         overlays = [ local-pkgs ];
@@ -46,6 +46,9 @@
     inherit legacyPackages;
 
     nixosModules = import ./modules/nixos;
+
+    nixosConfigs = import ./configs/nixos;
+    homeConfigs = import ./configs/home-manager;
 
     nixosConfigurations = listToAttrs (map (h: nameValuePair h.hostname (mkSystem h)) hosts);
 

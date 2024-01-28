@@ -1,7 +1,7 @@
-{ users, nxConfPath, ... }:
+{ inputs, users, ... }:
 {
   imports = [ ./hardware.nix ]
-    ++ map (c: (nxConfPath + "/${c}")) [ "chrysalis" "docker" "kdeconnect" ];
+    ++ (with inputs.self.nixosConfigs; [ chrysalis docker kdeconnect ]);
 
   custom = {
     desktop.gnome = true;
