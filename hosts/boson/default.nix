@@ -1,15 +1,53 @@
-{ inputs, users, ... }:
+{ inputs, lib, users, ... }:
 {
-  imports = [ ./hardware.nix ]
-    ++ (with inputs.self.nixosConfigs; [ chrysalis docker ledger qFlipper ]);
+  imports = [
+    inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
+    inputs.disko.nixosModules.disko
+    inputs.impermanence.nixosModules.impermanence
+  ] ++ (with inputs.self.nixosConfigs; [ chrysalis docker ledger qFlipper ]);
 
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  nixpkgs.hostPlatform = "x86_64-linux";
+  hardware.enableRedistributableFirmware = true;
+  hardware.nvidia.modesetting.enable = true;
+
+  disko.devices = import ./disk-config.nix;
+
+  fileSystems."/persist".neededForBoot = true;
+  environment.persistence."/persist" = {
+    hideMounts = true;
+    directories = [
+      "/var/log"
+    ];
+    files = [
+      "/etc/machine-id" # For journalctl
+      "/etc/ssh/ssh_host_ed25519_key"
+      "/etc/ssh/ssh_host_ed25519_key.pub"
+      "/etc/ssh/ssh_host_rsa_key"
+      "/etc/ssh/ssh_host_rsa_key.pub"
+    ];
+  };
+
+  boot = {
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
+    loader.systemd-boot.consoleMode = "max";
+    initrd.luks = {
+      fido2Support = true;
+      devices.system.fido2 = {
+        credential = "8ade4e84782523170000a7f93662ae5f89e6eb40452d1abb01f81256fc8be0cedb6af128c5cb9c007112fafed78711d9";
+        passwordLess = true;
+      };
+    };
+    initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
+    initrd.kernelModules = [ "dm-snapshot" ];
+    kernelModules = [ "kvm-intel" ];
+  };
 
   custom = {
     desktop.i3 = true;
     nix.cachix.enable = true;
     docker.privilegedUsers = users;
   };
+
   virtualisation.libvirtd.enable = true;
   users.extraGroups.libvirtd.members = users;
 }
