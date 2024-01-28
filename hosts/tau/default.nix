@@ -1,15 +1,19 @@
-{ config, pkgs, inputs, ... }:
+{ config, inputs, ... }:
 {
   imports = [
     inputs.disko.nixosModules.disko
-    ./hardware.nix
   ];
+
+  nixpkgs.hostPlatform = "x86_64-linux";
+  hardware.enableRedistributableFirmware = true;
 
   disko.devices = import ./disk-config.nix;
 
   boot = {
+    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" ];
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
+    kernelModules = [ "kvm-intel" ];
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [ "libata.noacpi=1" ];
     supportedFilesystems = [ "zfs" ];
