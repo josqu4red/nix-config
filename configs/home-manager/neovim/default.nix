@@ -58,6 +58,7 @@ in {
       cmp-path
       nvim-lspconfig
       luasnip
+      aerial-nvim
       # Syntax
       nvim-treesitter-setup
       nvim-treesitter-endwise

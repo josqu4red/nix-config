@@ -126,6 +126,14 @@ map.set('n', '<leader>fs', builtin.symbols, {})
 map.set('n', '<leader>ft', telescope.extensions.file_browser.file_browser, {})
 map.set('n', '<leader>fu', telescope.extensions.undo.undo, {})
 
+require("aerial").setup({
+  on_attach = function(bufnr)
+    map.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+    map.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+  end,
+})
+vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
+
 require('nvim-autopairs').setup()
 
 -- Completion/LSP
