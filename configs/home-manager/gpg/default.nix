@@ -1,4 +1,4 @@
-{ ... }: {
+{ pkgs, ... }: {
   programs.gpg = {
     enable = true;
     mutableKeys = true;
@@ -11,6 +11,6 @@
     enableZshIntegration = true;
     defaultCacheTtl = 21600;
     maxCacheTtl = 43200;
-    pinentryFlavor = "curses"; # "curses", "tty", "emacs", "gnome3", "qt"
+    pinentryFlavor = "gnome3"; # "curses", "tty", "emacs", "gnome3", "qt"
   };
 }
