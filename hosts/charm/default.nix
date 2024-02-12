@@ -6,10 +6,28 @@
 in {
   imports = [
     inputs.self.nixosProfiles.server
-    ./sd-image.nix
+    inputs.disko.nixosModules.disko
+    inputs.impermanence.nixosModules.impermanence
+#    ./sd-image.nix
   ];
 
   nixpkgs.hostPlatform = "aarch64-linux";
+
+  disko.devices = import ./disk-config.nix;
+  fileSystems."/persist".neededForBoot = true;
+  environment.persistence."/persist" = {
+    hideMounts = true;
+    directories = [
+      "/var/log"
+    ];
+    files = [
+      "/etc/machine-id" # For journalctl
+      "/etc/ssh/ssh_host_ed25519_key"
+      "/etc/ssh/ssh_host_ed25519_key.pub"
+      "/etc/ssh/ssh_host_rsa_key"
+      "/etc/ssh/ssh_host_rsa_key.pub"
+    ];
+  };
 
   hardware = {
     deviceTree = {
@@ -24,6 +42,10 @@ in {
 
   boot = {
     kernelPackages = pkgsCross.linuxPackagesFor(pkgsCross.callPackage ./pkgs/kernel {});
+    initrd = {
+      availableKernelModules = lib.mkForce [ "dm_mod" "ext4" "nvme" "pcie_rockchip_host" "phy_rockchip_naneng_combphy" "phy_rockchip_pcie" ];
+      kernelModules = lib.mkForce [ ];
+    };
 
     loader = {
       grub.enable = false;
@@ -31,7 +53,6 @@ in {
     };
 
     consoleLogLevel = 7;
-
     supportedFilesystems = lib.mkForce [ "vfat" "fat32" "exfat" "ext4" ];
   };
 
