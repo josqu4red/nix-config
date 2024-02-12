@@ -29,6 +29,9 @@
             name = "system";
             settings = {
               allowDiscards = true;
+              # dd if=/dev/random bs=4096 count=1 of=
+              keyFile = "/dev/disk/by-id/usb-Generic_Flash_Disk_5E92B7D0-0:0";
+              keyFileSize = 4096;
             };
             content = {
               type = "lvm_pv";

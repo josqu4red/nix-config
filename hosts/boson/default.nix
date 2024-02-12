@@ -30,15 +30,8 @@
   boot = {
     binfmt.emulatedSystems = [ "aarch64-linux" ];
     loader.systemd-boot.consoleMode = "max";
-    initrd.luks = {
-      fido2Support = true;
-      devices.system.fido2 = {
-        credential = "8ade4e84782523170000a7f93662ae5f89e6eb40452d1abb01f81256fc8be0cedb6af128c5cb9c007112fafed78711d9";
-        passwordLess = true;
-      };
-    };
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
-    initrd.kernelModules = [ "dm-snapshot" ];
+    initrd.kernelModules = [ "dm-snapshot" "usb_storage" ];
     kernelModules = [ "kvm-intel" ];
   };
 
