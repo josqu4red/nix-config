@@ -37,16 +37,8 @@ in {
     }:
     homeManagerConfiguration {
       inherit pkgs;
-      extraSpecialArgs = { inherit inputs; };
-      modules = [
-        {
-          home = {
-            inherit username stateVersion;
-            homeDirectory = "/home/${username}";
-          };
-        }
-        ../users/${username}/home.nix
-      ]
-      ++ ifExists ../users/${username}/${hostname}.nix;
+      extraSpecialArgs = { inherit inputs username stateVersion; };
+      modules = [ ../users/${username}/home.nix ]
+                ++ ifExists ../users/${username}/${hostname}.nix;
     };
 }

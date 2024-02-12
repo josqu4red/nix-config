@@ -1,5 +1,6 @@
 let
   modules = {
+    base = import ./base;
     firefox = import ./firefox;
     git = import ./git;
     gpg = import ./gpg;
