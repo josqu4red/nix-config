@@ -3,5 +3,5 @@
     ../workstation
   ];
 
-  custom.sshd.passwordAuth = true;
+  services.openssh.settings.PasswordAuthentication = true;
 }

@@ -1,22 +1,10 @@
-{ config, lib, ... }:
-let
-  inherit (lib) mkOption types;
-  cfg = config.custom.sshd;
-in {
-  options.custom.sshd = {
-    passwordAuth = mkOption {
-      type = types.bool;
-      default = false;
-      example = true;
-      description = "Allow password authentication";
-    };
-  };
+{ lib, ... }: {
   config = {
     services.openssh = {
       enable = true;
       settings = {
-        PasswordAuthentication = cfg.passwordAuth;
-        PermitRootLogin = "no";
+        PasswordAuthentication = lib.mkDefault false;
+        PermitRootLogin = lib.mkDefault "no";
       };
     };
   };

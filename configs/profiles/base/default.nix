@@ -1,8 +1,8 @@
-{ inputs, hostname, stateVersion, ... }: {
+{ inputs, hostname, stateVersion, lib, ... }: {
   imports = with inputs.self.nixosConfigs; [ cli-tools nix sshd users ];
 
   system.stateVersion = stateVersion;
-  boot.swraid.enable = false; # true for stateVersion < 23.11
+  boot.swraid.enable = lib.mkDefault false; # true for stateVersion < 23.11
 
   networking.hostName = hostname;
 
