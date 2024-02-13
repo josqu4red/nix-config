@@ -17,7 +17,7 @@
     };
   };
 
-  outputs = { nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, ... }@inputs:
   let
     xlib = import ./lib { inherit inputs; };
     inherit (xlib) forAllSystems mkSystem mkHome;
@@ -46,6 +46,7 @@
       { hostname = "neutrino"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs; }
       { hostname = "quark"; profile = "laptop"; users = [ "jamiez" "sev" ]; inherit pkgs; }
       { hostname = "tau"; profile = "server"; users = [ "jamiez" ]; inherit pkgs; }
+      { hostname = "nixlive"; profile = "base"; users = [ "jamiez" ]; inherit pkgs; }
     ];
   in {
     inherit legacyPackages;
@@ -68,5 +69,9 @@
     devShells = forAllSystems (system: {
       default = import ./shell.nix { pkgs = legacyPackages.${system}; };
     });
+
+    packages.x86_64-linux = {
+      nixlive = self.nixosConfigurations.nixlive.config.system.build.isoImage;
+    };
   };
 }
