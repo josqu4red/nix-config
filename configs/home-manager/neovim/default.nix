@@ -2,7 +2,7 @@
 let
   nvim-treesitter-setup = pkgs.vimPlugins.nvim-treesitter.withPlugins (p:
     # TODO: p.haskell
-    [ p.dockerfile p.go p.hcl p.json p.jsonnet p.nix p.python p.regex p.ruby ]
+    [ p.c p.dockerfile p.go p.hcl p.json p.jsonnet p.lua p.nix p.python p.regex p.ruby p.vimdoc ]
   );
   nvim-treesitter-endwise = pkgs.vimUtils.buildVimPlugin {
     name = "nvim-treesitter-endwise";
@@ -23,7 +23,7 @@ let
     };
   };
   # TODO: haskell-language-server
-  extraPackages = with pkgs; [ fd gopls nodePackages.pyright ripgrep nil rubyPackages.solargraph ];
+  extraPackages = with pkgs; [ fd go gopls nodePackages.pyright ripgrep nil rubyPackages.solargraph ];
 in {
   programs.neovim = {
     enable = true;
@@ -43,6 +43,7 @@ in {
       conflict-marker-vim
       gitsigns-nvim
       neogit
+      trouble-nvim
       # noice-nvim
       nvim-tree-lua
       telescope-nvim

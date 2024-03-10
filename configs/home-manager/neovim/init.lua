@@ -40,6 +40,11 @@ autocmd({ "BufEnter" }, {
   command = "set indentkeys-=0#",
 })
 
+autocmd({ "FileType" }, {
+  pattern = "ruby",
+  command = "setlocal indentkeys-=.",
+})
+
 map.set('n', '-', 'ddkP') -- swap above
 map.set('n', '_', 'ddp')  -- swap below
 map.set('v', 'p', '"_dP', { noremap = true }) -- dont yank on paste
@@ -68,7 +73,9 @@ require('nvim-treesitter.configs').setup {
 
 require('treesitter-context').setup()
 
-require('nvim-tree').setup()
+require('nvim-tree').setup{
+  filters = { custom = { "^.git$" } }
+}
 map.set('n', '<Leader>n', ':NvimTreeFindFileToggle<CR>')
 
 require('lualine').setup()
