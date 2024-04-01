@@ -11,6 +11,6 @@
     enableZshIntegration = true;
     defaultCacheTtl = 21600;
     maxCacheTtl = 43200;
-    pinentryFlavor = "gnome3"; # "curses", "tty", "emacs", "gnome3", "qt"
+    pinentryPackage = pkgs.pinentry-gtk2;
   };
 }
