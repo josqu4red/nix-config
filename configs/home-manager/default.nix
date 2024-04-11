@@ -6,6 +6,7 @@ let
     gpg = import ./gpg;
     i3 = import ./i3;
     kitty = import ./kitty;
+    kube = import ./kube;
     neovim = import ./neovim;
     pass = import ./pass;
     ruby = import ./ruby;
