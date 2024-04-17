@@ -1,4 +1,4 @@
-{ lib, ... }: let
+{ lib, pkgs, ... }: let
   defaultGw = "192.168.1.1";
   ipAddress = { address = "192.168.1.250"; prefixLength = 24; };
 in {
@@ -16,6 +16,8 @@ in {
   networking.dhcpcd.enable = false;
   networking.defaultGateway.address = defaultGw;
   networking.interfaces.end0.ipv4.addresses = [ ipAddress ];
+
+  environment.systemPackages = [ pkgs.wakeonlan ];
 
   services.chrony = {
     enable = true;
