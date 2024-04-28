@@ -10,39 +10,44 @@ in {
   ];
 
   nixpkgs.hostPlatform = "aarch64-linux";
+
   hardware = {
     deviceTree = {
       name = "rockchip/rk3588s-orangepi-5.dtb";
-      overlays = let
-        i2c = import ./device-tree-overlays/opi5-i2c.nix;
-        sata = import ./device-tree-overlays/opi5-sata.nix;
-      in [ i2c sata ];
+      overlays = [{
+        name = "enable-nvme";
+        dtsFile = ./dts/enable-nvme.dts;
+      }];
     };
     enableRedistributableFirmware = true;
-    firmware = [ (pkgs.callPackage ./pkgs/mali-firmware {}) ];
   };
 
   boot = {
-    loader.grub.enable = false;
-    loader.generic-extlinux-compatible.enable = true;
-    initrd.includeDefaultModules = false;
-    initrd.availableKernelModules = lib.mkForce [ "dm_mod" "dm_crypt" "encrypted_keys" ];
-    kernelModules = [ ];
-    kernelPackages = pkgsCross.linuxPackagesFor (pkgsCross.callPackage ./pkgs/kernel {});
-    extraModulePackages = [ ];
-    consoleLogLevel = lib.mkDefault 7;
-    supportedFilesystems = lib.mkForce [ "vfat" "fat32" "exfat" "ext4" "btrfs" ];
+    kernelPackages = pkgsCross.linuxPackagesFor(pkgsCross.callPackage ./pkgs/kernel {});
+
+    loader = {
+      grub.enable = false;
+      generic-extlinux-compatible.enable = true;
+    };
+
+    consoleLogLevel = 7;
+
+    supportedFilesystems = lib.mkForce [ "vfat" "fat32" "exfat" "ext4" ];
   };
 
   networking = {
     inherit domain nameservers;
     dhcpcd.enable = false;
     defaultGateway.address = defaultGw;
-    interfaces.end1.ipv4.addresses = [{
+    interfaces.end0.ipv4.addresses = [{
       address = ipAddress;
       prefixLength = 24;
     }];
   };
 
   services.chrony.enable = true;
+
+  # flash_erase /dev/mtd0 0 0  (from mtdutils)
+  # dd if=uboot-spi.img of=/dev/mtdblock0 bs=4K
+  system.build.uboot = pkgs.ubootOrangePi5;
 }

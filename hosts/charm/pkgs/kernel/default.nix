@@ -1,28 +1,12 @@
-{
-  fetchzip,
-  linuxManualConfig,
-  ubootTools,
-  ...
-}:
-(linuxManualConfig {
-  version = "5.10.160-armbian-rk3588";
-  modDirVersion = "5.10.160";
-
-  # https://github.com/armbian/linux-rockchip/tree/rk-5.10-rkr4
-  src = fetchzip {
-    # branch: rk-5.10-rkr4
-    # date: 2023-08-08
-    url = "https://github.com/armbian/linux-rockchip/archive/8cae9a3e884071996260905575b55136e2480f6b.zip";
-    sha256 ="sha256-9pp9OXRMY8RUq4Fn5AcYhiGeyXXDPRAm9fUVzQV5L2k=";
+{ fetchFromGitHub, buildLinux, ... }: (buildLinux {
+  version = "6.9.0-rc6";
+  modDirVersion = "6.9.0-rc6";
+  extraMeta.branch = "6.9";
+  # https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux
+  src = fetchFromGitHub {
+    owner = "K900";
+    repo = "linux";
+    rev = "0c638f3f28789c6af7cbbbbaff2efd6dc268cc53";
+    hash = "sha256-qJXiCo8iL60zhZgSMLZwN8pdkEeqJ0CQHgRt/vjWmT4=";
   };
-
-  configfile = ./orangepi5_config;
-
-  extraMeta.branch = "5.10";
-
-  allowImportFromDerivation = true;
-})
-.overrideAttrs (old: {
-  name = "k"; # dodge uboot length limits
-  nativeBuildInputs = old.nativeBuildInputs ++ [ubootTools];
 })
