@@ -59,6 +59,7 @@
     devShells = forAllSystems (system: {
       default = import ./shell.nix { pkgs = legacyPackages.${system};
                                      sops-import-keys-hook = inputs.sops-nix.packages.${system}.sops-import-keys-hook; };
+      fhsEnv = import ./pkgs/fhsEnv.nix { pkgs = legacyPackages.${system}; };
     });
 
     packages = forAllSystems (system: let
