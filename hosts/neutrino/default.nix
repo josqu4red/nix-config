@@ -2,6 +2,7 @@
 {
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
+    inputs.self.nixosProfiles.laptop
   ] ++ (with inputs.self.nixosConfigs; [ chrysalis docker kdeconnect ]);
 
   nixpkgs.hostPlatform = "x86_64-linux";

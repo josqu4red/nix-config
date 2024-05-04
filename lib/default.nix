@@ -17,7 +17,6 @@ in {
 
   mkSystem =
     { hostname
-    , profile
     , users ? []
     , pkgs
     , extraArgs ? {}
@@ -25,7 +24,7 @@ in {
     nixosSystem {
       inherit pkgs;
       specialArgs = { inherit inputs outputs hostname stateVersion users; } // extraArgs;
-      modules = [ self.nixosModules.default ../configs/profiles/${profile} ]
+      modules = [ self.nixosModules.default ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
     };

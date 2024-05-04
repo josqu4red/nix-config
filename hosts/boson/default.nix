@@ -4,6 +4,7 @@
     inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
     inputs.disko.nixosModules.disko
     inputs.impermanence.nixosModules.impermanence
+    inputs.self.nixosProfiles.workstation
   ] ++ (with inputs.self.nixosConfigs; [ chrysalis docker ledger qFlipper ]);
 
   nixpkgs.hostPlatform = "x86_64-linux";
@@ -43,4 +44,5 @@
 
   virtualisation.libvirtd.enable = true;
   users.extraGroups.libvirtd.members = users;
+  services.openssh.settings.PasswordAuthentication = true;
 }

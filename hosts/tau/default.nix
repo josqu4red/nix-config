@@ -2,6 +2,7 @@
 {
   imports = [
     inputs.disko.nixosModules.disko
+    inputs.self.nixosProfiles.server
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";

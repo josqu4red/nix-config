@@ -38,15 +38,15 @@
     aarch64-pkgs = legacyPackages."aarch64-linux";
 
     hosts = [
-      { hostname = "boson"; profile = "desktop"; users = [ "jamiez" ]; inherit pkgs; }
-      { hostname = "charm"; profile = "server"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
+      { hostname = "boson"; users = [ "jamiez" ]; inherit pkgs; }
+      { hostname = "charm"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
         extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; }
-      { hostname = "electron"; profile = "server"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
+      { hostname = "electron"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
         extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; }
-      { hostname = "neutrino"; profile = "laptop"; users = [ "jamiez" ]; inherit pkgs; }
-      { hostname = "quark"; profile = "laptop"; users = [ "jamiez" "sev" ]; inherit pkgs; }
-      { hostname = "tau"; profile = "server"; users = [ "jamiez" ]; inherit pkgs; }
-      { hostname = "nixlive"; profile = "base"; users = [ "jamiez" ]; inherit pkgs; }
+      { hostname = "neutrino"; users = [ "jamiez" ]; inherit pkgs; }
+      { hostname = "quark"; users = [ "jamiez" "sev" ]; inherit pkgs; }
+      { hostname = "tau"; users = [ "jamiez" ]; inherit pkgs; }
+      { hostname = "nixlive"; users = [ "jamiez" ]; inherit pkgs; }
     ];
   in {
     inherit legacyPackages;
@@ -55,6 +55,7 @@
 
     nixosConfigs = import ./configs/nixos;
     homeConfigs = import ./configs/home-manager;
+    nixosProfiles = import ./configs/profiles;
 
     nixosConfigurations = listToAttrs (map (h: nameValuePair h.hostname (mkSystem h)) hosts);
 

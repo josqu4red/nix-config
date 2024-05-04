@@ -2,6 +2,7 @@
 {
   imports = [
     inputs.nixos-hardware.nixosModules.system76
+    inputs.self.nixosProfiles.laptop
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";

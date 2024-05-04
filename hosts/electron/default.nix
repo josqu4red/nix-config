@@ -1,8 +1,11 @@
-{ lib, pkgs, ... }: let
+{ inputs, lib, pkgs, ... }: let
   defaultGw = "192.168.1.1";
   ipAddress = { address = "192.168.1.250"; prefixLength = 24; };
 in {
-  imports = [ ./sd-image.nix ];
+  imports = [
+    inputs.self.nixosProfiles.server
+    ./sd-image.nix
+  ];
 
   boot = {
     loader.grub.enable = false;

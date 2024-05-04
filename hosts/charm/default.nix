@@ -1,10 +1,13 @@
-{ lib, pkgs, pkgsCross, ... }: let
+{ inputs, lib, pkgs, pkgsCross, ... }: let
   defaultGw = "192.168.1.1";
   ipAddress = "192.168.1.240";
   nameservers = ["192.168.1.250"];
   domain = "in.amiez.io";
 in {
-  imports = [ ./sd-image.nix ];
+  imports = [
+    inputs.self.nixosProfiles.server
+    ./sd-image.nix
+  ];
 
   nixpkgs.hostPlatform = "aarch64-linux";
   hardware = {
