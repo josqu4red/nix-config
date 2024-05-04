@@ -11,8 +11,11 @@ in {
     {
       services.xserver = {
         enable = true;
-        xkb.layout = "us";
-        xkb.variant = "altgr-intl";
+        xkb = {
+          layout = "us";
+          variant = "altgr-intl";
+          options = "caps:swapescape";
+        };
       };
     }
     (mkIf cfg.gnome {
@@ -25,9 +28,9 @@ in {
       environment.systemPackages = [ pkgs.gnome.gnome-tweaks ];
     })
     (mkIf cfg.i3 {
+      services.displayManager.defaultSession = "none+i3";
       services.xserver = {
         displayManager.lightdm.enable = ! config.services.xserver.displayManager.gdm.enable;
-        displayManager.defaultSession = "none+i3";
         windowManager.i3.enable = true;
       };
       services.blueman.enable = true;
