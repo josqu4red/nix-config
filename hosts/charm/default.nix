@@ -1,6 +1,6 @@
 { inputs, lib, pkgs, pkgsCross, ... }: let
   defaultGw = "192.168.1.1";
-  ipAddress = "192.168.1.240";
+  ipAddress = { address = "192.168.1.240"; prefixLength = 24; };
   nameservers = ["192.168.1.250"];
   domain = "in.amiez.io";
 in {
@@ -39,10 +39,7 @@ in {
     inherit domain nameservers;
     dhcpcd.enable = false;
     defaultGateway.address = defaultGw;
-    interfaces.end0.ipv4.addresses = [{
-      address = ipAddress;
-      prefixLength = 24;
-    }];
+    interfaces.end0.ipv4.addresses = [ ipAddress ];
   };
 
   services.chrony.enable = true;
