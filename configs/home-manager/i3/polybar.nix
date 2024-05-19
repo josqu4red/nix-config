@@ -28,19 +28,23 @@ in {
       format = "<ramp>";
       ramp = [ "🌑" "🌒" "🌓" "🌔" "🌕" ];
     };
-    "module/battery" = {
+    "module/battery" = let
+      # MaterialSymbolsSharp ebdc ebd9 ebe0 ebdd ebe2 ebd4 ebd2 e1a4
+      ramp = map (font "3") [ "" "" "" "" "" "" "" ""];
+    in {
       type = "internal/battery";
       full-at = 98;
       format.charging = "<animation-charging><label-charging>";
       format.discharging = "<ramp-capacity><label-discharging>";
+      format.full = "<ramp-capacity><label-full>";
       label-charging = padPct;
       label-discharging = padPct;
+      label-full = padPct;
       ramp.capacity."0".foreground = colors.red;
-      # MaterialSymbolsSharp ebdc ebd9 ebe0 ebdd ebe2 ebd4 ebd2 e1a4
-      ramp.capacity.text = map (font "3") [ "" "" "" "" "" "" "" ""];
+      ramp.capacity.text = ramp;
       animation.charging.foreground = colors.green;
       animation.charging.framerate = 1000;
-      animation.charging.text = map (font "3") [ "" "" "" "" "" "" "" ""];
+      animation.charging.text = ramp;
     };
     "module/cpu" = {
       type = "internal/cpu";
