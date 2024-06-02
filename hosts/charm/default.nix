@@ -18,6 +18,7 @@ in {
   environment.persistence."/persist" = {
     hideMounts = true;
     directories = [
+      "/var/lib/monero"
       "/var/log"
     ];
     files = [
@@ -68,4 +69,6 @@ in {
   # flash_erase /dev/mtd0 0 0  (from mtdutils)
   # dd if=uboot-spi.img of=/dev/mtdblock0 bs=4K
   system.build.uboot = pkgs.ubootOrangePi5;
+
+  services.monero.enable = true;
 }
