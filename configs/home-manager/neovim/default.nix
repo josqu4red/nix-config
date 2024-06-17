@@ -23,7 +23,7 @@ let
     };
   };
   # TODO: haskell-language-server
-  extraPackages = with pkgs; [ fd go gopls nodePackages.pyright ripgrep nil rubyPackages.solargraph ];
+  extraPackages = with pkgs; [ fd go gopls pyright ripgrep nil rubyPackages.solargraph ];
 in {
   programs.neovim = {
     enable = true;
