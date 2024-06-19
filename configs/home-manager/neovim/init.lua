@@ -56,6 +56,8 @@ require('onedark').setup {
 }
 require('onedark').load()
 
+require('rainbow-delimiters.setup').setup()
+
 require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
@@ -66,9 +68,6 @@ require('nvim-treesitter.configs').setup {
   endwise = {
     enable = true,
   },
-  rainbow = {
-    enable = true,
-  }
 }
 
 require('treesitter-context').setup()
