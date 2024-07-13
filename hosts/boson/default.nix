@@ -17,6 +17,7 @@
   environment.persistence."/persist" = {
     hideMounts = true;
     directories = [
+      "/var/lib/docker"
       "/var/log"
     ];
     files = [
@@ -46,4 +47,6 @@
   virtualisation.libvirtd.enable = true;
   users.extraGroups.libvirtd.members = users;
   services.openssh.settings.PasswordAuthentication = true;
+
+  networking.firewall.enable = false; # for docker
 }
