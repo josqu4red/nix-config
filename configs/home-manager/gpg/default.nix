@@ -3,6 +3,9 @@
     enable = true;
     mutableKeys = true;
     mutableTrust = true;
+    scdaemonSettings = {
+      disable-ccid = true;
+    };
   };
 
   services.gpg-agent = {
