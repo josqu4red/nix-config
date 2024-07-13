@@ -34,6 +34,7 @@
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
     initrd.kernelModules = [ "dm-snapshot" "usb_storage" ];
     kernelModules = [ "kvm-intel" ];
+    tmp.cleanOnBoot = true;
   };
 
   custom = {

@@ -75,6 +75,14 @@
           mountpoint = "/home";
         };
       };
+      tmp = {
+        size = "100G";
+        content = {
+          type = "filesystem";
+          format = "ext4";
+          mountpoint = "/tmp";
+        };
+      };
     };
   };
 }
