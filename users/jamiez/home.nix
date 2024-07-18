@@ -6,7 +6,13 @@
     nix-direnv.enable = true;
   };
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+      "electron-27.3.11"
+    ];
+  };
+
   home.packages = with pkgs; [ logseq slack spotify tig ];
   home.sessionPath = [ "$HOME/.local/bin" ];
 
