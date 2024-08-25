@@ -49,4 +49,9 @@
   services.openssh.settings.PasswordAuthentication = true;
 
   networking.firewall.enable = false; # for docker
+
+  # Disable all suspend methods
+  systemd.targets = let
+    targets = [ "hibernate" "hybrid-sleep" "sleep" "suspend" ];
+  in builtins.listToAttrs (map (t: { name = t; value = { enable = false; }; }) targets);
 }
