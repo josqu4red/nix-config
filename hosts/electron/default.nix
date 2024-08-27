@@ -23,9 +23,4 @@ in {
   };
 
   environment.systemPackages = [ pkgs.wakeonlan ];
-
-  services.chrony = {
-    enable = true;
-    extraFlags = [ "-s" ];
-  };
 }

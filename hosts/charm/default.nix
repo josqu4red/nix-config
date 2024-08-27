@@ -64,8 +64,6 @@ in {
     interfaces.end0.ipv4.addresses = [ ipAddress ];
   };
 
-  services.chrony.enable = true;
-
   # flash_erase /dev/mtd0 0 0  (from mtdutils)
   # dd if=uboot-spi.img of=/dev/mtdblock0 bs=4K
   system.build.uboot = pkgs.ubootOrangePi5;
