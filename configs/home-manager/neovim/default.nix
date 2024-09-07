@@ -5,7 +5,7 @@ let
     [ p.c p.dockerfile p.go p.hcl p.json p.jsonnet p.lua p.nix p.python p.regex p.ruby p.vimdoc ]
   );
   # TODO: haskell-language-server
-  extraPackages = with pkgs; [ fd go gopls pyright ripgrep nil rubyPackages.solargraph ];
+  extraPackages = with pkgs; [ fd go gopls manix pyright ripgrep nil rubyPackages.solargraph ];
 in {
   programs.neovim = {
     enable = true;
@@ -31,6 +31,7 @@ in {
       telescope-nvim
       telescope-file-browser-nvim
       telescope-fzf-native-nvim
+      telescope-manix
       telescope-symbols-nvim
       telescope-undo-nvim
       # LSP

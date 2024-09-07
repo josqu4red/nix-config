@@ -65,5 +65,5 @@ let
 
 in
 pkgs.mkShell {
-  buildInputs = with pkgs; [ deadnix git-crypt manix nix-diff nix-index nix-prefetch-github nix-tree nurl nvd statix ] ++ scripts;
+  buildInputs = with pkgs; [ deadnix git-crypt nix-diff nix-index nix-prefetch-github nix-tree nurl nvd statix ] ++ scripts;
 }
