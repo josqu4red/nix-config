@@ -12,6 +12,7 @@
   nxmods.impermanence = {
     enable = true;
     directories = [
+      "/var/lib/acme"
       "/var/lib/monero"
     ];
   };
@@ -64,4 +65,12 @@
   system.build.uboot = pkgs.ubootOrangePi5;
 
   services.monero.enable = true;
+
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  services.nginx = {
+    enable = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+  };
 }

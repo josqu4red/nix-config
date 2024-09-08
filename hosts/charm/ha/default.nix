@@ -3,9 +3,24 @@
 
   networking.firewall.allowedUDPPorts = [ 1900 5353 ]; # ssdp mdns
 
+  services.nginx = {
+    virtualHosts."ha.amiez.xyz" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://ha";
+        proxyWebsockets = true;
+      };
+    };
+    virtualHosts."ha.in.amiez.xyz".locations."/" = {
+      proxyPass = "http://ha";
+      proxyWebsockets = true;
+    };
+    upstreams.ha.servers."127.0.0.1:8123" = {};
+  };
+
   services.home-assistant = {
     enable = true;
-    openFirewall = true;
     extraPackages = pypkgs: with pypkgs; [ gtts radios ];
     config = {
       homeassistant = {
@@ -17,7 +32,11 @@
         time_zone = "Europe/Paris";
       };
 
-      http = {};
+      http = {
+        use_x_forwarded_for = true;
+        server_host = "127.0.0.1";
+        trusted_proxies = [ "127.0.0.1" "::1" ];
+      };
 
       automation = "!include automations.yaml";
       frontend = { themes = "!include_dir_merge_named themes"; };
