@@ -23,6 +23,7 @@
       frontend = { themes = "!include_dir_merge_named themes"; };
       scene = "!include scenes.yaml";
       script = "!include scripts.yaml";
+      template = "!include templates.yaml";
       panel_custom = import ./shortcuts.nix {};
 
       backup = {};
