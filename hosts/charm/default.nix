@@ -17,6 +17,11 @@
     ];
   };
 
+  nxmods.backup = {
+    enable = true;
+    paths = [ "/var/lib/acme" ];
+  };
+
   hardware = {
     deviceTree = {
       name = "rockchip/rk3588s-orangepi-5.dtb";

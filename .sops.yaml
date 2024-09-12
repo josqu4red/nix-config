@@ -1,7 +1,10 @@
 keys:
 - &jamiez C32756FA98BAE710FC2616BB4BBCA7023906BA07
+- &host-charm 84e6e4d3e78937e083bd7d6e89fae1f236952b10
 creation_rules:
-- path_regex: secrets/[^/]+\.yaml$
+- path_regex: .*
+  pgp: *jamiez
+- path_regex: secrets/charm/.*$
   key_groups:
   - pgp:
-    - *jamiez
+    - *host-charm
