@@ -3,7 +3,7 @@ let
   inherit (builtins) listToAttrs readDir;
   inherit (lib) mapAttrs' mkOption nameValuePair types;
 
-  cfg = config.custom.zsh;
+  cfg = config.hmmods.zsh;
   hist-size = 1000000;
 
   zshFile = path:
@@ -13,7 +13,7 @@ let
   default-config = mapAttrs' (n: _: zshFile ./config/${n}) (readDir ./config);
   extra-config = listToAttrs (map zshFile cfg.extras);
 in {
-  options.custom.zsh = {
+  options.hmmods.zsh = {
     extras = mkOption {
       type = with types; listOf path;
       default = [];

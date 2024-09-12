@@ -2,7 +2,7 @@
 let
   inherit (lib) mkOption types;
 in {
-  options.custom = {
+  options.settings = {
     userShell = mkOption {
       type = types.package;
       default = pkgs.bash;

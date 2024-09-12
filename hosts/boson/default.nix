@@ -1,11 +1,11 @@
-{ inputs, lib, users, ... }:
+{ inputs, users, ... }:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
     inputs.disko.nixosModules.disko
     inputs.impermanence.nixosModules.impermanence
     inputs.self.nixosProfiles.workstation
-  ] ++ (with inputs.self.nixosConfigs; [ chrysalis docker ledger qFlipper ]);
+  ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
   hardware.enableRedistributableFirmware = true;
@@ -38,12 +38,6 @@
     tmp.cleanOnBoot = true;
   };
 
-  custom = {
-    desktop.i3 = true;
-    nix.cachix.enable = true;
-    docker.privilegedUsers = users;
-  };
-
   virtualisation.libvirtd.enable = true;
   users.extraGroups.libvirtd.members = users;
   services.openssh.settings.PasswordAuthentication = true;
@@ -54,4 +48,19 @@
   systemd.targets = let
     targets = [ "hibernate" "hybrid-sleep" "sleep" "suspend" ];
   in builtins.listToAttrs (map (t: { name = t; value = { enable = false; }; }) targets);
+
+  nxmods = {
+    cachix.enable = true;
+    chrysalis.enable = true;
+    ledger.enable = true;
+    qflipper.enable = true;
+    docker = {
+      enable = true;
+      privilegedUsers = users;
+    };
+    desktop = {
+      enable = true;
+      i3 = true;
+    };
+  };
 }

@@ -1,3 +1,3 @@
 { inputs, ... }: {
-  imports = with inputs.self.homeConfigs; [ i3 kube ];
+  imports = with inputs.self.homeModules; [ i3 kube ];
 }

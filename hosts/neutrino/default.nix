@@ -3,7 +3,7 @@
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
     inputs.self.nixosProfiles.laptop
-  ] ++ (with inputs.self.nixosConfigs; [ chrysalis docker kdeconnect ]);
+  ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
   hardware.enableRedistributableFirmware = true;
@@ -31,15 +31,23 @@
 
   swapDevices = [{ device = "/dev/disk/by-uuid/15bbd7ba-6112-4d09-ada0-eff69b3c9980"; }];
 
-  custom = {
-    desktop.gnome = true;
-    desktop.i3 = true;
-    docker.privilegedUsers = users;
-  };
-
   # Fixes
   # environment.sessionVariables = {
   #   QT_QPA_PLATFORM = "wayland";
   # };
   services.resolved.dnssec = "false"; # https://github.com/systemd/systemd/issues/10579
+
+  nxmods = {
+    chrysalis.enable = true;
+    kdeconnect.enable = true;
+    docker = {
+      enable = true;
+      privilegedUsers = users;
+    };
+    desktop = {
+      enable = true;
+      gnome = true;
+      i3 = true;
+    };
+  };
 }

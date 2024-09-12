@@ -1,9 +1,10 @@
 { config, lib, pkgs, ... }:
 let
-  inherit (lib) mkOption types;
-  cfg = config.custom.docker;
+  inherit (lib) mkEnableOption mkIf mkOption types;
+  cfg = config.nxmods.docker;
 in {
-  options.custom.docker = {
+  options.nxmods.docker = {
+    enable = mkEnableOption "Container runtime";
     privilegedUsers = mkOption {
       type = types.listOf types.str;
       default = [];
@@ -24,7 +25,7 @@ in {
         dockerCompat = true;
       };
     };
-  in {
+  in mkIf cfg.enable {
     virtualisation.${cfg.flavor} = {
       enable = true;
     } // settings.${cfg.flavor};

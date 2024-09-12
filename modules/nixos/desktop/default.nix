@@ -1,14 +1,15 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkMerge;
-  cfg = config.custom.desktop;
+  cfg = config.nxmods.desktop;
 in {
-  options.custom.desktop = {
+  options.nxmods.desktop = {
+    enable = mkEnableOption "desktop";
     gnome = mkEnableOption "gnome";
     i3 = mkEnableOption "i3";
   };
   config = mkMerge [
-    {
+    (mkIf cfg.enable {
       services.xserver = {
         enable = true;
         xkb = {
@@ -17,7 +18,7 @@ in {
           options = "caps:swapescape";
         };
       };
-    }
+    })
     (mkIf cfg.gnome {
       services.xserver = {
         displayManager.gdm.enable = true;

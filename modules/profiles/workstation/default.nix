@@ -1,6 +1,5 @@
-{ inputs, pkgs, users, ... }: {
-  imports = [ ../base ]
-    ++ (with inputs.self.nixosConfigs; [ desktop pipewire ]);
+{ pkgs, users, ... }: {
+  imports = [ ../base ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -19,7 +18,18 @@
   services.pcscd.enable = true;
   services.printing.enable = true;
 
-  environment.pathsToLink = [ "/share/zsh" ];
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
+  environment = {
+    pathsToLink = [ "/share/zsh" ];
+    systemPackages = with pkgs; [ pulseaudio pamixer ];
+  };
 
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -29,5 +39,5 @@
 
   console.useXkbConfig = true;
 
-  custom.userShell = pkgs.zsh;
+  settings.userShell = pkgs.zsh;
 }

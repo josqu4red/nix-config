@@ -1,5 +1,5 @@
 { inputs, pkgs, ... }: {
-  imports = with inputs.self.homeConfigs; [ base firefox git gpg kitty neovim pass tmux zsh ];
+  imports = with inputs.self.homeModules; [ base firefox git gpg kitty neovim pass tmux zsh ];
 
   programs.direnv = {
     enable = true;

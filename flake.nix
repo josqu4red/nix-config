@@ -52,10 +52,8 @@
     inherit legacyPackages;
 
     nixosModules = import ./modules/nixos;
-
-    nixosConfigs = import ./configs/nixos;
-    homeConfigs = import ./configs/home-manager;
-    nixosProfiles = import ./configs/profiles;
+    nixosProfiles = import ./modules/profiles;
+    homeModules = import ./modules/home-manager;
 
     nixosConfigurations = listToAttrs (map (h: nameValuePair h.hostname (mkSystem h)) hosts);
 

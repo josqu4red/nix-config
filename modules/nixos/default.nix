@@ -1,6 +1,15 @@
 let
   modules = {
+    cachix = import ./cachix;
+    chrysalis = import ./chrysalis;
+    desktop = import ./desktop;
+    docker = import ./docker;
     fake-hwclock = import ./fake-hwclock;
+    kdeconnect = import ./kdeconnect;
+    ledger = import ./ledger;
+    qFlipper = import ./qFlipper;
+    yubikey = import ./yubikey;
+    options = import ./options.nix;
   };
   default = { ... }: {
     imports = builtins.attrValues modules;
