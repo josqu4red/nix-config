@@ -75,5 +75,5 @@ in
 pkgs.mkShell {
   sopsPGPKeyDirs = [ ./.sops ];
   nativeBuildInputs = [ sops-import-keys-hook ];
-  buildInputs = with pkgs; [ deadnix git-crypt nix-diff nix-index nix-prefetch-github nix-tree nurl nvd sops statix ] ++ scripts;
+  buildInputs = with pkgs; [ backblaze-b2 deadnix git-crypt nix-diff nix-index nix-prefetch-github nix-tree nurl nvd sops statix ] ++ scripts;
 }
