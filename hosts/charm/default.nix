@@ -7,26 +7,16 @@ in {
   imports = [
     inputs.self.nixosProfiles.server
     inputs.disko.nixosModules.disko
-    inputs.impermanence.nixosModules.impermanence
 #    ./sd-image.nix
   ];
 
   nixpkgs.hostPlatform = "aarch64-linux";
 
   disko.devices = import ./disk-config.nix;
-  fileSystems."/persist".neededForBoot = true;
-  environment.persistence."/persist" = {
-    hideMounts = true;
+  nxmods.impermanence = {
+    enable = true;
     directories = [
       "/var/lib/monero"
-      "/var/log"
-    ];
-    files = [
-      "/etc/machine-id" # For journalctl
-      "/etc/ssh/ssh_host_ed25519_key"
-      "/etc/ssh/ssh_host_ed25519_key.pub"
-      "/etc/ssh/ssh_host_rsa_key"
-      "/etc/ssh/ssh_host_rsa_key.pub"
     ];
   };
 

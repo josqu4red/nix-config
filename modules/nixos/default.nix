@@ -5,6 +5,7 @@ let
     desktop = import ./desktop;
     docker = import ./docker;
     fake-hwclock = import ./fake-hwclock;
+    impermanence = import ./impermanence;
     kdeconnect = import ./kdeconnect;
     ledger = import ./ledger;
     qFlipper = import ./qFlipper;
