@@ -4,6 +4,7 @@
     inputs.disko.nixosModules.disko
     ./dhcp.nix
     ./dns.nix
+    ./ha
 #    ./sd-image.nix
   ];
 
