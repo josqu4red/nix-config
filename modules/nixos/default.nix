@@ -9,6 +9,8 @@ let
     impermanence = import ./impermanence;
     kdeconnect = import ./kdeconnect;
     ledger = import ./ledger;
+    microvm-guest = import ./microvm-guest;
+    microvm-host = import ./microvm-host;
     qFlipper = import ./qFlipper;
     yubikey = import ./yubikey;
     options = import ./options.nix;

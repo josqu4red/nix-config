@@ -19,12 +19,16 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    microvm = {
+      url = "github:josqu4red/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
   let
-    xlib = import ./lib { inherit inputs; };
-    inherit (xlib) forAllSystems mkSystem mkHome;
+    lib = import ./lib { inherit inputs; };
+    inherit (lib) forAllSystems mkSystem mkHome;
     inherit (builtins) listToAttrs;
     inherit (nixpkgs.lib) flatten nameValuePair;
 
@@ -53,7 +57,7 @@
       { hostname = "nixlive"; users = [ "jamiez" ]; inherit pkgs; }
     ];
   in {
-    inherit legacyPackages;
+    inherit legacyPackages lib;
 
     nixosModules = import ./modules/nixos;
     nixosProfiles = import ./modules/profiles;

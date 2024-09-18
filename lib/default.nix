@@ -3,17 +3,27 @@ let
   inherit (inputs) self home-manager impermanence nixpkgs sops-nix;
   inherit (self) outputs;
 
-  inherit (builtins) map pathExists;
+  inherit (builtins) concatStringsSep hashString map pathExists split substring;
   inherit (nixpkgs.lib) nixosSystem genAttrs optional;
+  inherit (nixpkgs.lib.lists) flatten remove;
   inherit (home-manager.lib) homeManagerConfiguration;
 
   ifExists = path:
     optional (pathExists path) path;
 
   stateVersion = "22.05";
-  systems = [ "aarch64-linux" "x86_64-linux" ];
+
+  forAllSystems = genAttrs [ "aarch64-linux" "x86_64-linux" ];
+
+  machineId = hostname: hashString "md5" hostname;
+
+  macAddress = hostname: let
+    idEnd = substring 26 6 (machineId hostname);
+    firstBytes = "02:de:ad";
+    lastBytes = concatStringsSep ":" (remove "" (flatten (split "([[:alnum:]]{2})" idEnd)));
+  in concatStringsSep ":" [firstBytes lastBytes];
 in {
-  forAllSystems = genAttrs systems;
+  inherit forAllSystems machineId macAddress;
 
   mkSystem =
     { hostname
@@ -23,7 +33,7 @@ in {
     }:
     nixosSystem {
       inherit pkgs;
-      specialArgs = { inherit inputs outputs hostname stateVersion users; } // extraArgs;
+      specialArgs = { inherit self inputs outputs hostname stateVersion users; } // extraArgs;
       modules = [ self.nixosModules.default
                   impermanence.nixosModules.impermanence
                   sops-nix.nixosModules.sops ]
