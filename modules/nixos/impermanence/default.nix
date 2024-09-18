@@ -1,8 +1,10 @@
-{ config, lib, ... }:
+{ self, config, lib, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkOption types;
   cfg = config.nxmods.impermanence;
 in {
+  imports = [ self.inputs.impermanence.nixosModules.impermanence ];
+
   options.nxmods.impermanence = {
     enable = mkEnableOption "Impermanence";
     root = mkOption {

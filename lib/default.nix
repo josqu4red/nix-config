@@ -1,7 +1,6 @@
 { inputs, ... }:
 let
-  inherit (inputs) self home-manager impermanence nixpkgs sops-nix;
-  inherit (self) outputs;
+  inherit (inputs) self home-manager nixpkgs sops-nix;
 
   inherit (builtins) concatStringsSep hashString map pathExists split substring;
   inherit (nixpkgs.lib) nixosSystem genAttrs optional;
@@ -33,9 +32,8 @@ in {
     }:
     nixosSystem {
       inherit pkgs;
-      specialArgs = { inherit self inputs outputs hostname stateVersion users; } // extraArgs;
+      specialArgs = { inherit self inputs hostname stateVersion users; } // extraArgs;
       modules = [ self.nixosModules.default
-                  impermanence.nixosModules.impermanence
                   sops-nix.nixosModules.sops ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) users;
