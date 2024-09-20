@@ -8,7 +8,7 @@
 
   nixpkgs.hostPlatform = "x86_64-linux";
   hardware.enableRedistributableFirmware = true;
-  hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.open = true;
 
   disko.devices = import ./disk-config.nix;
   nxmods.impermanence = {
