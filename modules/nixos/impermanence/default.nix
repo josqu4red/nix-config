@@ -27,6 +27,8 @@ in {
   };
   config = let
     directories = [
+      "/var/lib/nixos"
+      "/var/lib/systemd"
       "/var/log"
     ] ++ cfg.directories;
     files = [
