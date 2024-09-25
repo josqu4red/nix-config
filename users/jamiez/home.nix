@@ -6,11 +6,18 @@
     nix-direnv.enable = true;
   };
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    permittedInsecurePackages = [
-      "electron-27.3.11"
-    ];
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      permittedInsecurePackages = [
+        "electron-27.3.11"
+      ];
+    };
+    overlays = [( final: prev: {
+      logseq = prev.logseq.override {
+        electron = prev.electron_27;
+      };
+    })];
   };
 
   home.packages = with pkgs; [ logseq slack spotify tig git-crypt ];
