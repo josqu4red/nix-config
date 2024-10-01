@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (lib) mkEnableOption mkForce mkIf mkOption types;
   cfg = config.nxmods.backup;
 in {
   options.nxmods.backup = {
@@ -10,6 +10,8 @@ in {
     };
   };
   config = mkIf cfg.enable {
+    nxmods.sops.enable = mkForce true;
+
     sops.secrets = {
       "backup/repo" = {};
       "backup/env" = {};

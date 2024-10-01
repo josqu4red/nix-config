@@ -12,6 +12,7 @@ let
     microvm-guest = import ./microvm-guest;
     microvm-host = import ./microvm-host;
     qFlipper = import ./qFlipper;
+    sops = import ./sops;
     yubikey = import ./yubikey;
     options = import ./options.nix;
   };
