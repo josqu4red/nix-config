@@ -28,9 +28,8 @@
   outputs = { self, nixpkgs, ... }@inputs:
   let
     lib = import ./lib { inherit inputs; };
-    inherit (lib) forAllSystems mkSystem mkHome;
-    inherit (builtins) listToAttrs;
-    inherit (nixpkgs.lib) flatten nameValuePair;
+    inherit (import ./secrets/build/facts.nix {}) facts;
+    inherit (lib) forAllSystems buildHomeConfigs buildNixosConfigs;
 
     local-pkgs = final: _prev: import ./pkgs { pkgs = final; };
 
@@ -41,37 +40,15 @@
         overlays = [ local-pkgs ];
       }
     );
-
-    pkgs = legacyPackages."x86_64-linux";
-    aarch64-pkgs = legacyPackages."aarch64-linux";
-
-    hosts = [
-      { hostname = "boson"; users = [ "jamiez" ]; inherit pkgs; }
-      { hostname = "charm"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
-        extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; }
-      { hostname = "electron"; users = [ "jamiez" ]; pkgs = aarch64-pkgs;
-        extraArgs = { pkgsCross = pkgs.pkgsCross.aarch64-multiplatform; }; }
-      { hostname = "neutrino"; users = [ "jamiez" ]; inherit pkgs; }
-      { hostname = "quark"; users = [ "jamiez" "sev" ]; inherit pkgs; }
-      { hostname = "tau"; users = [ "jamiez" ]; inherit pkgs; }
-      { hostname = "nixlive"; users = [ "jamiez" ]; inherit pkgs; }
-    ];
   in {
-    inherit legacyPackages lib;
+    inherit facts legacyPackages lib;
 
+    nixosConfigurations = buildNixosConfigs facts;
     nixosModules = import ./modules/nixos;
     nixosProfiles = import ./modules/profiles;
+
+    homeConfigurations = buildHomeConfigs facts;
     homeModules = import ./modules/home-manager;
-
-    nixosConfigurations = listToAttrs (map (h: nameValuePair h.hostname (mkSystem h)) hosts);
-
-    homeConfigurations = listToAttrs (flatten(
-      map (host:
-        map (username:
-          nameValuePair "${username}@${host.hostname}" (mkHome { inherit (host) hostname; inherit username pkgs; })
-        ) host.users
-      ) hosts
-    ));
 
     devShells = forAllSystems (system: {
       default = import ./shell.nix { pkgs = legacyPackages.${system};
