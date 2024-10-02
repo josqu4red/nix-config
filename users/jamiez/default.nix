@@ -1,5 +1,5 @@
 { config, hostname, ... }: let
-  secrets = import ./secrets;
+  secrets = import ../../secrets/build/jamiez.nix;
 in {
   programs.zsh.enable = builtins.match "^zsh-.*" config.settings.userShell.name != null;
   users.users.jamiez = {
