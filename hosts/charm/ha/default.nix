@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }: {
+{ self, lib, pkgs, ... }: {
   environment.persistence."/persist".directories = [ "/var/lib/hass" ];
 
   networking.firewall.allowedUDPPorts = [ 1900 5353 ]; # ssdp mdns
@@ -19,15 +19,23 @@
     upstreams.ha.servers."127.0.0.1:8123" = {};
   };
 
+  nxmods.sops.enable = true;
+  sops.secrets.ha-secrets = {
+    sopsFile = self.outPath + "/secrets/charm/ha.yaml";
+    owner = "hass";
+    path = "/var/lib/hass/secrets.yaml";
+    restartUnits = [ "home-assistant.service" ];
+  };
+
   services.home-assistant = {
     enable = true;
     extraPackages = pypkgs: with pypkgs; [ gtts radios ];
     config = {
       homeassistant = {
         name = "Home";
-        #latitude = "!secret latitude";
-        #longitude = "!secret longitude";
-        #elevation = "!secret elevation";
+        latitude = "!secret latitude";
+        longitude = "!secret longitude";
+        elevation = "!secret elevation";
         unit_system = "metric";
         time_zone = "Europe/Paris";
       };
