@@ -5,8 +5,6 @@
 #    ./sd-image.nix
   ];
 
-  nixpkgs.hostPlatform = "aarch64-linux";
-
   disko.devices = import ./disk-config.nix;
   nxmods.impermanence = {
     enable = true;

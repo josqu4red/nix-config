@@ -1,4 +1,4 @@
-{ inputs, users, ... }:
+{ inputs, hostFacts, ... }:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
@@ -6,7 +6,6 @@
     inputs.self.nixosProfiles.workstation
   ];
 
-  nixpkgs.hostPlatform = "x86_64-linux";
   hardware.enableRedistributableFirmware = true;
   hardware.nvidia.open = true;
 
@@ -28,7 +27,7 @@
   };
 
   virtualisation.libvirtd.enable = true;
-  users.extraGroups.libvirtd.members = users;
+  users.extraGroups.libvirtd.members = hostFacts.users;
   services.openssh.settings.PasswordAuthentication = true;
 
   networking.firewall.enable = false; # for docker
@@ -45,7 +44,7 @@
     qflipper.enable = true;
     docker = {
       enable = true;
-      privilegedUsers = users;
+      privilegedUsers = hostFacts.users;
     };
     desktop = {
       enable = true;

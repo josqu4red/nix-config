@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   inherit (lib) mkOption types;
 in {
@@ -11,23 +11,46 @@ in {
     };
   };
   options.facts = with types; {
-    defaultSystem = mkOption {
-      description = "Host platform";
-      type = str;
-    };
-    defaultUsers = mkOption {
-      description = "Host users";
-      type = listOf str;
+    defaults = mkOption {
+      description = "Host defaults";
+      default = {};
+      type = submodule {
+        options = {
+          stateVersion = mkOption {
+            description = "State version";
+            type = str;
+          };
+          system = mkOption {
+            description = "Host platform";
+            type = str;
+          };
+          users = mkOption {
+            description = "Host users";
+            default = [];
+            type = listOf str;
+          };
+        };
+      };
     };
     hosts = mkOption {
       description = "List of hosts";
       default = {};
       type = attrsOf (submodule {
         options = {
+          stateVersion = mkOption {
+            description = "State version";
+            default = config.facts.defaultStateVersion;
+            type = str;
+          };
           system = mkOption {
             description = "Host platform";
-            default = "x86_64-linux";
+            default = config.facts.defaultSystem;
             type = str;
+          };
+          users = mkOption {
+            description = "Host users";
+            default = config.facts.defaultUsers;
+            type = listOf str;
           };
           ip = mkOption {
             description = "Host IPv4 address";
@@ -38,11 +61,6 @@ in {
             description = "Host MAC address";
             default = "";
             type = str;
-          };
-          users = mkOption {
-            description = "Host users";
-            default = [];
-            type = listOf str;
           };
           vms = mkOption {
             description = "Host microvms";

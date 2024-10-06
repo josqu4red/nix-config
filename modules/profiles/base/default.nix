@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, hostname, stateVersion, ... }: let
+{ inputs, pkgs, lib, hostname, hostFacts, ... }: let
   defaultPackages = with pkgs; [
     bc
     binutils
@@ -24,7 +24,9 @@
   ];
   nixpkgsPath = "/etc/nixpkgs/channels/nixpkgs";
 in {
-  system.stateVersion = stateVersion;
+  system.stateVersion = hostFacts.stateVersion;
+  nixpkgs.hostPlatform = hostFacts.system;
+
   boot.swraid.enable = lib.mkDefault false; # true for stateVersion < 23.11
 
   networking.hostName = hostname;

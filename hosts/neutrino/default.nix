@@ -1,11 +1,10 @@
-{ inputs, users, ... }:
+{ inputs, hostFacts, ... }:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
     inputs.self.nixosProfiles.laptop
   ];
 
-  nixpkgs.hostPlatform = "x86_64-linux";
   hardware.enableRedistributableFirmware = true;
 
   boot = {
@@ -42,7 +41,7 @@
     kdeconnect.enable = true;
     docker = {
       enable = true;
-      privilegedUsers = users;
+      privilegedUsers = hostFacts.users;
     };
     desktop = {
       enable = true;
