@@ -31,5 +31,6 @@ in {
     } // settings.${cfg.flavor};
     environment.systemPackages = [ pkgs."${cfg.flavor}-compose" ];
     users.extraGroups.${cfg.flavor}.members = cfg.privilegedUsers;
+    networking.firewall.checkReversePath = false; # https://github.com/NixOS/nixpkgs/issues/298165
   };
 }

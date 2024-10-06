@@ -30,8 +30,6 @@
   users.extraGroups.libvirtd.members = hostFacts.users;
   services.openssh.settings.PasswordAuthentication = true;
 
-  networking.firewall.enable = false; # for docker
-
   # Disable all suspend methods
   systemd.targets = let
     targets = [ "hibernate" "hybrid-sleep" "sleep" "suspend" ];
