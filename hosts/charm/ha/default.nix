@@ -1,7 +1,42 @@
-{ self, lib, pkgs, ... }: {
-  environment.persistence."/persist".directories = [ "/var/lib/hass" ];
+{ self, config, pkgs, ... }: let
+  homeDir = "/var/lib/hass";
+in {
+  nxmods = {
+    impermanence.directories = [ homeDir ];
+    sops.enable = true;
+  };
 
   networking.firewall.allowedUDPPorts = [ 1900 5353 ]; # ssdp mdns
+
+  sops.secrets = let
+    sopsFile = self.outPath + "/secrets/charm/ha.yaml";
+  in {
+    "ha/secrets" = {
+      inherit sopsFile;
+      owner = "hass";
+      path = "/var/lib/hass/secrets.yaml";
+      restartUnits = [ "home-assistant.service" ];
+    };
+    "ha/backup/repo" = { inherit sopsFile; };
+    "ha/backup/env" = { inherit sopsFile; };
+    "ha/backup/password" = { inherit sopsFile; };
+  };
+
+  services.restic.backups.ha = {
+    initialize = true;
+    repositoryFile = config.sops.secrets."ha/backup/repo".path;
+    environmentFile = config.sops.secrets."ha/backup/env".path;
+    passwordFile = config.sops.secrets."ha/backup/password".path;
+    paths = [ homeDir ];
+    timerConfig = {
+      OnCalendar = "hourly";
+      Persistent = true;
+    };
+    pruneOpts = [
+      "--keep-hourly 3"
+      "--keep-daily 14"
+    ];
+  };
 
   services.nginx = {
     virtualHosts."ha.amiez.xyz" = {
@@ -17,14 +52,6 @@
       proxyWebsockets = true;
     };
     upstreams.ha.servers."127.0.0.1:8123" = {};
-  };
-
-  nxmods.sops.enable = true;
-  sops.secrets.ha-secrets = {
-    sopsFile = self.outPath + "/secrets/charm/ha.yaml";
-    owner = "hass";
-    path = "/var/lib/hass/secrets.yaml";
-    restartUnits = [ "home-assistant.service" ];
   };
 
   services.home-assistant = {
@@ -53,7 +80,6 @@
       template = "!include templates.yaml";
       panel_custom = import ./shortcuts.nix {};
 
-      backup = {};
       bluetooth = {};
       config = {};
       dhcp = {};
