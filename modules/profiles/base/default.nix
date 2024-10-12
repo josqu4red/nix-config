@@ -1,4 +1,5 @@
 { inputs, pkgs, lib, hostname, hostFacts, ... }: let
+  secrets = import ../../../secrets/build;
   defaultPackages = with pkgs; [
     bc
     binutils
@@ -44,6 +45,7 @@ in {
     LC_TIME = "fr_FR.utf8";
   };
 
+  users.users.root.hashedPassword = secrets.root-password;
   security.sudo.wheelNeedsPassword = false;
 
   programs.nano.enable = false;
