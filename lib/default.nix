@@ -9,6 +9,8 @@ let
   inherit (nixpkgs.lib.attrsets) concatMapAttrs genAttrs listToAttrs mapAttrs;
   inherit (home-manager.lib) homeManagerConfiguration;
 
+  secrets = import ../secrets/build;
+
   ifExists = path:
     optional (pathExists path) path;
 
@@ -32,7 +34,7 @@ let
     extraArgs = { inherit hostFacts; } // optionalAttrs (hostFacts.system == "aarch64-linux") { inherit pkgsCross; };
   in nixosSystem {
       inherit pkgs;
-      specialArgs = { inherit self inputs hostname; inherit (hostFacts) users; } // extraArgs;
+      specialArgs = { inherit self inputs hostname secrets; inherit (hostFacts) users; } // extraArgs;
       modules = [ self.nixosModules.default ../secrets/build/facts.nix ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) hostFacts.users;

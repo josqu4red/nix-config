@@ -1,5 +1,4 @@
-{ inputs, pkgs, lib, hostname, hostFacts, ... }: let
-  secrets = import ../../../secrets/build;
+{ inputs, pkgs, lib, hostname, hostFacts, secrets, ... }: let
   defaultPackages = with pkgs; [
     bc
     binutils
