@@ -1,4 +1,4 @@
-{ ... }: {
+{ secrets, ... }: {
   imports = [
     ../base
   ];
@@ -20,4 +20,8 @@
     sudo = "sudo ";
   };
 
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = secrets.acme-email;
+  };
 }
