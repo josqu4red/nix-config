@@ -13,6 +13,7 @@
     lsof
     ncdu
     nettools
+    nvd
     rsync
     screen
     socat
