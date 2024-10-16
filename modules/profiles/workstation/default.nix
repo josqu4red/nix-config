@@ -1,4 +1,4 @@
-{ pkgs, users, ... }: {
+{ pkgs, hostFacts, ... }: {
   imports = [ ../base ];
 
   boot.loader.systemd-boot.enable = true;
@@ -12,7 +12,7 @@
   networking.networkmanager.enable = true;
   networking.resolvconf.enable = false;
   services.resolved.enable = true;
-  users.extraGroups.networkmanager.members = users;
+  users.extraGroups.networkmanager.members = hostFacts.users;
 
   services.fwupd.enable = true;
   services.pcscd.enable = true;

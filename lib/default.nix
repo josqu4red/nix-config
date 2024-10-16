@@ -34,7 +34,7 @@ let
     extraArgs = { inherit hostFacts; } // optionalAttrs (hostFacts.system == "aarch64-linux") { inherit pkgsCross; };
   in nixosSystem {
       inherit pkgs;
-      specialArgs = { inherit self inputs hostname secrets; inherit (hostFacts) users; } // extraArgs;
+      specialArgs = { inherit self inputs hostname secrets; } // extraArgs;
       modules = [ self.nixosModules.default ../secrets/build/facts.nix ]
                 ++ ifExists ../hosts/${hostname}
                 ++ map (u: ../users/${u}) hostFacts.users;
