@@ -55,8 +55,11 @@
                                      sops-import-keys-hook = inputs.sops-nix.packages.${system}.sops-import-keys-hook; };
     });
 
-    packages.x86_64-linux = {
+    packages = forAllSystems (system: let
+        pkgs = legacyPackages.${system};
+    in {
       nixlive = self.nixosConfigurations.nixlive.config.system.build.isoImage;
-    };
+      doc = pkgs.callPackage ./pkgs/doc.nix {};
+    });
   };
 }

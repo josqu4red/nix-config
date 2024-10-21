@@ -17,15 +17,17 @@ in {
       type = submodule {
         options = {
           stateVersion = mkOption {
-            description = "State version";
+            description = "Default stateVersion";
+            default = "22.05";
             type = str;
           };
           system = mkOption {
-            description = "Host platform";
+            description = "Default host platform";
+            default = "x86_64-linux";
             type = str;
           };
           users = mkOption {
-            description = "Host users";
+            description = "Default host users";
             default = [];
             type = listOf str;
           };
@@ -39,17 +41,17 @@ in {
         options = {
           stateVersion = mkOption {
             description = "State version";
-            default = config.facts.defaultStateVersion;
+            default = config.facts.defaults.stateVersion;
             type = str;
           };
           system = mkOption {
             description = "Host platform";
-            default = config.facts.defaultSystem;
+            default = config.facts.defaults.system;
             type = str;
           };
           users = mkOption {
             description = "Host users";
-            default = config.facts.defaultUsers;
+            default = config.facts.defaults.users;
             type = listOf str;
           };
           ip = mkOption {
