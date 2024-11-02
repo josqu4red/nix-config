@@ -1,16 +1,33 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkOption types;
-in {
+
+  prefixSubmodule = name: with types; mkOption {
+    description = "${name} prefix";
+    default = null;
+    type = submodule {
+      options = {
+        address = mkOption {
+          description = "${name} prefix address";
+          type = str;
+        };
+        length = mkOption {
+          description = "${name} prefix length";
+          type = int;
+        };
+      };
+    };
+  };
+in with types; {
   options.settings = {
     userShell = mkOption {
-      type = types.package;
+      type = package;
       default = pkgs.bash;
       example = pkgs.zsh;
       description = "Default user shell";
     };
   };
-  options.facts = with types; {
+  options.facts = {
     defaults = mkOption {
       description = "Host defaults";
       default = {};
@@ -69,6 +86,11 @@ in {
             default = [];
             type = listOf str;
           };
+          netIf = mkOption {
+            description = "Host main network interface";
+            default = "";
+            type = str;
+          };
         };
       });
     };
@@ -87,23 +109,8 @@ in {
             default = null;
             type = str;
           };
-          prefix = mkOption {
-            description = "Home prefix";
-            default = null;
-            type = submodule {
-              options = {
-                address = mkOption {
-                  description = "Home prefix address";
-                  type = str;
-                };
-                length = mkOption {
-                  description = "Home prefix length";
-                  default = 24;
-                  type = int;
-                };
-              };
-            };
-          };
+          prefix = prefixSubmodule "Home";
+          dhcp = prefixSubmodule "Dynamic";
         };
       };
     };

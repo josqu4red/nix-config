@@ -122,6 +122,59 @@ string
 
 
 
+## facts\.homeNet\.dhcp
+
+
+
+Dynamic prefix
+
+
+
+*Type:*
+submodule
+
+
+
+*Default:*
+` null `
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.homeNet\.dhcp\.address
+
+
+
+Dynamic prefix address
+
+
+
+*Type:*
+string
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.homeNet\.dhcp\.length
+
+
+
+Dynamic prefix length
+
+
+
+*Type:*
+signed integer
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
 ## facts\.homeNet\.domain
 
 
@@ -191,11 +244,6 @@ Home prefix length
 *Type:*
 signed integer
 
-
-
-*Default:*
-` 24 `
-
 *Declared by:*
  - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
 
@@ -248,6 +296,27 @@ string
 
 
 Host MAC address
+
+
+
+*Type:*
+string
+
+
+
+*Default:*
+` "" `
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.hosts\.\<name>\.netIf
+
+
+
+Host main network interface
 
 
 
