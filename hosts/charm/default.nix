@@ -2,6 +2,7 @@
   imports = [
     inputs.self.nixosProfiles.server
     inputs.disko.nixosModules.disko
+    ./dns.nix
 #    ./sd-image.nix
   ];
 
