@@ -1,7 +1,8 @@
-{ inputs, lib, pkgs, pkgsCross, ... }: {
+{ inputs, lib, config, hostFacts, pkgs, pkgsCross, ... }: {
   imports = [
     inputs.self.nixosProfiles.server
     inputs.disko.nixosModules.disko
+    ./dhcp.nix
     ./dns.nix
 #    ./sd-image.nix
   ];
@@ -41,8 +42,21 @@
     supportedFilesystems = lib.mkForce [ "vfat" "fat32" "exfat" "ext4" ];
   };
 
-  networking.useNetworkd = true;
-  systemd.network.enable = true;
+  networking = {
+    useNetworkd = true;
+    nameservers = [ "127.0.0.1" ];
+  };
+  systemd.network = let
+    inherit (config.facts) homeNet;
+  in {
+    enable = true;
+    networks."10-lan" = {
+      matchConfig.Name = hostFacts.netIf;
+      address = [ "${hostFacts.ip}/${builtins.toString homeNet.prefix.length}" ];
+      routes = [{ Gateway = homeNet.defaultGw; }];
+      linkConfig.RequiredForOnline = "routable";
+    };
+  };
 
   # flash_erase /dev/mtd0 0 0  (from mtdutils)
   # dd if=uboot-spi.img of=/dev/mtdblock0 bs=4K
