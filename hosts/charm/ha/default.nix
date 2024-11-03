@@ -1,4 +1,4 @@
-{ self, config, pkgs, ... }: let
+{ self, config, lib, pkgs, ... }: let
   homeDir = "/var/lib/hass";
 in {
   nxmods = {
@@ -54,9 +54,18 @@ in {
     upstreams.ha.servers."127.0.0.1:8123" = {};
   };
 
-  services.home-assistant = {
+  services.home-assistant = let
+    inherit (lib) listToAttrs nameValuePair;
+
+    simpleIntegrations = [ "bluetooth" "config" "dhcp" "energy" "history" "homeassistant_alerts" "isal" "logbook"
+                           "media_source" "mobile_app" "my" "ssdp" "stream" "sun" "usb" "zeroconf" "zha" ];
+    extraComponents = [ "androidtv_remote" "cast" "dlna_dmr" "dlna_dms" "esphome" "freebox" "group"
+                        "meteo_france" "mqtt" "sonos" "update" "upnp" ];
+    customComponents = with pkgs; [ esprtsha ];
+  in {
     enable = true;
     extraPackages = pypkgs: with pypkgs; [ gtts radios ];
+    inherit customComponents extraComponents;
     config = {
       homeassistant = {
         name = "Home";
@@ -79,39 +88,6 @@ in {
       script = "!include scripts.yaml";
       template = "!include templates.yaml";
       panel_custom = import ./shortcuts.nix {};
-
-      bluetooth = {};
-      config = {};
-      dhcp = {};
-      energy = {};
-      history = {};
-      homeassistant_alerts = {};
-      isal = {};
-      logbook = {};
-      media_source = {};
-      mobile_app = {};
-      my = {};
-      ssdp = {};
-      stream = {};
-      sun = {};
-      usb = {};
-      zeroconf = {};
-      zha = {};
-    };
-    extraComponents = [
-      "androidtv_remote"
-      "cast"
-      "dlna_dmr"
-      "dlna_dms"
-      "esphome"
-      "freebox"
-      "group"
-      "meteo_france"
-      "mqtt"
-      "sonos"
-      "update"
-      "upnp"
-    ];
-    customComponents = with pkgs; [ esprtsha ];
+    } // listToAttrs (map (x: nameValuePair x {}) simpleIntegrations);
   };
 }
