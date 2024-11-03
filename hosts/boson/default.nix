@@ -26,15 +26,6 @@
     tmp.cleanOnBoot = true;
   };
 
-  virtualisation.libvirtd.enable = true;
-  users.extraGroups.libvirtd.members = hostFacts.users;
-  services.openssh.settings.PasswordAuthentication = true;
-
-  # Disable all suspend methods
-  systemd.targets = let
-    targets = [ "hibernate" "hybrid-sleep" "sleep" "suspend" ];
-  in builtins.listToAttrs (map (t: { name = t; value = { enable = false; }; }) targets);
-
   nxmods = {
     cachix.enable = true;
     chrysalis.enable = true;
