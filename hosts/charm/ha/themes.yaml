@@ -1,0 +1,10 @@
+custom:
+  energy-grid-consumption-color-0: "#000088"  # HC Bleu
+  energy-grid-consumption-color-1: "#0000f0"  # HP Bleu
+  energy-grid-consumption-color-2: "#888888"  # HC Blanc
+  energy-grid-consumption-color-3: "#f0f0f0"  # HP Blanc
+  energy-grid-consumption-color-4: "#880000"  # HC Rouge
+  energy-grid-consumption-color-5: "#f00000"  # HP Rouge
+  modes:
+    light: {}
+    dark: {}

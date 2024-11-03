@@ -55,7 +55,8 @@ in {
   };
 
   services.home-assistant = let
-    inherit (lib) listToAttrs nameValuePair;
+    inherit (lib) listToAttrs mergeAttrsList nameValuePair;
+    mkInclude = type: name: { "${name} ui" = "!include ${name}s.yaml"; "${name} manual" = "!include_dir_${type} ${./${name}s}"; };
 
     simpleIntegrations = [ "bluetooth" "config" "dhcp" "energy" "history" "homeassistant_alerts" "isal" "logbook"
                            "media_source" "mobile_app" "my" "ssdp" "stream" "sun" "usb" "zeroconf" "zha" ];
@@ -83,12 +84,12 @@ in {
         trusted_proxies = [ "127.0.0.1" "::1" ];
       };
 
-      automation = "!include automations.yaml";
-      frontend = { themes = "!include_dir_merge_named themes"; };
+      frontend = { themes = "!include ${./themes.yaml}"; };
       scene = "!include scenes.yaml";
       script = "!include scripts.yaml";
       template = "!include templates.yaml";
       panel_custom = import ./shortcuts.nix {};
-    } // listToAttrs (map (x: nameValuePair x {}) simpleIntegrations);
+    } // listToAttrs (map (x: nameValuePair x {}) simpleIntegrations)
+      // mergeAttrsList [ (mkInclude "list" "automation") ];
   };
 }

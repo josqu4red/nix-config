@@ -1,0 +1,9 @@
+id: set_theme_on_start
+alias: "01 - Set theme on start"
+trigger:
+- platform: homeassistant
+  event: start
+action:
+- service: frontend.set_theme
+  data:
+    name: custom
