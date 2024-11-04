@@ -25,6 +25,7 @@ in {
     extraOptions = ''
       allow-recursion { cachenetworks; };
     '';
+    forwarders = [];
     zones = [{
       name = zone;
       master = true;
