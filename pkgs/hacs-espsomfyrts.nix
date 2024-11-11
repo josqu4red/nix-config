@@ -19,7 +19,7 @@ in buildHomeAssistantComponent {
   propagatedBuildInputs = with python3.pkgs; [ aiofiles websocket-client ];
 
   meta = with lib; {
-    changelog = "https://github.com/rstrouse/ESPSomfy-RTS-HA/releases/tag/${version}";
+    changelog = "https://github.com/rstrouse/ESPSomfy-RTS-HA/releases/tag/v${version}";
     description = "Control your somfy shades in Home Assistant";
     homepage = "https://github.com/rstrouse/ESPSomfy-RTS-HA";
     license = licenses.unlicense;

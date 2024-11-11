@@ -61,7 +61,7 @@ in {
                            "media_source" "mobile_app" "my" "ssdp" "stream" "sun" "usb" "zeroconf" "zha" ];
     extraComponents = [ "androidtv_remote" "cast" "dlna_dmr" "dlna_dms" "esphome" "freebox" "group"
                         "meteo_france" "mqtt" "sonos" "update" "upnp" ];
-    customComponents = with pkgs; [ esprtsha ];
+    customComponents = with pkgs; [ hacs-espsomfyrts hacs-rtetempo ];
   in {
     enable = true;
     extraPackages = pypkgs: with pypkgs; [ gtts radios ];

@@ -5,5 +5,6 @@
   gws = pkgs.callPackage ./gws.nix {};
   sshrc = pkgs.callPackage ./sshrc.nix {};
   yk-scripts = pkgs.callPackage ./yk-scripts.nix {};
-  esprtsha = pkgs.callPackage ./esprtsha.nix {};
+  hacs-espsomfyrts = pkgs.callPackage ./hacs-espsomfyrts.nix {};
+  hacs-rtetempo = pkgs.callPackage ./hacs-rtetempo.nix {};
 }
