@@ -68,6 +68,7 @@ in {
   nix = {
     settings = {
       allowed-users = [ "@wheel" ];
+      trusted-users = [ "@wheel" ]; # TODO: figure out signing
       experimental-features = [ "nix-command" "flakes" ];
       cores = 0;
       auto-optimise-store = true;

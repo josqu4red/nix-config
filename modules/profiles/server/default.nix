@@ -7,8 +7,6 @@
 
   services.timesyncd.enable = true;
 
-  nix.settings.trusted-users = [ "@wheel" ]; # TODO: figure out signing
-
   programs.bash.shellAliases = {
     l = "ls -lh";
     la = "ls -Alh";
