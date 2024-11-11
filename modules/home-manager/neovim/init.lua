@@ -208,10 +208,14 @@ cmp.setup.cmdline(':', {
 local on_attach = function(client, bufnr)
   local attach_opts = { silent = true, buffer = bufnr }
   map.set('n', 'gd', vim.lsp.buf.definition, attach_opts)
+  map.set('n', 'gD', vim.lsp.buf.declaration, attach_opts)
+  map.set('n', 'gF', vim.lsp.buf.format, attach_opts)
   map.set('n', 'gi', vim.lsp.buf.implementation, attach_opts)
-  map.set('n', '<leader>D', vim.lsp.buf.type_definition, attach_opts)
+  map.set('n', 'gr', vim.lsp.buf.references, attach_opts)
+  map.set('n', 'gt', vim.lsp.buf.type_definition, attach_opts)
   map.set('n', '<space>', vim.lsp.buf.hover, attach_opts)
   map.set('n', '<space>s', vim.lsp.buf.signature_help, attach_opts)
+  map.set('n', '<space>a', vim.lsp.buf.code_action, attach_opts)
   map.set('n', '<leader>rn', vim.lsp.buf.rename, attach_opts)
   map.set('n', 'so', require('telescope.builtin').lsp_references, attach_opts)
 
