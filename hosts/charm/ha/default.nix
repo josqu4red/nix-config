@@ -62,10 +62,11 @@ in {
     extraComponents = [ "androidtv_remote" "cast" "dlna_dmr" "dlna_dms" "esphome" "freebox" "group"
                         "meteo_france" "mqtt" "sonos" "update" "upnp" ];
     customComponents = with pkgs; [ hacs-espsomfyrts hacs-rtetempo ];
+    customLovelaceModules = with pkgs.home-assistant-custom-lovelace-modules; [ mini-graph-card mushroom ];
   in {
     enable = true;
     extraPackages = pypkgs: with pypkgs; [ gtts radios ];
-    inherit customComponents extraComponents;
+    inherit customComponents customLovelaceModules extraComponents;
     config = {
       homeassistant = {
         name = "Home";
