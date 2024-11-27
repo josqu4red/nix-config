@@ -1,0 +1,27 @@
+alias: Run for each entity
+description: Run action on entity group with delay between entities
+icon: mdi:reload
+fields:
+  actions:
+    name: Action to run
+    description: Only one supported
+    required: true
+    selector:
+      action: {}
+  delay:
+    name: Delay between each entity
+    required: true
+    selector:
+      number:
+        mode: box
+        unit_of_measurement: seconds
+sequence:
+- repeat:
+    for_each: '{{ expand(actions[0].target.entity_id) | map(attribute=''entity_id'')
+      | list }}'
+    sequence:
+    - target:
+        entity_id: '{{ repeat.item }}'
+      action: '{{ actions[0].action }}'
+    - delay:
+        seconds: '{{ delay }}'

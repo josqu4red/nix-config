@@ -86,10 +86,10 @@ in {
 
       frontend = { themes = "!include ${./themes.yaml}"; };
       scene = "!include scenes.yaml";
-      script = "!include scripts.yaml";
       template = "!include templates.yaml";
       panel_custom = import ./shortcuts.nix {};
     } // listToAttrs (map (x: nameValuePair x {}) simpleIntegrations)
-      // mergeAttrsList [ (mkInclude "list" "automation") ];
+      // mergeAttrsList [ (mkInclude "list" "automation") ]
+      // mergeAttrsList [ (mkInclude "named" "script") ];
   };
 }
