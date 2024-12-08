@@ -22,7 +22,7 @@ in {
     (mkIf cfg.enable {
       nxmods.impermanence.directories = [ "/var/lib/microvms" ];
 
-      microvm.vms = genAttrs cfg.vms (_: { flake = self; });
+      microvm.vms = genAttrs cfg.vms (_: { flake = self; updateFlake = "git+file://" + self.outPath; });
 
       systemd.tmpfiles.rules = map (name: let id = machineId name;
                                     in "L+ /var/log/journal/${id} - - - - /var/lib/microvms/${name}/journal/${id}")

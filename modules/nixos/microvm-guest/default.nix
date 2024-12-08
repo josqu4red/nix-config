@@ -20,13 +20,11 @@ in {
         text = machineId hostname;
       };
       microvm = {
-        hypervisor = "qemu";
+        hypervisor = "cloud-hypervisor";
         interfaces = [{
-          id = hostname;
-          type = "macvtap";
+          id = "vm-${hostname}";
+          type = "tap";
           mac = macAddress hostname;
-          macvtap.link = "end0"; # TODO
-          macvtap.mode = "bridge";
         }];
         shares = [{
           proto = "virtiofs";
