@@ -17,5 +17,14 @@
     tmp.cleanOnBoot = true;
   };
 
-  nxmods.impermanence.enable = true;
+  nxmods = {
+    impermanence.enable = true;
+    networkd = {
+      enable = true;
+      bridge = {
+        interfaces = [ hostFacts.netIf "vm-*" ];
+        macaddress = hostFacts.mac;
+      };
+    };
+  };
 }
