@@ -1,4 +1,5 @@
-{ config, lib, ... }: {
+{ pkgs, ... }: {
+  home.packages = with pkgs; [ tig git-crypt ];
   programs.git = {
     enable = true;
     userName = "Jonathan Amiez";
