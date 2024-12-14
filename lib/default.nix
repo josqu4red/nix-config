@@ -14,7 +14,7 @@ let
   ifExists = path:
     optional (pathExists path) path;
 
-  forAllSystems = genAttrs [ "aarch64-linux" "x86_64-linux" ];
+  forAllSystems = genAttrs [ "aarch64-darwin" "aarch64-linux" "x86_64-linux" ];
 
   machineId = hostname: hashString "md5" hostname;
 
