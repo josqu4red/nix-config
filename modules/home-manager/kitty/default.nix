@@ -13,6 +13,7 @@
       inactive_tab_foreground = "#D8DEE9";
       inactive_tab_background = "#4c566a";
       inactive_tab_font_style = "normal";
+      macos_option_as_alt = "yes";
     };
   };
 }

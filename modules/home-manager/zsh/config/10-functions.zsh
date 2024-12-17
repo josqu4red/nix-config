@@ -26,7 +26,7 @@ function nixsh() {
   [ $# -lt 1 ] && echo "Need package argument(s)" && return
   pkgs=()
   for pkg in "$@"; do
-    pkgs+=("/home/jamiez/code/nix-config#$pkg")
+    pkgs+=("$HOME/code/nix-config#$pkg")
   done
   nix shell "${pkgs[@]}"
 }
