@@ -14,6 +14,10 @@ function dockrun() {
   docker run --rm -it -w $(pwd) -v $(pwd):$(pwd) $@
 }
 
+function dockrunuser() {
+  dockrun -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro --user $(id -u) $@
+}
+
 function urlencode() {
   printf %s "$1" | jq -sRr @uri
 }
