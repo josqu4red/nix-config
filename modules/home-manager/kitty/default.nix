@@ -1,7 +1,7 @@
 { ... }: {
   programs.kitty = {
     enable = true;
-    theme = "Nord";
+    themeFile = "Nord";
     settings = {
       enable_audio_bell = "no";
       bell_on_tab = "󰗖";
