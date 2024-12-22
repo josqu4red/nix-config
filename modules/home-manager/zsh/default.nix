@@ -40,7 +40,7 @@ in {
         size = hist-size;
       };
       envExtra = ''
-        export PATH=~/bin:$PATH
+        export PATH=~/.local/bin:$PATH
       '';
       initExtra = ''
         for config_file (${config.xdg.configHome}/zsh/*.zsh); do
