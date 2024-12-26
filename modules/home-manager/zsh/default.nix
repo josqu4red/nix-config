@@ -55,10 +55,16 @@ in {
         plugins = ["extract"];
       };
     };
-    programs.fzf = {
-      enable = true;
-      enableZshIntegration = true;
+    programs = {
+      ripgrep.enable = true;
+      fzf = {
+        enable = true;
+        enableZshIntegration = true;
+      };
+      direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+      };
     };
-    programs.ripgrep.enable = true;
   };
 }

@@ -1,11 +1,6 @@
 { inputs, pkgs, ... }: {
   imports = with inputs.self.homeModules; [ base firefox git gpg kitty neovim pass tmux zsh ];
 
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
   nixpkgs = {
     config = {
       allowUnfree = true;
