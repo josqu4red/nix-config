@@ -33,7 +33,9 @@
   let
     lib = import ./lib { inherit inputs; };
     inherit (import ./secrets/build/facts.nix {}) facts;
-    inherit (lib) forAllSystems buildHomeConfigs buildNixosConfigs;
+    inherit (lib) buildHomeConfigs buildNixosConfigs expandFacts filterSystem forAllSystems;
+
+    hosts = expandFacts facts;
 
     local-pkgs = final: _prev: import ./pkgs { pkgs = final; };
 
@@ -47,11 +49,11 @@
   in {
     inherit facts legacyPackages lib;
 
-    nixosConfigurations = buildNixosConfigs facts;
+    nixosConfigurations = buildNixosConfigs (filterSystem "linux" hosts);
     nixosModules = import ./modules/nixos;
     nixosProfiles = import ./modules/profiles;
 
-    homeConfigurations = buildHomeConfigs facts;
+    homeConfigurations = buildHomeConfigs hosts;
     homeModules = import ./modules/home-manager;
 
     devShells = forAllSystems (system: {
