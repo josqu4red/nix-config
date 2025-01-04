@@ -10,12 +10,6 @@
   hardware.nvidia.open = true;
 
   disko.devices = import ./disk-config.nix;
-  nxmods.impermanence = {
-    enable = true;
-    directories = [
-      "/var/lib/docker"
-    ];
-  };
 
   boot = {
     binfmt.emulatedSystems = [ "aarch64-linux" ];
@@ -38,6 +32,19 @@
     desktop = {
       enable = true;
       i3 = true;
+    };
+    impermanence = {
+      enable = true;
+      directories = [
+        "/var/lib/docker"
+      ];
+    };
+    networkd = {
+      enable = true;
+      bridge = {
+        interfaces = [ hostFacts.netIf "vm-*" ];
+        macaddress = hostFacts.mac;
+      };
     };
   };
 }
