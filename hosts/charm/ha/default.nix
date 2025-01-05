@@ -1,5 +1,6 @@
 { self, config, lib, pkgs, ... }: let
   homeDir = "/var/lib/hass";
+  publicHostname = "ha.amiez.xyz";
 in {
   nxmods = {
     impermanence.directories = [ homeDir ];
@@ -39,17 +40,13 @@ in {
   };
 
   services.nginx = {
-    virtualHosts."ha.amiez.xyz" = {
+    virtualHosts.${publicHostname} = {
       enableACME = true;
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://ha";
         proxyWebsockets = true;
       };
-    };
-    virtualHosts."ha.in.amiez.xyz".locations."/" = {
-      proxyPass = "http://ha";
-      proxyWebsockets = true;
     };
     upstreams.ha.servers."127.0.0.1:8123" = {};
   };
@@ -76,6 +73,7 @@ in {
         elevation = "!secret elevation";
         unit_system = "metric";
         time_zone = "Europe/Paris";
+        external_url = "https://${publicHostname}";
       };
 
       http = {
