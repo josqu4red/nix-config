@@ -5,6 +5,7 @@
     ./dhcp.nix
     ./dns.nix
     ./ha
+    ./monitoring.nix
 #    ./sd-image.nix
   ];
 
