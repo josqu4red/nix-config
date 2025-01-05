@@ -43,6 +43,7 @@ in {
           networkConfig = {
             DHCP = "yes";
             IPv6AcceptRA = true;
+            UseDomains = true;
           };
           linkConfig.RequiredForOnline = "routable";
         };
