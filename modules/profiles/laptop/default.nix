@@ -22,4 +22,6 @@
     naturalScrolling = true;
     tappingButtonMap = "lrm";
   };
+
+  networking.networkmanager.enable = true;
 }

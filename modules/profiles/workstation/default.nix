@@ -9,7 +9,6 @@
   hardware.bluetooth.enable = true;
   services.udisks2.enable = true;
 
-  networking.networkmanager.enable = true;
   networking.resolvconf.enable = false;
   services.resolved.enable = true;
   users.extraGroups.networkmanager.members = hostFacts.users;
