@@ -33,17 +33,20 @@ in {
         name = "${data-dir}/dhcp4.leases";
         persist = true;
         type = "memfile";
+        lfc-interval = 86400;
       };
       option-data = nameDataPair {
         domain-name = homeNet.domain;
         domain-name-servers = hostFacts.ip;
         routers = homeNet.defaultGw;
       };
+      host-reservation-identifiers = [ "hw-address" ];
       subnet4 = [{
         id = 1;
         subnet = subnet homeNet.prefix;
         pools = [ { pool = subnet homeNet.dhcp; } ];
         ddns-qualifying-suffix = homeNet.domain;
+        reservations-out-of-pool = true;
         inherit reservations;
       }];
     };
