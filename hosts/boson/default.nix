@@ -41,7 +41,9 @@
     };
     networkd = {
       enable = true;
+      interface = "br0";
       bridge = {
+        enable = true;
         interfaces = [ hostFacts.netIf "vm-*" ];
         macaddress = hostFacts.mac;
       };

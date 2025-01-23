@@ -51,19 +51,14 @@
   };
 
   networking = {
-    useNetworkd = true;
+    inherit (config.facts.homeNet) domain;
     nameservers = [ "127.0.0.1" ];
   };
-  systemd.network = let
-    inherit (config.facts) homeNet;
-  in {
+  nxmods.networkd = with config.facts; {
     enable = true;
-    networks."10-lan" = {
-      matchConfig.Name = hostFacts.netIf;
-      address = [ "${hostFacts.ip}/${builtins.toString homeNet.prefix.length}" ];
-      routes = [{ Gateway = homeNet.defaultGw; }];
-      linkConfig.RequiredForOnline = "routable";
-    };
+    interface = hostFacts.netIf;
+    address = "${hostFacts.ip}/${toString homeNet.prefix.length}";
+    gateway = homeNet.defaultGw;
   };
 
   # flash_erase /dev/mtd0 0 0  (from mtdutils)
