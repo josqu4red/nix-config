@@ -35,12 +35,6 @@
   lvm_vg.system = {
     type = "lvm_vg";
     lvs = {
-      swap = {
-        size = "32G";
-        content = {
-          type = "swap";
-        };
-      };
       nix = {
         size = "100G";
         content = {
