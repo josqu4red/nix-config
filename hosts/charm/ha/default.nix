@@ -82,6 +82,7 @@ in {
         trusted_proxies = [ "127.0.0.1" "::1" ];
       };
 
+      prometheus.namespace = "ha";
       frontend = { themes = "!include ${./themes.yaml}"; };
       scene = "!include scenes.yaml";
       template = "!include templates.yaml";
