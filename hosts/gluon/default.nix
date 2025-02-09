@@ -1,8 +1,9 @@
-{ inputs, ... }:
+{ config, inputs, ... }:
 {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.self.nixosProfiles.server
+    ./nextcloud.nix
   ];
 
   disko.devices = import ./disk-config.nix;
@@ -19,6 +20,25 @@
 
   nxmods = {
     impermanence.enable = true;
+    sops.enable = true;
     tailscale.enable = true;
+  };
+
+  sops.secrets."cloudflare-token" = {
+    sopsFile = inputs.self.outPath + "/secrets/shared/cloudflare-token-amiez.xyz";
+    key = "";
+  };
+
+  security.acme.defaults = {
+    dnsProvider = "cloudflare";
+    dnsResolver = "1.1.1.1:53";
+    environmentFile = config.sops.secrets."cloudflare-token".path;
+  };
+
+  networking.firewall.allowedTCPPorts = [80 443];
+  services.nginx = {
+    enable = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
   };
 }

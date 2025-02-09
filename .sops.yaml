@@ -1,6 +1,7 @@
 keys:
 - &jamiez C32756FA98BAE710FC2616BB4BBCA7023906BA07
 - &host-charm 84e6e4d3e78937e083bd7d6e89fae1f236952b10
+- &host-gluon e9c8c31a2657eb39f840ee79c5b2daa27e5d73b4
 creation_rules:
 - path_regex: .*
   pgp: *jamiez
@@ -8,3 +9,7 @@ creation_rules:
   key_groups:
   - pgp:
     - *host-charm
+- path_regex: secrets/gluon/.*$
+  key_groups:
+  - pgp:
+    - *host-gluon

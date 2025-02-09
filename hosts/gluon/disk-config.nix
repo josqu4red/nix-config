@@ -94,5 +94,14 @@ in {
   };
   lvm_vg.data = {
     type = "lvm_vg";
+    lvs = {
+      cloud = {
+        content = {
+          type = "filesystem";
+          format = "ext4";
+          mountpoint = "/var/lib/cloud";
+        };
+      };
+    };
   };
 }
