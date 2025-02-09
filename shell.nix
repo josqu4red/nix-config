@@ -1,4 +1,4 @@
-{ pkgs, sops-import-keys-hook }:
+{ pkgs, sops-import-keys-hook, ssh-to-pgp }:
 let
   apply = ''
     # get user input
@@ -67,13 +67,13 @@ let
       host=$1
       [ $# -ne 2 ] && name=$1 || name=$2
       # https://github.com/Mic92/ssh-to-pgp/issues/61
-      ssh $host "sudo cat /etc/ssh/ssh_host_rsa_key" | ${pkgs.ssh-to-pgp}/bin/ssh-to-pgp -o .sops/host-$name.asc -email host@$name -comment "" -name $name
+      ssh $host "sudo cat /etc/ssh/ssh_host_rsa_key" | ssh-to-pgp -o .sops/host-$name.asc -email host@$name -comment "" -name $name
     '')
   ];
 
 in
 pkgs.mkShell {
   sopsPGPKeyDirs = [ ./.sops ];
-  nativeBuildInputs = [ sops-import-keys-hook ];
+  nativeBuildInputs = [ sops-import-keys-hook ssh-to-pgp ];
   buildInputs = with pkgs; [ backblaze-b2 deadnix git-crypt nix-diff nix-index nix-prefetch-github nix-tree nurl nvd sops statix ] ++ scripts;
 }

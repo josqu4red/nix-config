@@ -19,6 +19,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ssh-to-pgp = {
+      url = "github:Mic92/ssh-to-pgp?rev=c175033ca42c116939a3decb2a6461b7396c9bb1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     microvm = {
       url = "github:josqu4red/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -58,7 +62,8 @@
 
     devShells = forAllSystems (system: {
       default = import ./shell.nix { pkgs = legacyPackages.${system};
-                                     sops-import-keys-hook = inputs.sops-nix.packages.${system}.sops-import-keys-hook; };
+                                     sops-import-keys-hook = inputs.sops-nix.packages.${system}.sops-import-keys-hook;
+                                     ssh-to-pgp = inputs.ssh-to-pgp.packages.${system}.ssh-to-pgp; };
       fhsEnv = import ./pkgs/fhsEnv.nix { pkgs = legacyPackages.${system}; };
     });
 
