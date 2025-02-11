@@ -114,5 +114,10 @@ in with types; {
         };
       };
     };
+    config = mkOption {
+      description = "General shared config";
+      default = {};
+      type = attrs;
+    };
   };
 }

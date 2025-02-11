@@ -1,4 +1,25 @@
+## facts\.config
+
+General shared config
+
+
+
+*Type:*
+attribute set
+
+
+
+*Default:*
+` { } `
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
 ## facts\.defaults
+
+
 
 Host defaults
 
@@ -431,7 +452,7 @@ package
 
 
 *Default:*
-` <derivation bash-5.2p32> `
+` <derivation bash-5.2p37> `
 
 
 

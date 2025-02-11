@@ -76,6 +76,12 @@ in {
         external_url = "https://${publicHostname}";
       };
 
+      input_number = let
+        inherit (lib) mapAttrs' nameValuePair toLower;
+      in mapAttrs' (k: v: nameValuePair ("prix_kwh_" + (toLower k))
+                                              ({ name = "Tarif ${k}"; min = v; max = v + 0.0001; mode = "box"; unit_of_measurement = "EUR/kWh"; }))
+               config.facts.config.tempo;
+
       http = {
         use_x_forwarded_for = true;
         server_host = "127.0.0.1";
