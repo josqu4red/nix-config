@@ -55,11 +55,11 @@ in {
     inherit (lib) listToAttrs mergeAttrsList nameValuePair;
     mkInclude = type: name: { "${name} ui" = "!include ${name}s.yaml"; "${name} manual" = "!include_dir_${type} ${./${name}s}"; };
 
-    simpleIntegrations = [ "bluetooth" "config" "dhcp" "energy" "history" "homeassistant_alerts" "isal" "logbook"
-                           "media_source" "mobile_app" "my" "ssdp" "stream" "sun" "usb" "zeroconf" "zha" ];
+    simpleIntegrations = [ "adaptive_lighting" "bluetooth" "config" "dhcp" "energy" "history" "homeassistant_alerts" "isal"
+                           "logbook" "media_source" "mobile_app" "my" "ssdp" "stream" "sun" "usb" "zeroconf" "zha" ];
     extraComponents = [ "androidtv_remote" "cast" "dlna_dmr" "dlna_dms" "esphome" "freebox" "group"
                         "meteo_france" "mqtt" "sonos" "update" "upnp" ];
-    customComponents = with pkgs; [ hacs-espsomfyrts hacs-rtetempo ];
+    customComponents = with pkgs; [ hacs-espsomfyrts hacs-rtetempo home-assistant-custom-components.adaptive_lighting ];
     customLovelaceModules = with pkgs.home-assistant-custom-lovelace-modules; [ mini-graph-card mushroom ];
   in {
     enable = true;
