@@ -238,7 +238,7 @@ local capabilities = vim.tbl_deep_extend(
 );
 
 -- TODO: hls
-local servers = {'clangd', 'gopls', 'pyright', 'nil_ls', 'solargraph'}
+local servers = {'clangd', 'gopls', 'jsonnet_ls', 'pyright', 'nil_ls', 'solargraph'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,

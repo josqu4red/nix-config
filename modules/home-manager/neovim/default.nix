@@ -5,7 +5,7 @@ let
     [ p.c p.dockerfile p.go p.hcl p.json p.jsonnet p.lua p.nix p.python p.regex p.ruby p.vimdoc ]
   );
   # TODO: haskell-language-server
-  extraPackages = with pkgs; [ clang-tools fd go gopls manix pyright ripgrep nil rubyPackages.solargraph ];
+  extraPackages = with pkgs; [ clang-tools fd go gopls jsonnet-language-server manix pyright ripgrep nil rubyPackages.solargraph ];
 in {
   programs.neovim = {
     enable = true;
@@ -49,6 +49,7 @@ in {
       nvim-treesitter-context
       rainbow-delimiters-nvim
       vim-json
+      vim-jsonnet
       nvim-autopairs  #replace? lexima-vim
     ];
   };
