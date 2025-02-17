@@ -50,15 +50,18 @@
     supportedFilesystems = lib.mkForce [ "vfat" "fat32" "exfat" "ext4" ];
   };
 
-  networking = {
-    inherit (config.facts.homeNet) domain;
+  networking = with config.facts.homeNet; {
+    inherit domain;
+    search = [domain];
     nameservers = [ "127.0.0.1" ];
+    firewall.allowedTCPPorts = [ 80 443 ];
   };
-  nxmods.networkd = with config.facts; {
+
+  nxmods.networkd = with config.facts.homeNet; {
     enable = true;
     interface = hostFacts.netIf;
-    address = "${hostFacts.ip}/${toString homeNet.prefix.length}";
-    gateway = homeNet.defaultGw;
+    address = "${hostFacts.ip}/${toString prefix.length}";
+    gateway = defaultGw;
   };
 
   # flash_erase /dev/mtd0 0 0  (from mtdutils)
@@ -66,8 +69,6 @@
   system.build.uboot = pkgs.ubootOrangePi5;
 
   services.monero.enable = true;
-
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   services.nginx = {
     enable = true;
