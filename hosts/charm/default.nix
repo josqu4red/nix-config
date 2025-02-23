@@ -1,4 +1,4 @@
-{ inputs, lib, config, hostFacts, pkgs, pkgsCross, ... }: {
+{ self, inputs, lib, config, hostFacts, pkgs, pkgsCross, ... }: {
   imports = [
     inputs.self.nixosProfiles.server
     inputs.disko.nixosModules.disko
@@ -74,5 +74,16 @@
     enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
+  };
+
+  sops.secrets."freebox-token" = {
+    owner = "freebox-exporter";
+    sopsFile = self.outPath + "/secrets/charm/freebox.json";
+    format = "json";
+    key = "";
+  };
+  services.freebox-exporter = {
+    enable = true;
+    apiTokenFile = config.sops.secrets."freebox-token".path;
   };
 }
