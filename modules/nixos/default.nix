@@ -6,6 +6,7 @@ let
     desktop = import ./desktop;
     docker = import ./docker;
     fake-hwclock = import ./fake-hwclock;
+    freebox-exporter = import ./freebox-exporter;
     impermanence = import ./impermanence;
     kdeconnect = import ./kdeconnect;
     ledger = import ./ledger;
