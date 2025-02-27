@@ -48,6 +48,7 @@ in {
       nvim-treesitter-endwise
       nvim-treesitter-context
       rainbow-delimiters-nvim
+      vim-go
       vim-json
       vim-jsonnet
       nvim-autopairs  #replace? lexima-vim
