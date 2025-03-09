@@ -1,4 +1,22 @@
-{ ... }: {
+let
+  luksVol = name: {
+    size = "100%";
+    content = {
+      inherit name;
+      type = "luks";
+      settings = {
+        allowDiscards = true;
+        # dd if=/dev/random bs=4096 count=1 of=
+        keyFile = "/dev/disk/by-id/usb-SanDisk__Cruzer_Fit_4C530000280811109444-0:0";
+        keyFileSize = 4096;
+      };
+      content = {
+        type = "lvm_pv";
+        vg = name;
+      };
+    };
+  };
+in {
   nodev."/" = {
     fsType = "tmpfs";
     mountOptions = [
@@ -9,7 +27,7 @@
   };
   disk.system = {
     type = "disk";
-    device = "/dev/nvme0n1";
+    device = "/dev/disk/by-id/nvme-CT500P3SSD8_242649D49B41";
     content = {
       type = "gpt";
       partitions = {
@@ -22,21 +40,23 @@
             mountpoint = "/boot";
           };
         };
-        lvm = {
-          size = "100%";
-          content = {
-            type = "lvm_pv";
-            vg = "system";
-          };
-        };
+        luks = luksVol "system";
       };
     };
   };
   lvm_vg.system = {
     type = "lvm_vg";
     lvs = {
+      home = {
+        size = "10G";
+        content = {
+          type = "filesystem";
+          format = "ext4";
+          mountpoint = "/home";
+        };
+      };
       nix = {
-        size = "100G";
+        size = "50G";
         content = {
           type = "filesystem";
           format = "ext4";
@@ -61,5 +81,18 @@
         };
       };
     };
+  };
+  disk.data = {
+    type = "disk";
+    device = "/dev/disk/by-id/nvme-CT4000P3PSSD8_2452E99D15EE";
+    content = {
+      type = "gpt";
+      partitions = {
+        luks = luksVol "data";
+      };
+    };
+  };
+  lvm_vg.data = {
+    type = "lvm_vg";
   };
 }
