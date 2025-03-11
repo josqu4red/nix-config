@@ -15,6 +15,11 @@ in {
     "nextcloud/backup/repo" = { inherit sopsFile; };
     "nextcloud/backup/env" = { inherit sopsFile; };
     "nextcloud/backup/password" = { inherit sopsFile; };
+    "nextcloud/metrics/token" = {
+      owner = "nextcloud-exporter";
+      restartUnits = [ "prometheus-nextcloud-exporter.service" ];
+      inherit sopsFile;
+    };
   };
 
   services.kanidm.provision = {
@@ -91,5 +96,12 @@ in {
       "--keep-monthly 12"
       "--keep-yearly 10"
     ];
+  };
+
+  networking.firewall.allowedTCPPorts = [config.services.prometheus.exporters.nextcloud.port];
+  services.prometheus.exporters.nextcloud = {
+    enable = true;
+    url = origin;
+    tokenFile = config.sops.secrets."nextcloud/metrics/token".path;
   };
 }

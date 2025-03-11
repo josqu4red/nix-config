@@ -54,6 +54,12 @@ in {
         relabel_configs = set-hostname;
       }
       {
+        job_name = "nextcloud-exporter";
+        stream_parse = true;
+        static_configs = [ { targets = [ "gluon:9205" ]; } ];
+        relabel_configs = remove-port;
+      }
+      {
         job_name = "ha";
         scrape_interval = "60s";
         metrics_path = "/api/prometheus";
