@@ -35,7 +35,7 @@
   };
 
   boot = {
-    kernelPackages = pkgsCross.linuxPackagesFor(pkgsCross.callPackage ./pkgs/kernel {});
+    kernelPackages = pkgsCross.linuxPackages_latest;
     initrd = {
       availableKernelModules = lib.mkForce [ "dm_mod" "ext4" "nvme" "pcie_rockchip_host" "phy_rockchip_naneng_combphy" "phy_rockchip_pcie" ];
       kernelModules = lib.mkForce [ ];
