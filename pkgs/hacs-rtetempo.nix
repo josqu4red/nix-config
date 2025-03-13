@@ -1,7 +1,7 @@
 { lib
 , fetchFromGitHub
 , buildHomeAssistantComponent
-, python3
+, python313
 }: let
   owner = "hekmon";
   repo = "rtetempo";
@@ -16,7 +16,7 @@ in buildHomeAssistantComponent {
     hash = "sha256-MLZeX6WNUSgVEv8zapAkkBKY5R1l5ykCcWTleYF0H5o=";
   };
 
-  propagatedBuildInputs = with python3.pkgs; [ requests-oauthlib ];
+  propagatedBuildInputs = with python313.pkgs; [ requests-oauthlib ];
 
   meta = with lib; {
     changelog = "https://github.com/hekmon/rtetempo/releases/tag/v${version}";
