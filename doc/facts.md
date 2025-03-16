@@ -417,27 +417,6 @@ list of string
 
 
 
-## facts\.hosts\.\<name>\.vms
-
-
-
-Host microvms
-
-
-
-*Type:*
-list of string
-
-
-
-*Default:*
-` [ ] `
-
-*Declared by:*
- - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
-
-
-
 ## settings\.userShell
 
 

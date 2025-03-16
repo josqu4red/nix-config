@@ -81,11 +81,6 @@ in with types; {
             default = "";
             type = str;
           };
-          vms = mkOption {
-            description = "Host microvms";
-            default = [];
-            type = listOf str;
-          };
           netIf = mkOption {
             description = "Host main network interface";
             default = "";
