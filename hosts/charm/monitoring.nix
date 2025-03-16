@@ -1,4 +1,5 @@
 { self, config, ... }: let
+  publicHostname = "graf.in.amiez.xyz";
   vmAddress = "127.0.0.1:8428";
 in {
   nxmods.impermanence.directories = [
@@ -58,12 +59,26 @@ in {
     ];
   };
 
-  networking.firewall.allowedTCPPorts = [3000];
+  services.nginx = {
+    virtualHosts.${publicHostname} = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3000";
+        proxyWebsockets = true;
+        extraConfig = let
+          subnet = with config.facts.homeNet.prefix; "${address}/${builtins.toString length}";
+        in ''
+          allow ${subnet};
+          deny all;
+        '';
+      };
+    };
+  };
+
   services.grafana = {
     enable = true;
-    settings = {
-      server.http_addr = "0.0.0.0";
-    };
+    settings.server.domain = publicHostname;
     provision = {
       enable = true;
       datasources.settings.datasources = [{

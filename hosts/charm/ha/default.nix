@@ -44,11 +44,16 @@ in {
       enableACME = true;
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://ha";
+        proxyPass = "http://127.0.0.1:8123";
         proxyWebsockets = true;
+        extraConfig = let
+          subnet = with config.facts.homeNet.prefix; "${address}/${builtins.toString length}";
+        in ''
+          allow ${subnet};
+          deny all;
+        '';
       };
     };
-    upstreams.ha.servers."127.0.0.1:8123" = {};
   };
 
   services.home-assistant = let
