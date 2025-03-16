@@ -1,45 +1,47 @@
 { self, config, ... }: let
-  grafanaPort = 3000;
-  vmPort = 8428;
-  vmAddress = "${config.networking.hostName}:${toString vmPort}";
+  vmAddress = "127.0.0.1:8428";
 in {
   nxmods.impermanence.directories = [
     "/var/lib/grafana"
     "/var/lib/private/victoriametrics"
   ];
 
-  services.victoriametrics = {
-    enable = true;
-    listenAddress = "0.0.0.0:${toString vmPort}";
-  };
-
-  users.groups.vmagent = {};
-  users.users.vmagent = {
-    group = "vmagent";
+  users.groups.victoriametrics = {};
+  users.users.victoriametrics = {
+    group = "victoriametrics";
     isSystemUser = true;
   };
   sops.secrets."ha/metrics/token" = {
-    owner = "vmagent";
+    owner = "victoriametrics";
     sopsFile = self.outPath + "/secrets/charm/ha.yaml";
   };
 
-  services.vmagent = let
-    instanceLabel = {
-      relabel_configs = [{
-        target_label = "instance";
-        replacement = config.networking.hostName;
-      }];
-    };
-    scrape_configs = map (sc: sc // instanceLabel) [
+  services.victoriametrics = let
+    remove-port = [{
+      source_labels = ["__address__"];
+      regex = "(.+):\\d+";
+      target_label = "instance";
+      replacement = "$1";
+    }];
+    set-hostname = [{
+      target_label = "instance";
+      replacement = config.networking.hostName;
+    }];
+  in {
+    enable = true;
+    listenAddress = vmAddress;
+    prometheusConfig.scrape_configs = [
       {
         job_name = "node-exporter";
         stream_parse = true;
-        static_configs = [ { targets = [ "127.0.0.1:9100" ]; } ];
+        static_configs = [ { targets = [ "charm:9100" "gluon:9100" ]; } ];
+        relabel_configs = remove-port;
       }
       {
         job_name = "freebox-exporter";
         stream_parse = true;
         static_configs = [ { targets = [ "127.0.0.1:9091" ]; } ];
+        relabel_configs = set-hostname;
       }
       {
         job_name = "ha";
@@ -47,18 +49,16 @@ in {
         metrics_path = "/api/prometheus";
         bearer_token_file = config.sops.secrets."ha/metrics/token".path;
         static_configs = [ { targets = [ "127.0.0.1:8123" ]; } ];
+        relabel_configs = set-hostname;
         metric_relabel_configs = [{
           "if" = ''{__name__=~"ha_state_change_.*"}'';
           action = "drop";
         }];
       }
     ];
-  in {
-    enable = true;
-    remoteWrite.url = "http://${vmAddress}/api/v1/write";
-    prometheusConfig = { inherit scrape_configs; };
   };
 
+  networking.firewall.allowedTCPPorts = [3000];
   services.grafana = {
     enable = true;
     settings = {
@@ -73,5 +73,4 @@ in {
       }];
     };
   };
-  networking.firewall.allowedTCPPorts = [grafanaPort vmPort];
 }
