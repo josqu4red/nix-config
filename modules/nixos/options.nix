@@ -86,6 +86,11 @@ in with types; {
             default = "";
             type = str;
           };
+          aliases = mkOption {
+            description = "Host aliases";
+            default = [];
+            type = listOf str;
+          };
         };
       });
     };

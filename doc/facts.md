@@ -291,6 +291,27 @@ attribute set of (submodule)
 
 
 
+## facts\.hosts\.\<name>\.aliases
+
+
+
+Host aliases
+
+
+
+*Type:*
+list of string
+
+
+
+*Default:*
+` [ ] `
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
 ## facts\.hosts\.\<name>\.ip
 
 
