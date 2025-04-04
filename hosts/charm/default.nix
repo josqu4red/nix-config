@@ -6,22 +6,10 @@
     ./dns.nix
     ./ha
     ./monitoring.nix
-#    ./sd-image.nix
+    # ./sd-image.nix
   ];
 
   disko.devices = import ./disk-config.nix;
-  nxmods.impermanence = {
-    enable = true;
-    directories = [
-      "/var/lib/acme"
-      "/var/lib/monero"
-    ];
-  };
-
-  nxmods.backup = {
-    enable = true;
-    paths = [ "/var/lib/acme" ];
-  };
 
   hardware = {
     deviceTree = {
@@ -57,11 +45,24 @@
     firewall.allowedTCPPorts = [ 80 443 ];
   };
 
-  nxmods.networkd = with config.facts.homeNet; {
-    enable = true;
-    interface = hostFacts.netIf;
-    address = "${hostFacts.ip}/${toString prefix.length}";
-    gateway = defaultGw;
+  nxmods = {
+    networkd = with config.facts.homeNet; {
+      enable = true;
+      interface = hostFacts.netIf;
+      address = "${hostFacts.ip}/${toString prefix.length}";
+      gateway = defaultGw;
+    };
+    impermanence = {
+      enable = true;
+      directories = [
+        "/var/lib/acme"
+        "/var/lib/monero"
+      ];
+    };
+    backup = {
+      enable = true;
+      paths = [ "/var/lib/acme" ];
+    };
   };
 
   # flash_erase /dev/mtd0 0 0  (from mtdutils)
@@ -74,16 +75,5 @@
     enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-  };
-
-  sops.secrets."freebox-token" = {
-    owner = "freebox-exporter";
-    sopsFile = self.outPath + "/secrets/charm/freebox.json";
-    format = "json";
-    key = "";
-  };
-  services.freebox-exporter = {
-    enable = true;
-    apiTokenFile = config.sops.secrets."freebox-token".path;
   };
 }

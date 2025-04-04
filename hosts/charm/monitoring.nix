@@ -12,9 +12,22 @@ in {
     group = "victoriametrics";
     isSystemUser = true;
   };
+
   sops.secrets."ha/metrics/token" = {
     owner = "victoriametrics";
     sopsFile = self.outPath + "/secrets/charm/ha.yaml";
+  };
+
+  sops.secrets."freebox-token" = {
+    owner = "freebox-exporter";
+    sopsFile = self.outPath + "/secrets/charm/freebox.json";
+    format = "json";
+    key = "";
+  };
+
+  services.freebox-exporter = {
+    enable = true;
+    apiTokenFile = config.sops.secrets."freebox-token".path;
   };
 
   services.victoriametrics = let
@@ -59,20 +72,18 @@ in {
     ];
   };
 
-  services.nginx = {
-    virtualHosts.${publicHostname} = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:3000";
-        proxyWebsockets = true;
-        extraConfig = let
-          subnet = with config.facts.homeNet.prefix; "${address}/${builtins.toString length}";
-        in ''
-          allow ${subnet};
-          deny all;
-        '';
-      };
+  services.nginx.virtualHosts.${publicHostname} = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:3000";
+      proxyWebsockets = true;
+      extraConfig = let
+        subnet = with config.facts.homeNet.prefix; "${address}/${builtins.toString length}";
+      in ''
+        allow ${subnet};
+        deny all;
+      '';
     };
   };
 
