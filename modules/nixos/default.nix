@@ -15,6 +15,7 @@ let
     networkd = import ./networkd;
     qFlipper = import ./qFlipper;
     sops = import ./sops;
+    tailscale = import ./tailscale;
     yubikey = import ./yubikey;
     options = import ./options.nix;
   };

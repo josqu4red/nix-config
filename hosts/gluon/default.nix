@@ -17,5 +17,8 @@
     tmp.cleanOnBoot = true;
   };
 
-  nxmods.impermanence.enable = true;
+  nxmods = {
+    impermanence.enable = true;
+    tailscale.enable = true;
+  };
 }
