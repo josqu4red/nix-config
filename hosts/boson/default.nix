@@ -20,6 +20,9 @@
     tmp.cleanOnBoot = true;
   };
 
+  # for networked test vms
+  environment.etc."qemu/bridge.conf".text = "allow br0";
+
   nxmods = {
     cachix.enable = true;
     chrysalis.enable = true;
