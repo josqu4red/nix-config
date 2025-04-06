@@ -63,6 +63,7 @@
       enable = true;
       paths = [ "/var/lib/acme" ];
     };
+    tailscale.enable = true;
   };
 
   # flash_erase /dev/mtd0 0 0  (from mtdutils)
