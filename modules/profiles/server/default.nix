@@ -18,14 +18,14 @@
     sudo = "sudo ";
   };
 
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = secrets.acme-email;
-  };
-
   services.prometheus.exporters.node = {
     enable = true;
     openFirewall = true;
     disabledCollectors = [ "bonding" "fibrechannel" "infiniband" "ipvs" "mdadm" "nfsd" "tapestats" "zfs" ];
+  };
+
+  nxmods.acme = {
+    enable = true;
+    email = secrets.acme-email;
   };
 }

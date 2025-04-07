@@ -29,12 +29,6 @@
     key = "";
   };
 
-  security.acme.defaults = {
-    dnsProvider = "cloudflare";
-    dnsResolver = "1.1.1.1:53";
-    environmentFile = config.sops.secrets."cloudflare-token".path;
-  };
-
   networking.firewall.allowedTCPPorts = [80 443];
   services.nginx = {
     enable = true;

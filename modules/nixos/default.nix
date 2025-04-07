@@ -1,5 +1,6 @@
 let
   modules = {
+    acme = import ./acme;
     backup = import ./backup;
     cachix = import ./cachix;
     chrysalis = import ./chrysalis;
