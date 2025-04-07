@@ -5,21 +5,21 @@ let
 in {
   imports = [ self.inputs.impermanence.nixosModules.impermanence ];
 
-  options.nxmods.impermanence = {
+  options.nxmods.impermanence = with types; {
     enable = mkEnableOption "Impermanence";
     root = mkOption {
-      type = types.str;
+      type = path;
       default = "/persist";
       description = "Directory/mountpoint for persistent storage";
     };
     directories = mkOption {
-      type = with types; listOf str;
+      type = listOf path;
       default = [];
       example = [ "/var/log" ];
       description = "Directories to persist";
     };
     files = mkOption {
-      type = with types; listOf str;
+      type = listOf path;
       default = [];
       example = [ "/etc/machine-id" ];
       description = "Files to persist";
