@@ -1,4 +1,4 @@
-{ self, inputs, lib, config, hostFacts, pkgs, pkgsCross, ... }: {
+{ inputs, lib, config, hostFacts, pkgs, pkgsCross, ... }: {
   imports = [
     inputs.self.nixosProfiles.server
     inputs.disko.nixosModules.disko
@@ -64,6 +64,17 @@
       paths = [ "/var/lib/acme" ];
     };
     tailscale.enable = true;
+  };
+
+  sops.secrets."cloudflare-token" = {
+    sopsFile = inputs.self.outPath + "/secrets/shared/cloudflare-token-amiez.xyz";
+    key = "";
+  };
+
+  security.acme.defaults = {
+    dnsProvider = "cloudflare";
+    dnsResolver = "1.1.1.1:53";
+    environmentFile = config.sops.secrets."cloudflare-token".path;
   };
 
   # flash_erase /dev/mtd0 0 0  (from mtdutils)

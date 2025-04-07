@@ -39,20 +39,13 @@ in {
     ];
   };
 
-  services.nginx = {
-    virtualHosts.${publicHostname} = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8123";
-        proxyWebsockets = true;
-        extraConfig = let
-          subnet = with config.facts.homeNet.prefix; "${address}/${builtins.toString length}";
-        in ''
-          allow ${subnet};
-          deny all;
-        '';
-      };
+  services.nginx.virtualHosts.${publicHostname} = {
+    enableACME = true;
+    acmeRoot = null;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:8123";
+      proxyWebsockets = true;
     };
   };
 

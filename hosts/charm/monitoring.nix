@@ -1,5 +1,5 @@
 { self, config, ... }: let
-  publicHostname = "graf.in.amiez.xyz";
+  publicHostname = "graf.amiez.xyz";
   vmAddress = "127.0.0.1:8428";
 in {
   nxmods.impermanence.directories = [
@@ -74,16 +74,11 @@ in {
 
   services.nginx.virtualHosts.${publicHostname} = {
     enableACME = true;
+    acmeRoot = null;
     forceSSL = true;
     locations."/" = {
       proxyPass = "http://127.0.0.1:3000";
       proxyWebsockets = true;
-      extraConfig = let
-        subnet = with config.facts.homeNet.prefix; "${address}/${builtins.toString length}";
-      in ''
-        allow ${subnet};
-        deny all;
-      '';
     };
   };
 
