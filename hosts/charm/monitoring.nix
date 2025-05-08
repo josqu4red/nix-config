@@ -1,4 +1,4 @@
-{ self, config, ... }: let
+{ self, config, pkgs, ... }: let
   publicHostname = "graf.amiez.xyz";
   vmAddress = "127.0.0.1:8428";
 in {
@@ -84,7 +84,11 @@ in {
 
   services.grafana = {
     enable = true;
-    settings.server.domain = publicHostname;
+    settings = {
+      server.domain = publicHostname;
+      feature_toggles.externalServiceAccounts = true;
+    };
+    declarativePlugins = [ pkgs.grafana-strava-datasource ];
     provision = {
       enable = true;
       datasources.settings.datasources = [{
