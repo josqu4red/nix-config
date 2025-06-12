@@ -15,28 +15,49 @@
       difc = "diff --cached";
     };
     extraConfig = {
-      core = { whitespace = "trailing-space,cr-at-eol"; };
       advice.diverging = "false";
-      push.default = "simple";
-      pull.ff = "only";
+      branch.sort = "-committerdate";
+      commit.verbose = true;
+      core.whitespace = "trailing-space,cr-at-eol";
+      diff = {
+        algorithm = "histogram";
+        colorMoved = "plain";
+        mnemonicPrefix = true;
+        renames = true;
+      };
+      fetch = {
+        prune = true;
+        pruneTags = true;
+        all = true;
+      };
       init.defaultBranch = "main";
+      pull = {
+        ff = "only";
+        rebase = true;
+      };
+      push.default = "simple";
+      rebase = {
+        autoStash = true;
+        updateRefs = true;
+      };
+      tag.sort = "version:refname";
       color = {
         diff = {
-         meta = "blue bold";
-         frag = "magenta bold";
-         old = "red bold";
-         new = "green bold";
+          meta = "blue bold";
+          frag = "magenta bold";
+          old = "red bold";
+          new = "green bold";
         };
         branch = {
-         current = "yellow reverse";
-         local = "yellow bold";
-         remote = "green bold";
-         plain = "red bold";
+          current = "yellow reverse";
+          local = "yellow bold";
+          remote = "green bold";
+          plain = "red bold";
         };
         status = {
-         added = "yellow";
-         changed = "green bold";
-         untracked = "blue bold";
+          added = "yellow";
+          changed = "green bold";
+          untracked = "blue bold";
         };
       };
     };
