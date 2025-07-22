@@ -20,10 +20,8 @@ in {
       };
     })
     (mkIf cfg.gnome {
-      services.xserver = {
-        displayManager.gdm.enable = true;
-        desktopManager.gnome.enable = true;
-      };
+      services.displayManager.gdm.enable = true;
+      services.desktopManager.gnome.enable = true;
       services.gnome.evolution-data-server.enable = lib.mkForce false;
       environment.systemPackages = [ pkgs.gnome-tweaks ];
     })

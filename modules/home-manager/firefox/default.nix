@@ -15,7 +15,7 @@ in {
       settings = {
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
       };
-      extensions = with firefox-addons; [ tabcenter-reborn ];
+      extensions.packages = with firefox-addons; [ tabcenter-reborn ];
     };
   };
 }

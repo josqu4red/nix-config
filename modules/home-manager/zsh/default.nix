@@ -42,7 +42,7 @@ in {
       envExtra = ''
         export PATH=~/.local/bin:$PATH
       '';
-      initExtra = ''
+      initContent = ''
         for config_file (${config.xdg.configHome}/zsh/*.zsh); do
           source $config_file
         done

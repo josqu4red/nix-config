@@ -1,6 +1,6 @@
 { pkgs, ... }: let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
-  pinentryPackage = if isDarwin then pkgs.pinentry_mac else pkgs.pinentry-gtk2;
+  pinentry = if isDarwin then pkgs.pinentry_mac else pkgs.pinentry-gtk2;
 in {
   programs.gpg = {
     enable = true;
@@ -17,6 +17,6 @@ in {
     enableZshIntegration = true;
     defaultCacheTtl = 21600;
     maxCacheTtl = 43200;
-    inherit pinentryPackage;
+    pinentry.package = pinentry;
   };
 }
