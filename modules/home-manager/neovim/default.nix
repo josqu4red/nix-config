@@ -59,7 +59,6 @@ in {
       cmp-cmdline
       cmp-nvim-lsp
       cmp-path
-      luasnip
     ];
     extraLuaConfig = ''
       require("config.options")

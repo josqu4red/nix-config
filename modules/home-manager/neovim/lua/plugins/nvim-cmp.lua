@@ -6,14 +6,13 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
-    "L3MON4D3/LuaSnip",
   },
   config = function()
     local cmp = require("cmp")
     cmp.setup({
       snippet = {
         expand = function(args)
-          require('luasnip').lsp_expand(args.body)
+          vim.snippet.expand(args.body)
         end,
       },
       mapping = cmp.mapping.preset.insert({
@@ -33,17 +32,16 @@ return {
     })
     cmp.setup.cmdline("/", {
       mapping = cmp.mapping.preset.cmdline(),
-      sources = {
+      sources = cmp.config.sources({
         { name = "buffer" }
-      }
+      })
     })
     cmp.setup.cmdline(":", {
       mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({
-        { name = "path" }
-      }, {
-          { name = "cmdline" }
-        })
+        { name = "path" },
+        { name = "cmdline" },
+      })
     })
   end
 }
