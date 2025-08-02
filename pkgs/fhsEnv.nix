@@ -1,5 +1,5 @@
 #   https://nixos.wiki/wiki/Linux_kernel#Embedded_Linux_Cross-compile_xconfig_and_menuconfig
-{ pkgs }: (pkgs.buildFHSUserEnv {
+{ pkgs }: (pkgs.buildFHSEnv {
   name = "kernel-build-env";
   targetPkgs = pkgs_: (with pkgs_;
     [
