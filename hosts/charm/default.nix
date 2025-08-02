@@ -1,4 +1,4 @@
-{ inputs, lib, config, hostFacts, pkgs, pkgsCross, ... }: {
+{ inputs, lib, config, hostFacts, pkgs, ... }: {
   imports = [
     inputs.self.nixosProfiles.server
     inputs.disko.nixosModules.disko
@@ -23,7 +23,7 @@
   };
 
   boot = {
-    kernelPackages = pkgsCross.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_latest;
     initrd = {
       availableKernelModules = lib.mkForce [ "dm_mod" "ext4" "nvme" "pcie_rockchip_host" "phy_rockchip_naneng_combphy" "phy_rockchip_pcie" ];
       kernelModules = lib.mkForce [ ];
