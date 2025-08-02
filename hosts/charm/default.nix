@@ -6,6 +6,7 @@
     ./dns.nix
     ./ha
     ./monitoring.nix
+    ./mqtt.nix
     # ./sd-image.nix
   ];
 
