@@ -31,10 +31,10 @@ let
       ${apply}
       ${pkgs.nix}/bin/nix build .#nixosConfigurations.$host.config.system.build.toplevel || exit 1
       result=$(readlink -f result)
-      ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake .#$host --target-host $fqdn --use-remote-sudo || exit 1
-      ${pkgs.openssh}/bin/ssh -t $fqdn -- nix-shell -p nvd --run \"nvd diff /nix/var/nix/profiles/system $result\"
+      ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake .#$host --target-host $fqdn --sudo || exit 1
+      ${pkgs.openssh}/bin/ssh -t $fqdn -- nvd diff /nix/var/nix/profiles/system $result
       if apply $action; then
-        ${pkgs.nixos-rebuild}/bin/nixos-rebuild $action --flake .#$host --target-host $fqdn --use-remote-sudo || exit 1
+        ${pkgs.nixos-rebuild}/bin/nixos-rebuild $action --flake .#$host --target-host $fqdn --sudo || exit 1
       fi
     '')
 
