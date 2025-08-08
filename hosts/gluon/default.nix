@@ -4,6 +4,7 @@
     inputs.disko.nixosModules.disko
     inputs.self.nixosProfiles.server
     ./nextcloud.nix
+    ./paperless.nix
   ];
 
   disko.devices = import ./disk-config.nix;
