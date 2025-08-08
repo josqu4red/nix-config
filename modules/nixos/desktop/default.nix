@@ -28,7 +28,7 @@ in {
     (mkIf cfg.i3 {
       services.displayManager.defaultSession = "none+i3";
       services.xserver = {
-        displayManager.lightdm.enable = ! config.services.xserver.displayManager.gdm.enable;
+        displayManager.lightdm.enable = ! config.services.displayManager.gdm.enable;
         windowManager.i3.enable = true;
       };
       services.blueman.enable = true;
