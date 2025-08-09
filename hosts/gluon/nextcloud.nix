@@ -1,7 +1,7 @@
 { self, config, lib, pkgs, ... }: let
   home = "/var/lib/cloud/nextcloud";
   hostName = "cloud.amiez.xyz";
-  package = pkgs.nextcloud30;
+  package = pkgs.nextcloud31;
 in {
   sops.secrets = let
     sopsFile = self.outPath + "/secrets/gluon/nextcloud.yaml";
