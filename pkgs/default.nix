@@ -7,5 +7,6 @@
   sshrc = pkgs.callPackage ./sshrc.nix {};
   yk-scripts = pkgs.callPackage ./yk-scripts.nix {};
   hacs-espsomfyrts = pkgs.callPackage ./hacs-espsomfyrts.nix {};
+  hacs-gtfs2 = pkgs.callPackage ./hacs-gtfs2.nix {};
   hacs-rtetempo = pkgs.callPackage ./hacs-rtetempo.nix {};
 }

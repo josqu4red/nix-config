@@ -57,8 +57,8 @@ in {
                            "logbook" "media_source" "mobile_app" "my" "ssdp" "stream" "sun" "usb" "zeroconf" "zha" ];
     extraComponents = [ "androidtv_remote" "cast" "dlna_dmr" "dlna_dms" "esphome" "freebox" "group"
                         "meteo_france" "mqtt" "sonos" "update" "upnp" ];
-    customComponents = with pkgs; [ hacs-espsomfyrts hacs-rtetempo home-assistant-custom-components.adaptive_lighting ];
-    customLovelaceModules = with pkgs.home-assistant-custom-lovelace-modules; [ mini-graph-card mushroom ];
+    customComponents = with pkgs; [ hacs-espsomfyrts hacs-gtfs2 hacs-rtetempo home-assistant-custom-components.adaptive_lighting ];
+    customLovelaceModules = with pkgs.home-assistant-custom-lovelace-modules; [ mini-graph-card multiple-entity-row mushroom ];
   in {
     enable = true;
     extraPackages = pypkgs: with pypkgs; [ gtts radios ];
