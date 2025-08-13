@@ -9,7 +9,6 @@ let
     kube = import ./kube;
     neovim = import ./neovim;
     pass = import ./pass;
-    ruby = import ./ruby;
     tmux = import ./tmux;
     vscode = import ./vscode;
     zsh = import ./zsh;
