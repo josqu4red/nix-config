@@ -15,7 +15,10 @@
       difc = "diff --cached";
     };
     extraConfig = {
-      advice.diverging = "false";
+      advice = {
+        diverging = "false";
+        mergeConflict = "false";
+      };
       branch.sort = "-committerdate";
       commit.verbose = true;
       core.whitespace = "trailing-space,cr-at-eol";
