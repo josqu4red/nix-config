@@ -10,6 +10,9 @@ in {
     allowedUDPPorts = [ 53 ];
   };
 
+  # TODO: auto create
+  systemd.tmpfiles.rules = [ ''f /etc/named/amiez.xyz-extra - - - - "; papers IN CNAME  gluon.in.amiez.xyz."'' ];
+
   services.bind = let
     # DNS zone helpers
     padStr = len: str: "${str}${replicate (len - stringLength str) " "}";
@@ -38,6 +41,7 @@ in {
       ${zoneHeader name}
       ${aRecord hostname hostFacts.ip}
       ${builtins.concatStringsSep "\n" cnameRecords}
+      $INCLUDE /etc/named/${name}-extra
     '';
 
     localZone = name: let
