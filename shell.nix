@@ -29,7 +29,7 @@ let
       host=$2
       [ $# -ne 3 ] && fqdn=$2 || fqdn=$3
       ${apply}
-      ${pkgs.nix}/bin/nix build .#nixosConfigurations.$host.config.system.build.toplevel || exit 1
+      ${pkgs.nix}/bin/nix build --profile .gcroots/nixos-build-$host .#nixosConfigurations.$host.config.system.build.toplevel || exit 1
       result=$(readlink -f result)
       ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake .#$host --target-host $fqdn --sudo || exit 1
       ${pkgs.openssh}/bin/ssh -t $fqdn -- nvd diff /nix/var/nix/profiles/system $result
