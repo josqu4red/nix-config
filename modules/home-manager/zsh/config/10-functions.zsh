@@ -38,3 +38,10 @@ function ghclone() {
   git clone https://github.com/$1
   popd
 }
+
+function jwtdump() {
+  read jwt
+  fields=(${(@s:.:)jwt})
+  echo "${fields[1]}" | base64 --decode 2>/dev/null | jq .
+  echo "${fields[2]}" | base64 --decode 2>/dev/null | jq .
+}
