@@ -3,6 +3,7 @@
   imports = [
     inputs.disko.nixosModules.disko
     inputs.self.nixosProfiles.server
+    ./kanidm.nix
     ./nextcloud.nix
     ./paperless.nix
   ];
