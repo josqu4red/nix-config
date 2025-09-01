@@ -13,7 +13,11 @@ in {
   home.packages = with pkgs; [ material-symbols noto-fonts-color-emoji ];
   xdg.dataFile = xdgFilesFromDir "backgrounds" ./walls;
   xsession.enable = true; # to create tray.target
+
   services.picom.enable = true;
+  # https://github.com/nix-community/home-manager/issues/7708
+  systemd.user.targets.hm-graphical-session.Unit.Requires = lib.mkForce [ "graphical-session-pre.target" ];
+
   services.network-manager-applet.enable = true;
   services.blueman-applet.enable = true;
   services.udiskie = {
