@@ -69,6 +69,12 @@ let
       # https://github.com/Mic92/ssh-to-pgp/issues/61
       ssh $host "sudo cat /etc/ssh/ssh_host_rsa_key" | ssh-to-pgp -o .sops/host-$name.asc -email host@$name -comment "" -name $name
     '')
+
+    (pkgs.writeShellScriptBin "copy-remote-system" ''
+      [ $# -lt 1 ] && echo "get-sops-key <host>" && exit 1
+      host=$1
+      nix copy --no-check-sigs --from ssh://$host $(ssh $host "readlink -f /nix/var/nix/profiles/system")
+    '')
   ];
 
 in
