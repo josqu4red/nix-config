@@ -1,3 +1,12 @@
+# OIDC config
+# kanidm group create nextcloud_users
+# kanidm system oauth2 create nextcloud Nextcloud https://cloud.amiez.xyz
+# kanidm system oauth2 add-redirect-url nextcloud https://cloud.amiez.xyz/apps/user_oidc/code
+# kanidm system oauth2 update-scope-map nextcloud nextcloud_users openid email profile nextcloud_groups
+# kanidm system oauth2 update-claim-map-join nextcloud nextcloud_groups array
+# kanidm system oauth2 update-claim-map nextcloud nextcloud_groups nextcloud_users users
+# kanidm system oauth2 set-image nextcloud nextcloud-logo.svg
+
 { self, config, lib, pkgs, ... }: let
   home = "/var/lib/cloud/nextcloud";
   hostName = "cloud.amiez.xyz";
@@ -27,13 +36,20 @@ in {
     };
     settings = {
       default_phone_region = "FR";
+      # memories
       "memories.exiftool" = "${lib.getExe pkgs.exiftool}";
       "memories.vod.ffmpeg" = "${lib.getExe pkgs.ffmpeg-headless}";
       "memories.vod.ffprobe" = "${pkgs.ffmpeg-headless}/bin/ffprobe";
+      # user_oidc
+      # https://kanidm.github.io/kanidm/master/integrations/oauth2/examples.html#nextcloud
+      "allow_local_remote_servers" = true;
+      "allow_user_to_change_display_name" = false;
+      "allow_user_to_change_email" = false;
+      "lost_password_link" = "disabled";
     };
     extraAppsEnable = true;
-    extraApps = with pkgs.nextcloud30Packages.apps; {
-      inherit memories previewgenerator;
+    extraApps = with pkgs.nextcloud31Packages.apps; {
+      inherit bookmarks integration_paperless memories news previewgenerator unroundedcorners user_oidc;
     };
   };
 
