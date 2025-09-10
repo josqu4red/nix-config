@@ -1,3 +1,11 @@
+# OIDC config
+# kanidm group create paperless_users
+# kanidm system oauth2 create paperless Paperasse-ngx https://papers.amiez.xyz
+# kanidm system oauth2 add-redirect-url paperless https://papers.amiez.xyz/accounts/oidc/amiez/login/callback/
+# kanidm system oauth2 update-scope-map paperless paperless_users openid email profile
+# kanidm system oauth2 prefer-short-username paperless
+# kanidm system oauth2 set-image paperless paperless-logo.svg
+
 { self, config, ... }: let
   dataDir = "/var/lib/cloud/paperless";
   hostName = "papers.amiez.xyz";
@@ -12,15 +20,23 @@ in {
     "paperless/backup/repo" = { inherit sopsFile; };
     "paperless/backup/env" = { inherit sopsFile; };
     "paperless/backup/password" = { inherit sopsFile; };
+    "paperless/oauth2-config" = {
+      owner = "paperless";
+      inherit sopsFile;
+    };
   };
 
   services.paperless = {
     enable = true;
     passwordFile = config.sops.secrets."paperless/adminpass".path;
+    environmentFile = config.sops.secrets."paperless/oauth2-config".path;
     inherit dataDir;
     settings = {
       PAPERLESS_URL = "https://${hostName}";
       PAPERLESS_OCR_LANGUAGE = "fra";
+      PAPERLESS_APPS = "allauth.socialaccount.providers.openid_connect";
+      PAPERLESS_ACCOUNT_DEFAULT_GROUPS = "users";
+      PAPERLESS_ACCOUNT_EMAIL_VERIFICATION = "none";
     };
   };
 
