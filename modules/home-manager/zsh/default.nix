@@ -28,7 +28,7 @@ in {
       enable = true;
       enableCompletion = true;
       syntaxHighlighting.enable = true;
-      dotDir = ".config/zsh";
+      dotDir = config.xdg.configHome + "/zsh";
       history = {
         expireDuplicatesFirst = true;
         extended = true;
