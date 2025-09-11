@@ -2,7 +2,7 @@
   bindaddress = "127.0.0.1:8443";
   domain = "id.amiez.xyz";
   dataDir = "/var/lib/kanidm";
-  package = pkgs.kanidm_1_6;
+  package = pkgs.kanidm_1_7;
   kanadmin = pkgs.writeShellScriptBin "kanadmin" ''
     exec sudo -u kanidm ${package}/bin/kanidmd "$@"
   '';
