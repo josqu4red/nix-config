@@ -49,9 +49,17 @@
   nxmods = {
     networkd = with config.facts.homeNet; {
       enable = true;
-      interface = hostFacts.netIf;
-      address = "${hostFacts.ip}/${toString prefix.length}";
-      gateway = defaultGw;
+      mainInterface = {
+        name = hostFacts.netIf;
+        address = "${hostFacts.ip}/${toString prefix.length}";
+        inherit gateway;
+      };
+      vlanInterfaces = [{
+        name = "vlan10";
+        address = "192.168.10.2/24";
+        id = 10;
+        routes = ["192.168.10.0/24"];
+      }];
     };
     impermanence = {
       enable = true;

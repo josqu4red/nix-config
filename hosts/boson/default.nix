@@ -44,7 +44,7 @@
     };
     networkd = {
       enable = true;
-      interface = "br0";
+      mainInterface.name = "br0";
       bridge = {
         enable = true;
         interfaces = [ hostFacts.netIf "vm-*" ];
