@@ -3,7 +3,7 @@
   inherit (lib.strings) replicate;
   inherit (lib.attrsets) filterAttrs mapAttrsToList;
   inherit (lib) concatLists listToAttrs nameValuePair;
-  inherit (config.facts) hosts homeNet;
+  inherit (config.facts) hosts dns;
 in {
   networking.firewall = {
     allowedTCPPorts = [ 53 ];
@@ -55,7 +55,7 @@ in {
   in {
     enable = true;
     configFile = let
-      privZone = homeNet.domain;
+      privZone = dns.internalDomain;
       pubZone = "amiez.xyz";
       tailnetZone = "banjo-chromatic.ts.net";
       tailnetNs = "100.100.100.100";

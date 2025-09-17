@@ -101,53 +101,11 @@ list of string
 
 
 
-## facts\.homeNet
+## facts\.dns
 
 
 
-Home network settings
-
-
-
-*Type:*
-submodule
-
-
-
-*Default:*
-` null `
-
-*Declared by:*
- - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
-
-
-
-## facts\.homeNet\.defaultGw
-
-
-
-Default gateway
-
-
-
-*Type:*
-string
-
-
-
-*Default:*
-` null `
-
-*Declared by:*
- - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
-
-
-
-## facts\.homeNet\.dhcp
-
-
-
-Dynamic prefix
+DNS settings
 
 
 
@@ -164,39 +122,7 @@ submodule
 
 
 
-## facts\.homeNet\.dhcp\.address
-
-
-
-Dynamic prefix address
-
-
-
-*Type:*
-string
-
-*Declared by:*
- - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
-
-
-
-## facts\.homeNet\.dhcp\.length
-
-
-
-Dynamic prefix length
-
-
-
-*Type:*
-signed integer
-
-*Declared by:*
- - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
-
-
-
-## facts\.homeNet\.domain
+## facts\.dns\.internalDomain
 
 
 
@@ -211,59 +137,6 @@ string
 
 *Default:*
 ` null `
-
-*Declared by:*
- - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
-
-
-
-## facts\.homeNet\.prefix
-
-
-
-Home prefix
-
-
-
-*Type:*
-submodule
-
-
-
-*Default:*
-` null `
-
-*Declared by:*
- - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
-
-
-
-## facts\.homeNet\.prefix\.address
-
-
-
-Home prefix address
-
-
-
-*Type:*
-string
-
-*Declared by:*
- - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
-
-
-
-## facts\.homeNet\.prefix\.length
-
-
-
-Home prefix length
-
-
-
-*Type:*
-signed integer
 
 *Declared by:*
  - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
@@ -438,6 +311,175 @@ list of string
 
 
 
+## facts\.networks
+
+
+
+Network settings
+
+
+
+*Type:*
+attribute set of (submodule)
+
+
+
+*Default:*
+` null `
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.networks\.\<name>\.dhcp
+
+
+
+Dynamic prefix
+
+
+
+*Type:*
+submodule
+
+
+
+*Default:*
+` null `
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.networks\.\<name>\.dhcp\.address
+
+
+
+Prefix address
+
+
+
+*Type:*
+string
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.networks\.\<name>\.dhcp\.length
+
+
+
+Prefix length
+
+
+
+*Type:*
+signed integer
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.networks\.\<name>\.gateway
+
+
+
+Default gateway
+
+
+
+*Type:*
+string
+
+
+
+*Default:*
+` null `
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.networks\.\<name>\.prefix
+
+
+
+Network prefix
+
+
+
+*Type:*
+submodule
+
+
+
+*Default:*
+` null `
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.networks\.\<name>\.prefix\.address
+
+
+
+Prefix address
+
+
+
+*Type:*
+string
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.networks\.\<name>\.prefix\.length
+
+
+
+Prefix length
+
+
+
+*Type:*
+signed integer
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
+## facts\.networks\.\<name>\.vlan
+
+
+
+VLAN ID
+
+
+
+*Type:*
+signed integer
+
+
+
+*Default:*
+` null `
+
+*Declared by:*
+ - [nix-config/modules/nixos/options\.nix](https://github.com/josqu4red/nix-config/tree/main/modules/nixos/options.nix)
+
+
+
 ## settings\.userShell
 
 
@@ -452,7 +494,7 @@ package
 
 
 *Default:*
-` <derivation bash-5.2p37> `
+` <derivation bash-interactive-5.2p37> `
 
 
 

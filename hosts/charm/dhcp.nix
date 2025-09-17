@@ -1,6 +1,6 @@
 { config, hostFacts, lib, ... }: let
   inherit (lib.attrsets) filterAttrs mapAttrsToList;
-  inherit (config.facts) hosts homeNet;
+  inherit (config.facts) hosts networks dns;
   data-dir = "/var/lib/kea";
 in {
   nxmods = {
@@ -27,7 +27,7 @@ in {
     enable = true;
     settings = {
       interfaces-config = {
-        interfaces = [ hostFacts.netIf ];
+        interfaces = [ hostFacts.netIf "vlan10" ];
       };
       lease-database = {
         name = "${data-dir}/dhcp4.leases";
@@ -35,20 +35,31 @@ in {
         type = "memfile";
         lfc-interval = 86400;
       };
-      option-data = nameDataPair {
-        domain-name = homeNet.domain;
-        domain-name-servers = hostFacts.ip;
-        routers = homeNet.defaultGw;
-      };
       host-reservation-identifiers = [ "hw-address" ];
-      subnet4 = [{
-        id = 1;
-        subnet = subnet homeNet.prefix;
-        pools = [ { pool = subnet homeNet.dhcp; } ];
-        ddns-qualifying-suffix = homeNet.domain;
-        reservations-out-of-pool = true;
-        inherit reservations;
-      }];
+      subnet4 = with networks; [
+        {
+          id = 1;
+          subnet = subnet home.prefix;
+          pools = [ { pool = subnet home.dhcp; } ];
+          option-data = nameDataPair {
+            domain-name = dns.internalDomain;
+            domain-name-servers = hostFacts.ip;
+            routers = home.gateway;
+          };
+          ddns-qualifying-suffix = dns.internalDomain;
+          reservations-out-of-pool = true;
+          inherit reservations;
+        }
+        {
+          id = 2;
+          subnet = subnet iot.prefix;
+          pools = [ { pool = subnet iot.dhcp; } ];
+          option-data = nameDataPair {
+            domain-name = dns.internalDomain;
+            domain-name-servers = "192.168.10.2";
+          };
+        }
+      ];
     };
   };
 }

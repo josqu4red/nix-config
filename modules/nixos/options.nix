@@ -2,19 +2,15 @@
 let
   inherit (lib) mkOption types;
 
-  prefixSubmodule = name: with types; mkOption {
-    description = "${name} prefix";
-    default = null;
-    type = submodule {
-      options = {
-        address = mkOption {
-          description = "${name} prefix address";
-          type = str;
-        };
-        length = mkOption {
-          description = "${name} prefix length";
-          type = int;
-        };
+  prefixType = with types; submodule {
+    options = {
+      address = mkOption {
+        description = "Prefix address";
+        type = str;
+      };
+      length = mkOption {
+        description = "Prefix length";
+        type = int;
       };
     };
   };
@@ -94,25 +90,46 @@ in with types; {
         };
       });
     };
-    homeNet = mkOption {
-      description = "Home network settings";
+    dns = mkOption {
+      description = "DNS settings";
       default = null;
       type = submodule {
         options = {
-          defaultGw = mkOption {
-            description = "Default gateway";
-            default = null;
-            type = str;
-          };
-          domain = mkOption {
+          internalDomain = mkOption {
             description = "Internal domain name";
             default = null;
             type = str;
           };
-          prefix = prefixSubmodule "Home";
-          dhcp = prefixSubmodule "Dynamic";
         };
       };
+    };
+    networks = mkOption {
+      description = "Network settings";
+      default = null;
+      type = attrsOf (submodule {
+        options = {
+          gateway = mkOption {
+            description = "Default gateway";
+            default = null;
+            type = str;
+          };
+          vlan = mkOption {
+            description = "VLAN ID";
+            default = null;
+            type = int;
+          };
+          prefix = mkOption {
+            description = "Network prefix";
+            default = null;
+            type = prefixType;
+          };
+          dhcp = mkOption {
+            description = "Dynamic prefix";
+            default = null;
+            type = prefixType;
+          };
+        };
+      });
     };
     config = mkOption {
       description = "General shared config";

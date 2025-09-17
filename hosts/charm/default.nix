@@ -39,17 +39,17 @@
     supportedFilesystems = lib.mkForce [ "vfat" "fat32" "exfat" "ext4" ];
   };
 
-  networking = with config.facts.homeNet; {
-    inherit domain;
-    search = [domain];
+  networking = with config.facts.dns; {
+    domain = internalDomain;
+    search = [internalDomain];
     nameservers = [ "127.0.0.1" ];
     firewall.allowedTCPPorts = [ 80 443 ];
   };
 
   nxmods = {
-    networkd = with config.facts.homeNet; {
+    networkd = {
       enable = true;
-      mainInterface = {
+      mainInterface = with config.facts.networks.home; {
         name = hostFacts.netIf;
         address = "${hostFacts.ip}/${toString prefix.length}";
         inherit gateway;
