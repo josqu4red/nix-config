@@ -7,6 +7,8 @@
     exec sudo -u kanidm ${package}/bin/kanidmd "$@"
   '';
 in {
+  nxmods.impermanence.directories = [ dataDir ];
+
   security.acme.certs.${domain} = {
     postRun = ''
       install -m0400 -okanidm -gkanidm {fullchain,key}.pem ${dataDir}
