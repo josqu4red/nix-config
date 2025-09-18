@@ -34,22 +34,24 @@ in {
       adminpassFile = config.sops.secrets."nextcloud/adminpass".path;
       dbtype = "sqlite";
     };
+    extraAppsEnable = true;
+    extraApps = with pkgs.nextcloud31Packages.apps; {
+      inherit bookmarks integration_paperless memories news previewgenerator unroundedcorners user_oidc;
+    };
     settings = {
-      default_phone_region = "FR";
+      "default_phone_region" = "FR";
       # memories
       "memories.exiftool" = "${lib.getExe pkgs.exiftool}";
       "memories.vod.ffmpeg" = "${lib.getExe pkgs.ffmpeg-headless}";
       "memories.vod.ffprobe" = "${pkgs.ffmpeg-headless}/bin/ffprobe";
+      # previewgenerator
+      "preview_ffmpeg_path" = "${lib.getExe pkgs.ffmpeg-headless}";
       # user_oidc
       # https://kanidm.github.io/kanidm/master/integrations/oauth2/examples.html#nextcloud
       "allow_local_remote_servers" = true;
       "allow_user_to_change_display_name" = false;
       "allow_user_to_change_email" = false;
       "lost_password_link" = "disabled";
-    };
-    extraAppsEnable = true;
-    extraApps = with pkgs.nextcloud31Packages.apps; {
-      inherit bookmarks integration_paperless memories news previewgenerator unroundedcorners user_oidc;
     };
   };
 
