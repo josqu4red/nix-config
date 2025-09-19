@@ -78,5 +78,10 @@ in {
     ];
     backupPrepareCommand = setMaintenance "on";
     backupCleanupCommand = setMaintenance "off";
+    pruneOpts = [
+      "--keep-daily 14"
+      "--keep-monthly 12"
+      "--keep-yearly 10"
+    ];
   };
 }

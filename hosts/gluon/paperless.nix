@@ -59,5 +59,10 @@ in {
     passwordFile = config.sops.secrets."paperless/backup/password".path;
     paths = [ exportDir ];
     backupPrepareCommand = "${config.services.paperless.manage}/bin/paperless-manage document_exporter ${exportDir}";
+    pruneOpts = [
+      "--keep-daily 14"
+      "--keep-monthly 12"
+      "--keep-yearly 10"
+    ];
   };
 }
