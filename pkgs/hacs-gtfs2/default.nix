@@ -16,6 +16,8 @@ in buildHomeAssistantComponent {
     hash = "sha256-k6LV6/gdlZXJusDUf1GnYsO8yTl5N1BrSavJCr7sSwE=";
   };
 
+  patches = [ ./pygtfs-version.patch ];
+
   propagatedBuildInputs = with python313.pkgs; [ pygtfs gtfs-realtime-bindings protobuf ];
 
   meta = with lib; {
