@@ -5,6 +5,7 @@
     ./dhcp.nix
     ./dns.nix
     ./ha
+    ./grafana.nix
     ./monitoring.nix
     ./mqtt.nix
     # ./sd-image.nix

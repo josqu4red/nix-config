@@ -1,11 +1,7 @@
-{ self, config, pkgs, ... }: let
-  publicHostname = "graf.amiez.xyz";
+{ self, config, ... }: let
   vmAddress = "127.0.0.1:8428";
 in {
-  nxmods.impermanence.directories = [
-    "/var/lib/grafana"
-    "/var/lib/private/victoriametrics"
-  ];
+  nxmods.impermanence.directories = [ "/var/lib/private/victoriametrics" ];
 
   users.groups.victoriametrics = {};
   users.users.victoriametrics = {
@@ -72,30 +68,12 @@ in {
     ];
   };
 
-  services.nginx.virtualHosts.${publicHostname} = {
-    enableACME = true;
-    acmeRoot = null;
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://127.0.0.1:3000";
-      proxyWebsockets = true;
-    };
-  };
-
-  services.grafana = {
+  services.grafana.provision = {
     enable = true;
-    settings = {
-      server.domain = publicHostname;
-      feature_toggles.externalServiceAccounts = true;
-    };
-    declarativePlugins = [ pkgs.grafana-strava-datasource ];
-    provision = {
-      enable = true;
-      datasources.settings.datasources = [{
-        name = "victoriametrics";
-        type = "prometheus";
-        url = "http://${vmAddress}";
-      }];
-    };
+    datasources.settings.datasources = [{
+      name = "victoriametrics";
+      type = "prometheus";
+      url = "http://${vmAddress}";
+    }];
   };
 }
