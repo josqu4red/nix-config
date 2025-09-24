@@ -52,6 +52,7 @@ in {
       gitsigns-nvim
       git-conflict-nvim
       trouble-nvim
+      copilot-lua
       # LSP
       nvim-lspconfig
       nvim-cmp
