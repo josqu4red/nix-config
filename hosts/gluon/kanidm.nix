@@ -1,5 +1,5 @@
 { pkgs, ... }: let
-  bindaddress = "127.0.0.1:8443";
+  bindaddress = "127.0.0.1:9443";
   domain = "id.amiez.xyz";
   dataDir = "/var/lib/kanidm";
   package = pkgs.kanidm_1_7;

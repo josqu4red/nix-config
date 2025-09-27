@@ -6,6 +6,7 @@
     ./kanidm.nix
     ./nextcloud.nix
     ./paperless.nix
+    ./unifi.nix
   ];
 
   disko.devices = import ./disk-config.nix;
