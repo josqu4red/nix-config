@@ -26,6 +26,7 @@ in {
   services.kanidm = {
     inherit package;
     enableServer = true;
+    provision.enable = true;
     serverSettings = {
       inherit bindaddress domain;
       origin = "https://${domain}";

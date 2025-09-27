@@ -1,15 +1,7 @@
-# OIDC config
-# kanidm group create nextcloud_users
-# kanidm system oauth2 create nextcloud Nextcloud https://cloud.amiez.xyz
-# kanidm system oauth2 add-redirect-url nextcloud https://cloud.amiez.xyz/apps/user_oidc/code
-# kanidm system oauth2 update-scope-map nextcloud nextcloud_users openid email profile nextcloud_groups
-# kanidm system oauth2 update-claim-map-join nextcloud nextcloud_groups array
-# kanidm system oauth2 update-claim-map nextcloud nextcloud_groups nextcloud_users users
-# kanidm system oauth2 set-image nextcloud nextcloud-logo.svg
-
 { self, config, lib, pkgs, ... }: let
   home = "/var/lib/cloud/nextcloud";
   hostName = "cloud.amiez.xyz";
+  origin = "https://" + hostName;
   package = pkgs.nextcloud31;
 in {
   sops.secrets = let
@@ -23,6 +15,22 @@ in {
     "nextcloud/backup/repo" = { inherit sopsFile; };
     "nextcloud/backup/env" = { inherit sopsFile; };
     "nextcloud/backup/password" = { inherit sopsFile; };
+  };
+
+  services.kanidm.provision = {
+    groups.nextcloud_users.overwriteMembers = false;
+    systems.oauth2.nextcloud = {
+      displayName = "Nextcloud";
+      imageFile = ./nextcloud-logo.svg;
+      originLanding = origin;
+      originUrl = origin + "/apps/user_oidc/code";
+      preferShortUsername = true;
+      scopeMaps.nextcloud_users = ["openid" "email" "profile" "nextcloud_groups"];
+      claimMaps.nextcloud_groups = {
+        joinType = "array";
+        valuesByGroup.nextcloud_users = ["users"];
+      };
+    };
   };
 
   environment.systemPackages = [package];
