@@ -6,15 +6,6 @@
     trust = 5;
   }];
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      permittedInsecurePackages = [
-        "electron-27.3.11"
-      ];
-    };
-  };
-
   home.packages = with pkgs; [ logseq slack spotify ];
 
   xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
