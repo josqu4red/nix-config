@@ -22,22 +22,22 @@ TODO: disko!
 DEV=/dev/xxx
 mkfs.fat -F 32 -n efi /dev/${DEV}1
 
-cryptsetup --label luks-root luksFormat /dev/${DEV}2
-cryptsetup luksOpen /dev/${DEV}2 enc
+cryptsetup --label system luksFormat /dev/${DEV}2
+cryptsetup luksOpen /dev/${DEV}2 system
 
-pvcreate /dev/mapper/enc
-vgcreate vg0 /dev/mapper/enc
-lvcreate -L 16GiB -n swap vg0
-lvcreate -L 100GiB -n root vg0
-lvcreate -l '100%FREE' -n home vg0
+pvcreate /dev/mapper/system
+vgcreate system /dev/mapper/system
+lvcreate -L 16GiB -n swap system
+lvcreate -L 100GiB -n root system
+lvcreate -l '100%FREE' -n home system
 
-mkfs.ext4 -L root /dev/vg0/root
-mkfs.ext4 -L home /dev/vg0/home
-mkswap -L swap /dev/vg0/swap
+mkfs.ext4 -L root /dev/system/root
+mkfs.ext4 -L home /dev/system/home
+mkswap -L swap /dev/system/swap
 
-mount /dev/vg0/root /mnt
+mount /dev/system/root /mnt
 mkdir /mnt/boot /mnt/home
-mount /dev/vg0/home /mnt/home
+mount /dev/system/home /mnt/home
 mount /dev/${DEV}1 /mnt/boot
 ```
 
