@@ -11,8 +11,6 @@ let
     impermanence = import ./impermanence;
     kdeconnect = import ./kdeconnect;
     ledger = import ./ledger;
-    microvm-guest = import ./microvm-guest;
-    microvm-host = import ./microvm-host;
     networkd = import ./networkd;
     qFlipper = import ./qFlipper;
     sops = import ./sops;
