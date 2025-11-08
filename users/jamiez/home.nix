@@ -8,6 +8,8 @@
 
   home.packages = with pkgs; [ logseq slack spotify ];
 
+  services.nextcloud-client.enable = true;
+
   xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
     [Desktop Entry]
     Type=Application
