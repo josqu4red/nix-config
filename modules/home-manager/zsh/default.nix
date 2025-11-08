@@ -23,6 +23,7 @@ in {
   };
 
   config = {
+    home.sessionPath = [ "$HOME/.local/bin" ];
     xdg.configFile = default-config // extra-config;
     programs.zsh = {
       enable = true;
@@ -39,16 +40,10 @@ in {
         share = true;
         size = hist-size;
       };
-      envExtra = ''
-        export PATH=~/.local/bin:$PATH
-      '';
       initContent = ''
         for config_file (${config.xdg.configHome}/zsh/*.zsh); do
           source $config_file
         done
-      '';
-      profileExtra = lib.optionalString (config.home.sessionPath != [ ]) ''
-        export PATH="$PATH''${PATH:+:}${lib.concatStringsSep ":" config.home.sessionPath}"
       '';
       oh-my-zsh = {
         enable = true;
