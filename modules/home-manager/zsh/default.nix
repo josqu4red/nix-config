@@ -57,6 +57,7 @@ in {
     };
     programs = {
       ripgrep.enable = true;
+      television.enable = true;
       fzf = {
         enable = true;
         enableZshIntegration = true;
@@ -64,6 +65,10 @@ in {
       direnv = {
         enable = true;
         nix-direnv.enable = true;
+      };
+      nix-search-tv = {
+        enable = true;
+        enableTelevisionIntegration = true;
       };
     };
   };
