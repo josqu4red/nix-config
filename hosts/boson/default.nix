@@ -1,4 +1,4 @@
-{ inputs, hostFacts, ... }:
+{ config, inputs, hostFacts, ... }:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
@@ -7,7 +7,11 @@
   ];
 
   hardware.enableRedistributableFirmware = true;
-  hardware.nvidia.open = true;
+  hardware.nvidia = {
+    open = true;
+    powerManagement.enable = true;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
+  };
 
   disko.devices = import ./disk-config.nix;
 
@@ -52,4 +56,6 @@
       };
     };
   };
+
+  networking.firewall.enable = false;
 }
