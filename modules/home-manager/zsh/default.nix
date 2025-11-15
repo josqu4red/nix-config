@@ -56,6 +56,8 @@ in {
       };
     };
     programs = {
+      bat.enable = true;
+      fd.enable = true;
       ripgrep.enable = true;
       television.enable = true;
       fzf = {
