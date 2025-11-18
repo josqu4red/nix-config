@@ -1,89 +1,131 @@
-{ config, pkgs, ... }:
+{ lib, pkgs, ... }:
 let
-  nvim-treesitter-setup = pkgs.vimPlugins.nvim-treesitter.withPlugins (p:
-    # TODO: p.haskell
-    [ p.c p.dockerfile p.go p.hcl p.json p.jsonnet p.lua p.nix p.python p.regex p.ruby p.vimdoc ]
-  );
-  # TODO: haskell-language-server
-  extraPackages = with pkgs; [ clang-tools fd go gopls jsonnet-language-server manix pyright ripgrep nil rubyPackages.solargraph rubyPackages.yard ];
-  packDir = pkgs.vimUtils.packDir config.programs.neovim.finalPackage.passthru.packpathDirs;
-in {
+  nvim-treesitter-setup = pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [
+    p.c
+    p.dockerfile
+    p.go
+    p.hcl
+    p.json
+    p.jsonnet
+    p.lua
+    p.nix
+    p.python
+    p.regex
+    p.ruby
+    p.vimdoc
+  ]);
+  extraPackages = with pkgs; [
+    clang-tools
+    fd
+    github-copilot-cli
+    go
+    gopls
+    jsonnet-language-server
+    lua-language-server
+    manix
+    nil
+    pyright
+    ripgrep
+    rubyPackages.solargraph
+    rubyPackages.yard
+    stylua
+  ];
+in
+{
   programs.neovim = {
     enable = true;
     vimAlias = true;
     vimdiffAlias = true;
-    withNodeJs = true;
+    withNodeJs = true; # copilot
     inherit extraPackages;
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
-
-      # UI
-      onedark-nvim
-      nvim-web-devicons
-      lualine-nvim
-      aerial-nvim
-      nvim-tree-lua
-      #neo-tree-nvim
-      vim-better-whitespace
-      indent-blankline-nvim
-      neoscroll-nvim
-      # Telescope
-      telescope-nvim
-      telescope-file-browser-nvim
-      telescope-frecency-nvim
-      telescope-fzf-native-nvim
-      telescope-manix
-      telescope-symbols-nvim
-      telescope-undo-nvim
-
-      # Syntax general
-      nvim-autopairs
-      rainbow-delimiters-nvim
-      nvim-treesitter-setup
-      nvim-treesitter-endwise
-      nvim-treesitter-context
-      nvim-treesitter-textobjects
-      # Syntax specific
-      vim-go
-      vim-json
-      vim-jsonnet
-
-      # Tools
-      gitsigns-nvim
-      git-conflict-nvim
-      trouble-nvim
-      copilot-lua
-      # LSP
-      nvim-lspconfig
-      nvim-cmp
-      cmp-buffer
-      cmp-cmdline
-      cmp-nvim-lsp
-      cmp-path
     ];
-    extraLuaConfig = ''
-      require("config.options")
-      require("config.mappings")
-      require("config.autocmds")
-      require("lazy").setup({
-        spec = {
-          { import = "plugins" },
-        },
-        defaults = {
-          lazy = false,
-          version = false,
-        },
-        performance = {
-          reset_packpath = false,
-          rtp = { reset = false },
-        },
-        dev = {
-          path = "${packDir}/pack/myNeovimPackages/start",
-          patterns = {""},
-        },
-        install = { missing = false }, -- Safeguard in case we forget to install a plugin with Nix
-      })
-    '';
+    extraLuaConfig =
+      with pkgs.vimPlugins;
+      let
+        mini = sub: {
+          name = "mini.${sub}";
+          path = mini-nvim;
+        };
+        plugins = [
+          LazyVim
+          aerial-nvim
+          blink-cmp
+          blink-compat
+          blink-copilot
+          conform-nvim
+          copilot-lua
+          flash-nvim
+          friendly-snippets
+          git-conflict-nvim
+          gitsigns-nvim
+          grug-far-nvim
+          lazydev-nvim
+          lualine-nvim
+          (mini "ai")
+          (mini "icons")
+          (mini "pairs")
+          neo-tree-nvim
+          noice-nvim
+          nui-nvim
+          nvim-lint
+          nvim-lspconfig
+          nvim-treesitter-setup
+          nvim-treesitter-context
+          nvim-treesitter-textobjects
+          nvim-ts-autotag
+          nvim-web-devicons
+          onedark-nvim
+          persistence-nvim
+          plenary-nvim
+          sidekick-nvim
+          snacks-nvim
+          telescope-nvim
+          telescope-fzf-native-nvim
+          todo-comments-nvim
+          trouble-nvim
+          ts-comments-nvim
+          vim-go
+          vim-json
+          vim-jsonnet
+          which-key-nvim
+        ];
+        mkEntryFromDrv =
+          drv:
+          if lib.isDerivation drv then
+            {
+              name = "${lib.getName drv}";
+              path = drv;
+            }
+          else
+            drv;
+        lazyPath = pkgs.linkFarm "lazy-plugins" (builtins.map mkEntryFromDrv plugins);
+      in
+      ''
+        require("lazy").setup({
+          defaults = {
+            lazy = true,
+          },
+          dev = {
+            -- reuse files from pkgs.vimPlugins.*
+            path = "${lazyPath}",
+            patterns = { "" },
+            -- fallback to download
+            fallback = true,
+          },
+          install = { missing = false }, -- Safeguard in case we forget to install a plugin with Nix
+          spec = {
+            { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+            { import = "lazyvim.plugins.extras.ai.copilot" },
+            { import = "lazyvim.plugins.extras.ai.sidekick" },
+            { import = "lazyvim.plugins.extras.editor.aerial" },
+            { import = "lazyvim.plugins.extras.editor.neo-tree" },
+            { import = "lazyvim.plugins.extras.ui.treesitter-context" },
+            { import = "plugins" },
+          },
+        })
+      '';
   };
   xdg.configFile."nvim/lua" = {
     recursive = true;
