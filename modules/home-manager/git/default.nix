@@ -1,20 +1,26 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs; [ tig git-crypt ];
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    tig
+    git-crypt
+  ];
   programs.git = {
     enable = true;
-    userName = "Jonathan Amiez";
-    userEmail = "jonathan.amiez@gmail.com";
     signing.key = "18811A0493F64AC5";
-    aliases = {
-      st = "status -sb";
-      ci = "commit";
-      co = "checkout";
-      cp = "cherry-pick";
-      br = "branch";
-      amend = "commit --amend --no-edit";
-      difc = "diff --cached";
-    };
-    extraConfig = {
+    settings = {
+      user = {
+        name = "Jonathan Amiez";
+        email = "jonathan.amiez@gmail.com";
+      };
+      alias = {
+        st = "status -sb";
+        ci = "commit";
+        co = "checkout";
+        cp = "cherry-pick";
+        br = "branch";
+        amend = "commit --amend --no-edit";
+        difc = "diff --cached";
+      };
       advice = {
         diverging = "false";
         mergeConflict = "false";
