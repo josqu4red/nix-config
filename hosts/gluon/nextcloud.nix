@@ -1,26 +1,38 @@
-{ self, config, lib, pkgs, ... }: let
+{
+  self,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
   home = "/var/lib/cloud/nextcloud";
   hostName = "cloud.amiez.xyz";
   origin = "https://" + hostName;
-  package = pkgs.nextcloud31;
-in {
-  sops.secrets = let
-    sopsFile = self.outPath + "/secrets/gluon/nextcloud.yaml";
-  in {
-    "nextcloud/adminpass" = {
-      owner = "nextcloud";
-      restartUnits = [ "phpfpm-nextcloud.service" ];
-      inherit sopsFile;
+  ncVer = "nextcloud32";
+  package = pkgs.${ncVer};
+  apps = pkgs."${ncVer}Packages".apps;
+in
+{
+  sops.secrets =
+    let
+      sopsFile = self.outPath + "/secrets/gluon/nextcloud.yaml";
+    in
+    {
+      "nextcloud/adminpass" = {
+        owner = "nextcloud";
+        restartUnits = [ "phpfpm-nextcloud.service" ];
+        inherit sopsFile;
+      };
+      "nextcloud/backup/repo" = { inherit sopsFile; };
+      "nextcloud/backup/env" = { inherit sopsFile; };
+      "nextcloud/backup/password" = { inherit sopsFile; };
+      "nextcloud/metrics/token" = {
+        owner = "nextcloud-exporter";
+        restartUnits = [ "prometheus-nextcloud-exporter.service" ];
+        inherit sopsFile;
+      };
     };
-    "nextcloud/backup/repo" = { inherit sopsFile; };
-    "nextcloud/backup/env" = { inherit sopsFile; };
-    "nextcloud/backup/password" = { inherit sopsFile; };
-    "nextcloud/metrics/token" = {
-      owner = "nextcloud-exporter";
-      restartUnits = [ "prometheus-nextcloud-exporter.service" ];
-      inherit sopsFile;
-    };
-  };
 
   services.kanidm.provision = {
     groups.nextcloud_users.overwriteMembers = false;
@@ -30,15 +42,20 @@ in {
       originLanding = origin;
       originUrl = origin + "/apps/user_oidc/code";
       preferShortUsername = true;
-      scopeMaps.nextcloud_users = ["openid" "email" "profile" "nextcloud_groups"];
+      scopeMaps.nextcloud_users = [
+        "openid"
+        "email"
+        "profile"
+        "nextcloud_groups"
+      ];
       claimMaps.nextcloud_groups = {
         joinType = "array";
-        valuesByGroup.nextcloud_users = ["users"];
+        valuesByGroup.nextcloud_users = [ "users" ];
       };
     };
   };
 
-  environment.systemPackages = [package];
+  environment.systemPackages = [ package ];
   services.nextcloud = {
     enable = true;
     inherit home hostName package;
@@ -48,8 +65,19 @@ in {
       dbtype = "sqlite";
     };
     extraAppsEnable = true;
-    extraApps = with pkgs.nextcloud31Packages.apps; {
-      inherit bookmarks integration_paperless memories news previewgenerator unroundedcorners user_oidc;
+    extraApps = with apps; {
+      inherit
+        bookmarks
+        calendar
+        contacts
+        deck
+        integration_paperless
+        memories
+        news
+        previewgenerator
+        unroundedcorners
+        user_oidc
+        ;
     };
     settings = {
       "default_phone_region" = "FR";
@@ -68,7 +96,10 @@ in {
     };
   };
 
-  systemd.services.nextcloud-cron.path = with pkgs; [ exiftool perl ];
+  systemd.services.nextcloud-cron.path = with pkgs; [
+    exiftool
+    perl
+  ];
 
   services.nginx.virtualHosts.${hostName} = {
     forceSSL = true;
@@ -76,29 +107,31 @@ in {
     acmeRoot = null;
   };
 
-  services.restic.backups.nextcloud = let
-    setMaintenance = s: "${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --${s}";
-  in {
-    initialize = true;
-    repositoryFile = config.sops.secrets."nextcloud/backup/repo".path;
-    environmentFile = config.sops.secrets."nextcloud/backup/env".path;
-    passwordFile = config.sops.secrets."nextcloud/backup/password".path;
-    paths = [ home ];
-    exclude = [
-      "data/appdata_*/preview"
-      "data/*/cache"
-      "data/*/uploads"
-    ];
-    backupPrepareCommand = setMaintenance "on";
-    backupCleanupCommand = setMaintenance "off";
-    pruneOpts = [
-      "--keep-daily 14"
-      "--keep-monthly 12"
-      "--keep-yearly 10"
-    ];
-  };
+  services.restic.backups.nextcloud =
+    let
+      setMaintenance = s: "${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --${s}";
+    in
+    {
+      initialize = true;
+      repositoryFile = config.sops.secrets."nextcloud/backup/repo".path;
+      environmentFile = config.sops.secrets."nextcloud/backup/env".path;
+      passwordFile = config.sops.secrets."nextcloud/backup/password".path;
+      paths = [ home ];
+      exclude = [
+        "data/appdata_*/preview"
+        "data/*/cache"
+        "data/*/uploads"
+      ];
+      backupPrepareCommand = setMaintenance "on";
+      backupCleanupCommand = setMaintenance "off";
+      pruneOpts = [
+        "--keep-daily 14"
+        "--keep-monthly 12"
+        "--keep-yearly 10"
+      ];
+    };
 
-  networking.firewall.allowedTCPPorts = [config.services.prometheus.exporters.nextcloud.port];
+  networking.firewall.allowedTCPPorts = [ config.services.prometheus.exporters.nextcloud.port ];
   services.prometheus.exporters.nextcloud = {
     enable = true;
     url = origin;
