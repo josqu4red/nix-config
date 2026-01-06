@@ -1,19 +1,21 @@
-{ pkgs, ... }: let
+{ pkgs, ... }:
+let
   bindaddress = "127.0.0.1:9443";
   domain = "id.amiez.xyz";
   dataDir = "/var/lib/kanidm";
-  package = pkgs.kanidm_1_7;
+  package = pkgs.kanidm_1_8;
   kanadmin = pkgs.writeShellScriptBin "kanadmin" ''
     exec sudo -u kanidm ${package}/bin/kanidmd "$@"
   '';
-in {
+in
+{
   nxmods.impermanence.directories = [ dataDir ];
 
   security.acme.certs.${domain} = {
     postRun = ''
       install -m0400 -okanidm -gkanidm {fullchain,key}.pem ${dataDir}
     '';
-    reloadServices = ["kanidm.service"];
+    reloadServices = [ "kanidm.service" ];
   };
 
   services.nginx.virtualHosts.${domain} = {
