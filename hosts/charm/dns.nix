@@ -11,7 +11,7 @@ in {
   };
 
   # TODO: auto create
-  systemd.tmpfiles.rules = [ ''f /etc/named/amiez.xyz-extra - - - - "; papers IN CNAME  gluon.in.amiez.xyz."'' ];
+  systemd.tmpfiles.rules = [ ''f /etc/named/amiez.xyz-extra - - - - ; papers IN CNAME  gluon.in.amiez.xyz.'' ];
 
   services.bind = let
     # DNS zone helpers
