@@ -108,6 +108,10 @@ in
             pid-file "/run/named/named.pid";
           };
 
+          statistics-channels {
+            inet 127.0.0.1 port 8053 allow { 127.0.0.1; };
+          };
+
           view homenet {
             match-clients { homenet; };
             zone "${pubZone}" {
@@ -134,4 +138,6 @@ in
           };
         '';
     };
+
+  services.prometheus.exporters.bind.enable = true;
 }

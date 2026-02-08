@@ -63,6 +63,12 @@ in
           relabel_configs = remove-port;
         }
         {
+          job_name = "bind-exporter";
+          stream_parse = true;
+          static_configs = [ { targets = [ "127.0.0.1:9119" ]; } ];
+          relabel_configs = set-hostname;
+        }
+        {
           job_name = "freebox-exporter";
           stream_parse = true;
           static_configs = [ { targets = [ "127.0.0.1:9091" ]; } ];
