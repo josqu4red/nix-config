@@ -1,4 +1,4 @@
-{ ... }:
+_:
 {
   nodev."/" = {
     fsType = "tmpfs";

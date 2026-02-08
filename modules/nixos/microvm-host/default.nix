@@ -29,9 +29,9 @@ in
     };
   };
   config = mkMerge [
-    ({
+    {
       microvm.host.enable = cfg.enable;
-    })
+    }
     (mkIf cfg.enable {
       nxmods.impermanence.directories = [ "/var/lib/microvms" ];
 

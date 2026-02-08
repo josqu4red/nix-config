@@ -11,7 +11,7 @@ let
   origin = "https://" + hostName;
   ncVer = "nextcloud32";
   package = pkgs.${ncVer};
-  apps = pkgs."${ncVer}Packages".apps;
+  inherit (pkgs."${ncVer}Packages") apps;
 in
 {
   sops.secrets =

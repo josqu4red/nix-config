@@ -143,10 +143,10 @@ in
         };
       in
       mkMerge [
-        ({ enable = true; })
-        (mainConfig)
-        (vlanConfig)
-        (mkIf (cfg.bridge.enable) bridgeConfig)
+        { enable = true; }
+        mainConfig
+        vlanConfig
+        (mkIf cfg.bridge.enable bridgeConfig)
       ];
   };
 }

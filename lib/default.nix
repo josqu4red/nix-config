@@ -59,7 +59,7 @@ let
       lastBytes
     ];
 
-  setDefaults = mergeAttrsWithFunc (a: b: if isList (a) then (unique (a ++ b)) else b);
+  setDefaults = mergeAttrsWithFunc (a: b: if isList a then (unique (a ++ b)) else b);
 
   expandFacts = facts: mapAttrs (hostname: v: setDefaults facts.defaults v) facts.hosts;
 

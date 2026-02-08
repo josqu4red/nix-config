@@ -18,9 +18,9 @@ in
   };
 
   config = mkMerge [
-    ({
+    {
       microvm.guest.enable = cfg.enable;
-    })
+    }
     (mkIf cfg.enable {
       environment.etc."machine-id" = {
         mode = "0644";

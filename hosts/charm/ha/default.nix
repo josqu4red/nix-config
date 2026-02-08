@@ -140,13 +140,13 @@ in
           in
           mapAttrs' (
             k: v:
-            nameValuePair ("prix_kwh_" + (toLower k)) ({
+            nameValuePair ("prix_kwh_" + (toLower k)) {
               name = "Tarif ${k}";
               min = v;
               max = v + 0.0001;
               mode = "box";
               unit_of_measurement = "EUR/kWh";
-            })
+            }
           ) config.facts.config.tempo;
 
         http = {

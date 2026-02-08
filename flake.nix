@@ -68,8 +68,8 @@
       devShells = forAllSystems (system: {
         default = import ./shell.nix {
           pkgs = legacyPackages.${system};
-          sops-import-keys-hook = inputs.sops-nix.packages.${system}.sops-import-keys-hook;
-          ssh-to-pgp = inputs.ssh-to-pgp.packages.${system}.ssh-to-pgp;
+          inherit (inputs.sops-nix.packages.${system}) sops-import-keys-hook;
+          inherit (inputs.ssh-to-pgp.packages.${system}) ssh-to-pgp;
         };
         fhsEnv = import ./pkgs/fhsEnv.nix { pkgs = legacyPackages.${system}; };
       });
