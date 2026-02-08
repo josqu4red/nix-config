@@ -1,4 +1,12 @@
-{ inputs, lib, config, hostFacts, pkgs, ... }: {
+{
+  inputs,
+  lib,
+  config,
+  hostFacts,
+  pkgs,
+  ...
+}:
+{
   imports = [
     inputs.self.nixosProfiles.server
     inputs.disko.nixosModules.disko
@@ -16,10 +24,12 @@
   hardware = {
     deviceTree = {
       name = "rockchip/rk3588s-orangepi-5.dtb";
-      overlays = [{
-        name = "enable-nvme";
-        dtsFile = ./dts/enable-nvme.dts;
-      }];
+      overlays = [
+        {
+          name = "enable-nvme";
+          dtsFile = ./dts/enable-nvme.dts;
+        }
+      ];
     };
     enableRedistributableFirmware = true;
   };
@@ -27,7 +37,14 @@
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     initrd = {
-      availableKernelModules = lib.mkForce [ "dm_mod" "ext4" "nvme" "pcie_rockchip_host" "phy_rockchip_naneng_combphy" "phy_rockchip_pcie" ];
+      availableKernelModules = lib.mkForce [
+        "dm_mod"
+        "ext4"
+        "nvme"
+        "pcie_rockchip_host"
+        "phy_rockchip_naneng_combphy"
+        "phy_rockchip_pcie"
+      ];
       kernelModules = lib.mkForce [ ];
     };
 
@@ -37,14 +54,22 @@
     };
 
     consoleLogLevel = 7;
-    supportedFilesystems = lib.mkForce [ "vfat" "fat32" "exfat" "ext4" ];
+    supportedFilesystems = lib.mkForce [
+      "vfat"
+      "fat32"
+      "exfat"
+      "ext4"
+    ];
   };
 
   networking = with config.facts.dns; {
     domain = internalDomain;
-    search = [internalDomain];
+    search = [ internalDomain ];
     nameservers = [ "127.0.0.1" ];
-    firewall.allowedTCPPorts = [ 80 443 ];
+    firewall.allowedTCPPorts = [
+      80
+      443
+    ];
   };
 
   nxmods = {
@@ -55,12 +80,14 @@
         address = "${hostFacts.ip}/${toString prefix.length}";
         inherit gateway;
       };
-      vlanInterfaces = [{
-        name = "vlan10";
-        address = "192.168.10.2/24";
-        id = 10;
-        routes = ["192.168.10.0/24"];
-      }];
+      vlanInterfaces = [
+        {
+          name = "vlan10";
+          address = "192.168.10.2/24";
+          id = 10;
+          routes = [ "192.168.10.0/24" ];
+        }
+      ];
     };
     impermanence = {
       enable = true;

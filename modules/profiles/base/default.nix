@@ -1,4 +1,13 @@
-{ inputs, pkgs, lib, hostname, hostFacts, secrets, ... }: let
+{
+  inputs,
+  pkgs,
+  lib,
+  hostname,
+  hostFacts,
+  secrets,
+  ...
+}:
+let
   defaultPackages = with pkgs; [
     bc
     binutils
@@ -24,7 +33,8 @@
     vim
   ];
   nixpkgsPath = "/etc/nixpkgs/channels/nixpkgs";
-in {
+in
+{
   system.stateVersion = hostFacts.stateVersion;
   nixpkgs.hostPlatform = hostFacts.system;
 
@@ -69,7 +79,10 @@ in {
     settings = {
       allowed-users = [ "@wheel" ];
       trusted-users = [ "@wheel" ]; # TODO: figure out signing
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       cores = 0;
       auto-optimise-store = true;
       warn-dirty = false;

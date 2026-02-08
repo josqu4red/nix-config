@@ -1,12 +1,15 @@
-{ lib
-, fetchFromGitHub
-, buildHomeAssistantComponent
-, python313
-}: let
+{
+  lib,
+  fetchFromGitHub,
+  buildHomeAssistantComponent,
+  python313,
+}:
+let
   owner = "vingerha";
   version = "0.5.6.3";
   domain = "gtfs2";
-in buildHomeAssistantComponent {
+in
+buildHomeAssistantComponent {
   inherit owner version domain;
 
   src = fetchFromGitHub {
@@ -18,7 +21,11 @@ in buildHomeAssistantComponent {
 
   patches = [ ./pygtfs-version.patch ];
 
-  propagatedBuildInputs = with python313.pkgs; [ pygtfs gtfs-realtime-bindings protobuf ];
+  propagatedBuildInputs = with python313.pkgs; [
+    pygtfs
+    gtfs-realtime-bindings
+    protobuf
+  ];
 
   meta = with lib; {
     changelog = "https://github.com/vingerha/gtfs2/releases/tag/${version}";

@@ -2,7 +2,8 @@
 let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.nxmods.tailscale;
-in {
+in
+{
   options.nxmods.tailscale = {
     enable = mkEnableOption "Tailscale";
   };

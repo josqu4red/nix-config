@@ -10,7 +10,13 @@
   disko.devices = import ./disk-config.nix;
 
   boot = {
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "nvme"
+      "usb_storage"
+      "sd_mod"
+    ];
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     kernelModules = [ "kvm-intel" ];
@@ -33,7 +39,16 @@
   services.mediatomb = {
     enable = true;
     openFirewall = true;
-    mediaDirectories = map (path: { inherit path; recursive = true; hidden-files = false; })
-                           [ "/srv/torrents" "/srv/media/video" ];
+    mediaDirectories =
+      map
+        (path: {
+          inherit path;
+          recursive = true;
+          hidden-files = false;
+        })
+        [
+          "/srv/torrents"
+          "/srv/media/video"
+        ];
   };
 }

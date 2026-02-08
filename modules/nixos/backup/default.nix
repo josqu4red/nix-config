@@ -1,8 +1,15 @@
 { config, lib, ... }:
 let
-  inherit (lib) mkEnableOption mkForce mkIf mkOption types;
+  inherit (lib)
+    mkEnableOption
+    mkForce
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.nxmods.backup;
-in {
+in
+{
   options.nxmods.backup = {
     enable = mkEnableOption "Default system backup";
     paths = mkOption {
@@ -13,9 +20,9 @@ in {
     nxmods.sops.enable = mkForce true;
 
     sops.secrets = {
-      "backup/repo" = {};
-      "backup/env" = {};
-      "backup/password" = {};
+      "backup/repo" = { };
+      "backup/env" = { };
+      "backup/password" = { };
     };
 
     services.restic.backups.system = {

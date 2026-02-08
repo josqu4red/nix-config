@@ -1,4 +1,5 @@
-{ secrets, ... }: {
+{ secrets, ... }:
+{
   imports = [
     ../base
   ];
@@ -21,7 +22,16 @@
   services.prometheus.exporters.node = {
     enable = true;
     openFirewall = true;
-    disabledCollectors = [ "bonding" "fibrechannel" "infiniband" "ipvs" "mdadm" "nfsd" "tapestats" "zfs" ];
+    disabledCollectors = [
+      "bonding"
+      "fibrechannel"
+      "infiniband"
+      "ipvs"
+      "mdadm"
+      "nfsd"
+      "tapestats"
+      "zfs"
+    ];
   };
 
   nxmods.acme = {

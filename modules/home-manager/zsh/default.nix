@@ -1,22 +1,31 @@
 { config, lib, ... }:
 let
   inherit (builtins) listToAttrs readDir;
-  inherit (lib) mapAttrs' mkOption nameValuePair types;
+  inherit (lib)
+    mapAttrs'
+    mkOption
+    nameValuePair
+    types
+    ;
 
   cfg = config.hmmods.zsh;
   hist-size = 1000000;
 
-  zshFile = path:
-    let name = baseNameOf path;
-    in nameValuePair "zsh/${name}" { source = path; };
+  zshFile =
+    path:
+    let
+      name = baseNameOf path;
+    in
+    nameValuePair "zsh/${name}" { source = path; };
 
   default-config = mapAttrs' (n: _: zshFile ./config/${n}) (readDir ./config);
   extra-config = listToAttrs (map zshFile cfg.extras);
-in {
+in
+{
   options.hmmods.zsh = {
     extras = mkOption {
       type = with types; listOf path;
-      default = [];
+      default = [ ];
       example = [ ./a/file ];
       description = "Extra config for zsh (settings, functions)";
     };
@@ -34,7 +43,11 @@ in {
         expireDuplicatesFirst = true;
         extended = true;
         ignoreDups = true;
-        ignorePatterns = [ "rm *" "l *" "cd *" ];
+        ignorePatterns = [
+          "rm *"
+          "l *"
+          "cd *"
+        ];
         ignoreSpace = true;
         save = hist-size;
         share = true;
@@ -47,7 +60,7 @@ in {
       '';
       oh-my-zsh = {
         enable = true;
-        plugins = ["extract"];
+        plugins = [ "extract" ];
       };
     };
     programs = {

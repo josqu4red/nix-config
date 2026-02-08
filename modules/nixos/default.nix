@@ -18,7 +18,10 @@ let
     yubikey = import ./yubikey;
     options = import ./options.nix;
   };
-  default = { ... }: {
-    imports = builtins.attrValues modules;
-  };
-in modules // { inherit default; }
+  default =
+    { ... }:
+    {
+      imports = builtins.attrValues modules;
+    };
+in
+modules // { inherit default; }

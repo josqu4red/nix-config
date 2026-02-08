@@ -1,8 +1,15 @@
-{ pkgs, lib, colors, defaultFont }: let
+{
+  pkgs,
+  lib,
+  colors,
+  defaultFont,
+}:
+let
   font = id: str: "%{T${id}}${str}%{T-}";
   padPct = "%percentage:3%%";
   transparentBg = "#cc" + lib.strings.removePrefix "#" colors.darker;
-in {
+in
+{
   enable = true;
   package = pkgs.polybarFull;
   script = "polybar -q -r top &";
@@ -12,9 +19,11 @@ in {
       modules.left = "i3";
       modules.center = "date";
       modules.right = "cpu battery backlight sound tray";
-      font = [ "${defaultFont}:size=12;4"
-               "Noto Color Emoji:scale=10;4"
-               "MaterialSymbolsSharp:size=14;4" ];
+      font = [
+        "${defaultFont}:size=12;4"
+        "Noto Color Emoji:scale=10;4"
+        "MaterialSymbolsSharp:size=14;4"
+      ];
       separator = "%{F${colors.dark}}/%{F-}";
       background = transparentBg;
       foreground = colors.light;
@@ -26,33 +35,59 @@ in {
       type = "internal/backlight";
       enable-scroll = true;
       format = "<ramp>";
-      ramp = [ "🌑" "🌒" "🌓" "🌔" "🌕" ];
+      ramp = [
+        "🌑"
+        "🌒"
+        "🌓"
+        "🌔"
+        "🌕"
+      ];
     };
-    "module/battery" = let
-      # MaterialSymbolsSharp ebdc ebd9 ebe0 ebdd ebe2 ebd4 ebd2 e1a4
-      ramp = map (font "3") [ "" "" "" "" "" "" "" ""];
-    in {
-      type = "internal/battery";
-      full-at = 98;
-      format.charging = "<animation-charging><label-charging>";
-      format.discharging = "<ramp-capacity><label-discharging>";
-      format.full = "<ramp-capacity><label-full>";
-      label-charging = padPct;
-      label-discharging = padPct;
-      label-full = padPct;
-      ramp.capacity."0".foreground = colors.red;
-      ramp.capacity.text = ramp;
-      animation.charging.foreground = colors.green;
-      animation.charging.framerate = 1000;
-      animation.charging.text = ramp;
-    };
+    "module/battery" =
+      let
+        # MaterialSymbolsSharp ebdc ebd9 ebe0 ebdd ebe2 ebd4 ebd2 e1a4
+        ramp = map (font "3") [
+          ""
+          ""
+          ""
+          ""
+          ""
+          ""
+          ""
+          ""
+        ];
+      in
+      {
+        type = "internal/battery";
+        full-at = 98;
+        format.charging = "<animation-charging><label-charging>";
+        format.discharging = "<ramp-capacity><label-discharging>";
+        format.full = "<ramp-capacity><label-full>";
+        label-charging = padPct;
+        label-discharging = padPct;
+        label-full = padPct;
+        ramp.capacity."0".foreground = colors.red;
+        ramp.capacity.text = ramp;
+        animation.charging.foreground = colors.green;
+        animation.charging.framerate = 1000;
+        animation.charging.text = ramp;
+      };
     "module/cpu" = {
       type = "internal/cpu";
       format.text = "<ramp-coreload><label>";
       format.prefix.text = "󰓅"; # f04c5
       format.prefix.padding = 1;
       label = padPct;
-      ramp.coreload.text = [ "▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" ];
+      ramp.coreload.text = [
+        "▁"
+        "▂"
+        "▃"
+        "▄"
+        "▅"
+        "▆"
+        "▇"
+        "█"
+      ];
       ramp.coreload.spacing = "1px";
     };
     "module/date" = {
@@ -81,7 +116,11 @@ in {
       label-volume = padPct;
       label.muted = (font "3" "") + padPct; # e04f
       # MaterialSymbolsSharp e04e e04d e050
-      ramp.volume.text = map (font "3") [ "" "" "" ];
+      ramp.volume.text = map (font "3") [
+        ""
+        ""
+        ""
+      ];
     };
     "module/tray".type = "internal/tray";
   };

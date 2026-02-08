@@ -1,4 +1,5 @@
-_: let
+_:
+let
   core_shortcut = name: title: icon: {
     inherit name;
     sidebar_title = title;
@@ -7,9 +8,12 @@ _: let
     url_path = "config/" + name + "/dashboard";
     embed_iframe = true;
     require_admin = true;
-    config = { ingress = "core_configurator"; };
+    config = {
+      ingress = "core_configurator";
+    };
   };
-in [
+in
+[
   (core_shortcut "automation" "Automations" "mdi:arrow-decision")
   (core_shortcut "integrations" "Integrations" "mdi:cog-outline")
 ]

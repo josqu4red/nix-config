@@ -1,7 +1,13 @@
-{ lib, buildGoModule, fetchFromGitHub }: let
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
+let
   pname = "freebox-exporter";
   version = "20241219";
-in buildGoModule {
+in
+buildGoModule {
   inherit pname version;
   vendorHash = "sha256-zLhvFzkgUcBBRoowH5k/PJwl3uxtFZh3kl4kJN6mYjk=";
 
@@ -14,7 +20,7 @@ in buildGoModule {
 
   meta = with lib; {
     description = "Prometheus exporter for the Freebox";
-    homepage    = "https://github.com/trazfr/freebox-exporter";
-    license     = licenses.mit;
+    homepage = "https://github.com/trazfr/freebox-exporter";
+    license = licenses.mit;
   };
 }

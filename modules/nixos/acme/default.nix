@@ -1,8 +1,14 @@
 { config, lib, ... }:
 let
-  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.nxmods.acme;
-in {
+in
+{
   options.nxmods.acme = with types; {
     enable = mkEnableOption "ACME";
     email = mkOption {
@@ -26,7 +32,12 @@ in {
     };
   };
   config = mkIf cfg.enable {
-    assertions = [{ assertion = config.nxmods.sops.enable; message = "sops module must be enabled"; }];
+    assertions = [
+      {
+        assertion = config.nxmods.sops.enable;
+        message = "sops module must be enabled";
+      }
+    ];
 
     security.acme = {
       acceptTerms = true;

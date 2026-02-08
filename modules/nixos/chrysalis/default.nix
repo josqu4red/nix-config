@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.nxmods.chrysalis;
-in {
+in
+{
   options.nxmods.chrysalis.enable = mkEnableOption "Keyboardio Chrysalis configuration tool";
 
   config = mkIf cfg.enable {

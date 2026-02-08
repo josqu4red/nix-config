@@ -1,4 +1,5 @@
-{ pkgs, hostFacts, ... }: {
+{ pkgs, hostFacts, ... }:
+{
   imports = [ ../base ];
 
   boot.loader.systemd-boot.enable = true;
@@ -27,7 +28,10 @@
 
   environment = {
     pathsToLink = [ "/share/zsh" ];
-    systemPackages = with pkgs; [ pulseaudio pamixer ];
+    systemPackages = with pkgs; [
+      pulseaudio
+      pamixer
+    ];
   };
 
   fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];

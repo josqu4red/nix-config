@@ -1,11 +1,14 @@
-{ lib
-, fetchFromGitHub
-, buildHomeAssistantComponent
-, python313
-}: let
+{
+  lib,
+  fetchFromGitHub,
+  buildHomeAssistantComponent,
+  python313,
+}:
+let
   owner = "rstrouse";
   version = "2.4.7";
-in buildHomeAssistantComponent {
+in
+buildHomeAssistantComponent {
   inherit owner version;
   domain = "espsomfy_rts";
 
@@ -16,7 +19,10 @@ in buildHomeAssistantComponent {
     hash = "sha256-F0cWvkTHexCHR1Pcp8jlNJpBAdzfC5Yk/7H2i8wj/u0=";
   };
 
-  propagatedBuildInputs = with python313.pkgs; [ aiofiles websocket-client ];
+  propagatedBuildInputs = with python313.pkgs; [
+    aiofiles
+    websocket-client
+  ];
 
   meta = with lib; {
     changelog = "https://github.com/rstrouse/ESPSomfy-RTS-HA/releases/tag/v${version}";

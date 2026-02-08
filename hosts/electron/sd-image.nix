@@ -1,4 +1,10 @@
-{ config, modulesPath, pkgsCross, ... }: {
+{
+  config,
+  modulesPath,
+  pkgsCross,
+  ...
+}:
+{
   imports = [
     (modulesPath + "/installer/sd-card/sd-image.nix")
   ];

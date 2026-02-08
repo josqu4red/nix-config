@@ -1,13 +1,24 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.nxmods.docker;
-in {
+in
+{
   options.nxmods.docker = {
     enable = mkEnableOption "Container runtime";
     privilegedUsers = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       example = [ "jdoe" ];
       description = "Users allowed to run docker commands";
     };
@@ -18,19 +29,22 @@ in {
       description = "Install docker or podman";
     };
   };
-  config = let
-    settings = {
-      docker = {};
-      podman = {
-        dockerCompat = true;
+  config =
+    let
+      settings = {
+        docker = { };
+        podman = {
+          dockerCompat = true;
+        };
       };
+    in
+    mkIf cfg.enable {
+      virtualisation.${cfg.flavor} = {
+        enable = true;
+      }
+      // settings.${cfg.flavor};
+      environment.systemPackages = [ pkgs."${cfg.flavor}-compose" ];
+      users.extraGroups.${cfg.flavor}.members = cfg.privilegedUsers;
+      networking.firewall.checkReversePath = false; # https://github.com/NixOS/nixpkgs/issues/298165
     };
-  in mkIf cfg.enable {
-    virtualisation.${cfg.flavor} = {
-      enable = true;
-    } // settings.${cfg.flavor};
-    environment.systemPackages = [ pkgs."${cfg.flavor}-compose" ];
-    users.extraGroups.${cfg.flavor}.members = cfg.privilegedUsers;
-    networking.firewall.checkReversePath = false; # https://github.com/NixOS/nixpkgs/issues/298165
-  };
 }

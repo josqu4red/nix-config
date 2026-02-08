@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.nxmods.ledger;
-in {
+in
+{
   options.nxmods.ledger.enable = mkEnableOption "Ledger Live";
 
   config = mkIf cfg.enable {

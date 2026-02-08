@@ -1,9 +1,14 @@
-{ stdenv, fetchFromGitHub, lib }:
+{
+  stdenv,
+  fetchFromGitHub,
+  lib,
+}:
 let
   pname = "gws";
   version = "0.2.0";
   sha256 = "sha256-/m7b0m8RHouL6Gppca3f7G4aIy3sJ1kkYQGGNh9ZkMc=";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "${pname}-${version}";
 
   src = fetchFromGitHub {
@@ -21,7 +26,7 @@ in stdenv.mkDerivation {
 
   meta = with lib; {
     description = "gws is a KISS, bash, colorful helper to manage workspaces composed of Git repositories.";
-    homepage    = "https://github.com/StreakyCobra/gws";
-    license     = licenses.mit;
+    homepage = "https://github.com/StreakyCobra/gws";
+    license = licenses.mit;
   };
 }

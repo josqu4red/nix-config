@@ -1,4 +1,11 @@
-{ inputs, lib, pkgs, secrets, ... }: {
+{
+  inputs,
+  lib,
+  pkgs,
+  secrets,
+  ...
+}:
+{
   imports = [
     inputs.nixos-generators.nixosModules.all-formats
     inputs.self.nixosProfiles.base
@@ -28,7 +35,10 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [80 443];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;

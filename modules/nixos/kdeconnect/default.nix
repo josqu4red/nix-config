@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.nxmods.kdeconnect;
-in {
+in
+{
   options.nxmods.kdeconnect.enable = mkEnableOption "KDEConnect";
 
   config = mkIf cfg.enable {

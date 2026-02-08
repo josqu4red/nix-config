@@ -1,20 +1,29 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkOption types;
 
-  prefixType = with types; submodule {
-    options = {
-      address = mkOption {
-        description = "Prefix address";
-        type = str;
-      };
-      length = mkOption {
-        description = "Prefix length";
-        type = int;
+  prefixType =
+    with types;
+    submodule {
+      options = {
+        address = mkOption {
+          description = "Prefix address";
+          type = str;
+        };
+        length = mkOption {
+          description = "Prefix length";
+          type = int;
+        };
       };
     };
-  };
-in with types; {
+in
+with types;
+{
   options.settings = {
     userShell = mkOption {
       type = package;
@@ -26,7 +35,7 @@ in with types; {
   options.facts = {
     defaults = mkOption {
       description = "Host defaults";
-      default = {};
+      default = { };
       type = submodule {
         options = {
           stateVersion = mkOption {
@@ -41,7 +50,7 @@ in with types; {
           };
           users = mkOption {
             description = "Default host users";
-            default = [];
+            default = [ ];
             type = listOf str;
           };
         };
@@ -49,7 +58,7 @@ in with types; {
     };
     hosts = mkOption {
       description = "List of hosts";
-      default = {};
+      default = { };
       type = attrsOf (submodule {
         options = {
           stateVersion = mkOption {
@@ -84,7 +93,7 @@ in with types; {
           };
           aliases = mkOption {
             description = "Host aliases";
-            default = [];
+            default = [ ];
             type = listOf str;
           };
         };
@@ -133,7 +142,7 @@ in with types; {
     };
     config = mkOption {
       description = "General shared config";
-      default = {};
+      default = { };
       type = attrs;
     };
   };

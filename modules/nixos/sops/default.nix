@@ -1,8 +1,19 @@
-{ self, config, lib, ... }:
+{
+  self,
+  config,
+  lib,
+  ...
+}:
 let
-  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.nxmods.sops;
-in {
+in
+{
   imports = [ self.inputs.sops-nix.nixosModules.sops ];
 
   options.nxmods.sops = {

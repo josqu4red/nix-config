@@ -15,8 +15,15 @@
     binfmt.emulatedSystems = [ "aarch64-linux" ];
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
-    initrd.availableKernelModules = [ "nvme" "xhci_pci" "sd_mod" ];
-    initrd.kernelModules = [ "dm-snapshot" "usb_storage" ];
+    initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "sd_mod"
+    ];
+    initrd.kernelModules = [
+      "dm-snapshot"
+      "usb_storage"
+    ];
     kernelModules = [ "kvm-amd" ];
     tmp.cleanOnBoot = true;
   };
@@ -32,7 +39,10 @@
     key = "";
   };
 
-  networking.firewall.allowedTCPPorts = [80 443];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;

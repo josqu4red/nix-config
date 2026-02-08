@@ -1,9 +1,15 @@
-{ pkgs, colors, defaultFont }: let
+{
+  pkgs,
+  colors,
+  defaultFont,
+}:
+let
   dunstColors = {
     background = colors.darker;
     foreground = colors.light;
   };
-in {
+in
+{
   enable = true;
   settings = {
     global = {
@@ -16,7 +22,9 @@ in {
     };
     urgency_normal = dunstColors;
     urgency_low = dunstColors;
-    urgency_critical = dunstColors // { frame_color = colors.orange; };
+    urgency_critical = dunstColors // {
+      frame_color = colors.orange;
+    };
   };
   iconTheme = {
     name = "material-design";

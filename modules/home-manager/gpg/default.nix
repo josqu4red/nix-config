@@ -1,7 +1,9 @@
-{ pkgs, ... }: let
+{ pkgs, ... }:
+let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
   pinentry = if isDarwin then pkgs.pinentry_mac else pkgs.pinentry-gtk2;
-in {
+in
+{
   programs.gpg = {
     enable = true;
     mutableKeys = true;

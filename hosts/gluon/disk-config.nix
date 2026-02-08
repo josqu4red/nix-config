@@ -16,7 +16,8 @@ let
       };
     };
   };
-in {
+in
+{
   nodev."/" = {
     fsType = "tmpfs";
     mountOptions = [

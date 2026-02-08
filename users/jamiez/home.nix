@@ -1,12 +1,29 @@
-{ inputs, pkgs, ... }: {
-  imports = with inputs.self.homeModules; [ base firefox git gpg kitty neovim pass tmux zsh ];
+{ inputs, pkgs, ... }:
+{
+  imports = with inputs.self.homeModules; [
+    base
+    firefox
+    git
+    gpg
+    kitty
+    neovim
+    pass
+    tmux
+    zsh
+  ];
 
-  programs.gpg.publicKeys = [{
-    source = ./files/4BBCA7023906BA07.gpg.asc;
-    trust = 5;
-  }];
+  programs.gpg.publicKeys = [
+    {
+      source = ./files/4BBCA7023906BA07.gpg.asc;
+      trust = 5;
+    }
+  ];
 
-  home.packages = with pkgs; [ logseq slack spotify ];
+  home.packages = with pkgs; [
+    logseq
+    slack
+    spotify
+  ];
 
   services.nextcloud-client.enable = true;
 

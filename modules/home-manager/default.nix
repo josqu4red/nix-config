@@ -13,7 +13,10 @@ let
     vscode = import ./vscode;
     zsh = import ./zsh;
   };
-  default = { ... }: {
-    imports = builtins.attrValues modules;
-  };
-in modules // { inherit default; }
+  default =
+    { ... }:
+    {
+      imports = builtins.attrValues modules;
+    };
+in
+modules // { inherit default; }

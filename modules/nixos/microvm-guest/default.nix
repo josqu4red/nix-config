@@ -1,9 +1,16 @@
-{ self, config, lib, hostname, ... }:
+{
+  self,
+  config,
+  lib,
+  hostname,
+  ...
+}:
 let
   inherit (self.lib) macAddress machineId;
   inherit (lib) mkEnableOption mkIf mkMerge;
   cfg = config.nxmods.microvm-guest;
-in {
+in
+{
   imports = [ self.inputs.microvm.nixosModules.microvm ];
 
   options.nxmods.microvm-guest = {
@@ -21,23 +28,28 @@ in {
       };
       microvm = {
         hypervisor = "cloud-hypervisor";
-        interfaces = [{
-          id = "vm-${hostname}";
-          type = "tap";
-          mac = macAddress hostname;
-        }];
-        shares = [{
-          proto = "virtiofs";
-          tag = "ro-store";
-          source = "/nix/store";
-          mountPoint = "/nix/.ro-store";
-        }{
-          proto = "virtiofs";
-          tag = "journal";
-          source = "/var/lib/microvms/${hostname}/journal";
-          mountPoint = "/var/log/journal";
-          socket = "journal.sock";
-        }];
+        interfaces = [
+          {
+            id = "vm-${hostname}";
+            type = "tap";
+            mac = macAddress hostname;
+          }
+        ];
+        shares = [
+          {
+            proto = "virtiofs";
+            tag = "ro-store";
+            source = "/nix/store";
+            mountPoint = "/nix/.ro-store";
+          }
+          {
+            proto = "virtiofs";
+            tag = "journal";
+            source = "/var/lib/microvms/${hostname}/journal";
+            mountPoint = "/var/log/journal";
+            socket = "journal.sock";
+          }
+        ];
       };
     })
   ];

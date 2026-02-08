@@ -29,45 +29,60 @@
     };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
-  let
-    lib = import ./lib { inherit inputs; };
-    inherit (import ./secrets/build/facts.nix {}) facts;
-    inherit (lib) buildHomeConfigs buildNixosConfigs expandFacts filterSystem forAllSystems;
+  outputs =
+    { self, nixpkgs, ... }@inputs:
+    let
+      lib = import ./lib { inherit inputs; };
+      inherit (import ./secrets/build/facts.nix { }) facts;
+      inherit (lib)
+        buildHomeConfigs
+        buildNixosConfigs
+        expandFacts
+        filterSystem
+        forAllSystems
+        ;
 
-    hosts = expandFacts facts;
+      hosts = expandFacts facts;
 
-    local-pkgs = final: _prev: import ./pkgs { pkgs = final; };
+      local-pkgs = final: _prev: import ./pkgs { pkgs = final; };
 
-    legacyPackages = forAllSystems (system:
-      import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-        overlays = [ local-pkgs ];
-      }
-    );
-  in {
-    inherit facts legacyPackages lib;
+      legacyPackages = forAllSystems (
+        system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          overlays = [ local-pkgs ];
+        }
+      );
+    in
+    {
+      inherit facts legacyPackages lib;
 
-    nixosConfigurations = buildNixosConfigs (filterSystem "linux" hosts);
-    nixosModules = import ./modules/nixos;
-    nixosProfiles = import ./modules/profiles;
+      nixosConfigurations = buildNixosConfigs (filterSystem "linux" hosts);
+      nixosModules = import ./modules/nixos;
+      nixosProfiles = import ./modules/profiles;
 
-    homeConfigurations = buildHomeConfigs hosts;
-    homeModules = import ./modules/home-manager;
+      homeConfigurations = buildHomeConfigs hosts;
+      homeModules = import ./modules/home-manager;
 
-    devShells = forAllSystems (system: {
-      default = import ./shell.nix { pkgs = legacyPackages.${system};
-                                     sops-import-keys-hook = inputs.sops-nix.packages.${system}.sops-import-keys-hook;
-                                     ssh-to-pgp = inputs.ssh-to-pgp.packages.${system}.ssh-to-pgp; };
-      fhsEnv = import ./pkgs/fhsEnv.nix { pkgs = legacyPackages.${system}; };
-    });
+      devShells = forAllSystems (system: {
+        default = import ./shell.nix {
+          pkgs = legacyPackages.${system};
+          sops-import-keys-hook = inputs.sops-nix.packages.${system}.sops-import-keys-hook;
+          ssh-to-pgp = inputs.ssh-to-pgp.packages.${system}.ssh-to-pgp;
+        };
+        fhsEnv = import ./pkgs/fhsEnv.nix { pkgs = legacyPackages.${system}; };
+      });
 
-    packages = forAllSystems (system: let
-        pkgs = legacyPackages.${system};
-    in {
-      nixlive = self.nixosConfigurations.nixlive.config.system.build.isoImage;
-      doc = pkgs.callPackage ./pkgs/doc.nix {};
-    });
-  };
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = legacyPackages.${system};
+        in
+        {
+          nixlive = self.nixosConfigurations.nixlive.config.system.build.isoImage;
+          doc = pkgs.callPackage ./pkgs/doc.nix { };
+        }
+      );
+    };
 }

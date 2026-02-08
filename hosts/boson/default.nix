@@ -1,4 +1,9 @@
-{ config, inputs, hostFacts, ... }:
+{
+  config,
+  inputs,
+  hostFacts,
+  ...
+}:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
@@ -18,8 +23,16 @@
   boot = {
     binfmt.emulatedSystems = [ "aarch64-linux" ];
     loader.systemd-boot.consoleMode = "max";
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
-    initrd.kernelModules = [ "dm-snapshot" "usb_storage" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "sd_mod"
+    ];
+    initrd.kernelModules = [
+      "dm-snapshot"
+      "usb_storage"
+    ];
     kernelModules = [ "kvm-intel" ];
     tmp.cleanOnBoot = true;
   };
@@ -51,7 +64,10 @@
       mainInterface.name = "br0";
       bridge = {
         enable = true;
-        interfaces = [ hostFacts.netIf "vm-*" ];
+        interfaces = [
+          hostFacts.netIf
+          "vm-*"
+        ];
         macaddress = hostFacts.mac;
       };
     };

@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkEnableOption mkIf mkMerge;
   cfg = config.nxmods.desktop;
-in {
+in
+{
   options.nxmods.desktop = {
     enable = mkEnableOption "desktop";
     gnome = mkEnableOption "gnome";
@@ -28,7 +34,7 @@ in {
     (mkIf cfg.i3 {
       services.displayManager.defaultSession = "none+i3";
       services.xserver = {
-        displayManager.lightdm.enable = ! config.services.displayManager.gdm.enable;
+        displayManager.lightdm.enable = !config.services.displayManager.gdm.enable;
         windowManager.i3.enable = true;
       };
       services.blueman.enable = true;

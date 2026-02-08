@@ -1,6 +1,8 @@
-{ inputs, pkgs, ... }: let
+{ inputs, pkgs, ... }:
+let
   firefox-addons = inputs.firefox-addons.packages."${pkgs.system}";
-in {
+in
+{
   programs.firefox = {
     enable = true;
     profiles."default" = {

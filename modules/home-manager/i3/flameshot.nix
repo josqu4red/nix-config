@@ -1,4 +1,5 @@
-{ colors }: {
+{ colors }:
+{
   enable = true;
   settings = {
     General = {

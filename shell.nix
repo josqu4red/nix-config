@@ -1,4 +1,8 @@
-{ pkgs, sops-import-keys-hook, ssh-to-pgp }:
+{
+  pkgs,
+  sops-import-keys-hook,
+  ssh-to-pgp,
+}:
 let
   apply = ''
     # get user input
@@ -80,6 +84,25 @@ let
 in
 pkgs.mkShell {
   sopsPGPKeyDirs = [ ./.sops ];
-  nativeBuildInputs = [ sops-import-keys-hook ssh-to-pgp ];
-  buildInputs = with pkgs; [ backblaze-b2 deadnix git-crypt kanidm_1_7 nix-diff nix-index nix-prefetch-github nix-tree nurl nvd sops statix ] ++ scripts;
+  nativeBuildInputs = [
+    sops-import-keys-hook
+    ssh-to-pgp
+  ];
+  buildInputs =
+    with pkgs;
+    [
+      backblaze-b2
+      deadnix
+      git-crypt
+      kanidm_1_7
+      nix-diff
+      nix-index
+      nix-prefetch-github
+      nix-tree
+      nurl
+      nvd
+      sops
+      statix
+    ]
+    ++ scripts;
 }

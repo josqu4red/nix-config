@@ -1,9 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkEnableOption mkIf;
   fakeHwClockBin = "${pkgs.fake-hwclock}/bin/fake-hwclock";
   Environment = "FILE=/var/lib/fake-hwclock.state";
-in {
+in
+{
   options.services.fake-hwclock = {
     enable = mkEnableOption "fake-hwclock pseudo-service";
   };

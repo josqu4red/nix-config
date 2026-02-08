@@ -16,20 +16,29 @@
 # kanidm system oauth2 update-claim-map grafana grafana_role grafana_admins Admin
 # kanidm system oauth2 update-claim-map grafana grafana_role grafana_editors Editor
 
-{ self, config, pkgs, ... }: let
+{
+  self,
+  config,
+  pkgs,
+  ...
+}:
+let
   publicHostname = "graf.amiez.xyz";
-in {
+in
+{
   nxmods.impermanence.directories = [ "/var/lib/grafana" ];
 
-  sops.secrets = let
-    owner = "grafana";
-    sopsFile = self.outPath + "/secrets/charm/grafana.yaml";
-  in {
-    "grafana/oauth2/api_url" = { inherit owner sopsFile; };
-    "grafana/oauth2/auth_url" = { inherit owner sopsFile; };
-    "grafana/oauth2/token_url" = { inherit owner sopsFile; };
-    "grafana/oauth2/client_secret" = { inherit owner sopsFile; };
-  };
+  sops.secrets =
+    let
+      owner = "grafana";
+      sopsFile = self.outPath + "/secrets/charm/grafana.yaml";
+    in
+    {
+      "grafana/oauth2/api_url" = { inherit owner sopsFile; };
+      "grafana/oauth2/auth_url" = { inherit owner sopsFile; };
+      "grafana/oauth2/token_url" = { inherit owner sopsFile; };
+      "grafana/oauth2/client_secret" = { inherit owner sopsFile; };
+    };
 
   services.nginx.virtualHosts.${publicHostname} = {
     enableACME = true;

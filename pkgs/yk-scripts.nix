@@ -3,12 +3,13 @@
 # those are still useful because they're easier to remember, once you
 # get in the habit of looking for `yk-*` scripts.
 
-{ gnupg
-, newt
-, yubikey-manager
-, symlinkJoin
-, writeShellScriptBin
-, lib
+{
+  gnupg,
+  newt,
+  yubikey-manager,
+  symlinkJoin,
+  writeShellScriptBin,
+  lib,
 }:
 
 let
@@ -113,7 +114,6 @@ let
       echo "Your YubiKey is now ready to be used."
     '';
 
-
     # Reset a YubiKey to its factory configuration, except for any
     # disabled modes, which will remain disabled.
     #
@@ -150,7 +150,6 @@ let
       echo "done."
     '';
 
-
     # Disable OTP, and disable the OTP USB mode, for good measure.
 
     yk-otp-disable = writeShellScriptBin "yk-otp-disable" ''
@@ -170,7 +169,6 @@ let
       #${ykman} config usb --force --disable OTP
     '';
 
-
     # Disable OATH.
     #
     # Not all keys support NFC, so we ignore errors from the NFC bit.
@@ -186,7 +184,6 @@ let
       ${ykman} config usb --force --disable OATH
     '';
 
-
     # Change the YubiKey OpenPGP Card PIN.
     #
     # This script can be used to change either the user PIN (answer "1"
@@ -201,7 +198,6 @@ let
       ${gpg} --change-pin
       echo "done."
     '';
-
 
     # Enforce touch on OpenPGP encryption and signing.
     #
@@ -238,7 +234,6 @@ let
       echo "done."
     '';
 
-
     # Enforce touch on all OpenPGP operations.
     #
     # Note that changing these touch settings requires knowledge of the
@@ -267,7 +262,6 @@ let
       ${ykman} openpgp keys set-touch --force sig on
       echo "done."
     '';
-
 
     # Change the PIV PUK.
 

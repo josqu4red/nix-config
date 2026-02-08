@@ -1,12 +1,15 @@
-{ lib
-, fetchFromGitHub
-, buildHomeAssistantComponent
-, python313
-}: let
+{
+  lib,
+  fetchFromGitHub,
+  buildHomeAssistantComponent,
+  python313,
+}:
+let
   owner = "hekmon";
   repo = "rtetempo";
   version = "1.3.2";
-in buildHomeAssistantComponent {
+in
+buildHomeAssistantComponent {
   inherit owner version;
   domain = repo;
 

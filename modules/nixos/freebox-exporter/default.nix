@@ -1,9 +1,20 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.services.freebox-exporter;
   user = "freebox-exporter";
-in {
+in
+{
   options.services.freebox-exporter = with types; {
     enable = mkEnableOption "freebox-exporter service";
     apiTokenFile = mkOption {
@@ -24,7 +35,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    users.groups.${user} = {};
+    users.groups.${user} = { };
     users.users.${user} = {
       isSystemUser = true;
       group = user;

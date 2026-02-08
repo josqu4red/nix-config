@@ -1,8 +1,15 @@
-{ stdenv, fetchgit, lib, makeWrapper, coreutils }:
+{
+  stdenv,
+  fetchgit,
+  lib,
+  makeWrapper,
+  coreutils,
+}:
 let
   pname = "fake-hwclock";
   version = "0.12";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit pname version;
 
   nativeBuildInputs = [ makeWrapper ];
@@ -23,7 +30,7 @@ in stdenv.mkDerivation {
 
   meta = with lib; {
     description = "Save/restore system clock on machines without working RTC hardware";
-    homepage    = "https://git.einval.com/cgi-bin/gitweb.cgi?p=fake-hwclock.git";
-    license     = licenses.gpl2;
+    homepage = "https://git.einval.com/cgi-bin/gitweb.cgi?p=fake-hwclock.git";
+    license = licenses.gpl2;
   };
 }

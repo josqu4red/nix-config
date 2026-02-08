@@ -1,4 +1,5 @@
-{ pkgs }: {
+{ pkgs }:
+{
   enable = true;
   theme = ./nord.rasi;
   package = pkgs.rofi.override {

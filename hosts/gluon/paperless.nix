@@ -6,25 +6,29 @@
 # kanidm system oauth2 prefer-short-username paperless
 # kanidm system oauth2 set-image paperless paperless-logo.svg
 
-{ self, config, ... }: let
+{ self, config, ... }:
+let
   dataDir = "/var/lib/cloud/paperless";
   hostName = "papers.amiez.xyz";
-in {
-  sops.secrets = let
-    sopsFile = self.outPath + "/secrets/gluon/paperless.yaml";
-  in {
-    "paperless/adminpass" = {
-      owner = "paperless";
-      inherit sopsFile;
+in
+{
+  sops.secrets =
+    let
+      sopsFile = self.outPath + "/secrets/gluon/paperless.yaml";
+    in
+    {
+      "paperless/adminpass" = {
+        owner = "paperless";
+        inherit sopsFile;
+      };
+      "paperless/backup/repo" = { inherit sopsFile; };
+      "paperless/backup/env" = { inherit sopsFile; };
+      "paperless/backup/password" = { inherit sopsFile; };
+      "paperless/oauth2-config" = {
+        owner = "paperless";
+        inherit sopsFile;
+      };
     };
-    "paperless/backup/repo" = { inherit sopsFile; };
-    "paperless/backup/env" = { inherit sopsFile; };
-    "paperless/backup/password" = { inherit sopsFile; };
-    "paperless/oauth2-config" = {
-      owner = "paperless";
-      inherit sopsFile;
-    };
-  };
 
   services.paperless = {
     enable = true;
@@ -50,19 +54,21 @@ in {
     };
   };
 
-  services.restic.backups.paperless = let
-    exportDir = "${dataDir}/export";
-  in {
-    initialize = true;
-    repositoryFile = config.sops.secrets."paperless/backup/repo".path;
-    environmentFile = config.sops.secrets."paperless/backup/env".path;
-    passwordFile = config.sops.secrets."paperless/backup/password".path;
-    paths = [ exportDir ];
-    backupPrepareCommand = "${config.services.paperless.manage}/bin/paperless-manage document_exporter ${exportDir}";
-    pruneOpts = [
-      "--keep-daily 14"
-      "--keep-monthly 12"
-      "--keep-yearly 10"
-    ];
-  };
+  services.restic.backups.paperless =
+    let
+      exportDir = "${dataDir}/export";
+    in
+    {
+      initialize = true;
+      repositoryFile = config.sops.secrets."paperless/backup/repo".path;
+      environmentFile = config.sops.secrets."paperless/backup/env".path;
+      passwordFile = config.sops.secrets."paperless/backup/password".path;
+      paths = [ exportDir ];
+      backupPrepareCommand = "${config.services.paperless.manage}/bin/paperless-manage document_exporter ${exportDir}";
+      pruneOpts = [
+        "--keep-daily 14"
+        "--keep-monthly 12"
+        "--keep-yearly 10"
+      ];
+    };
 }

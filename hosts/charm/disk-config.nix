@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   nodev."/" = {
     fsType = "tmpfs";
     mountOptions = [
