@@ -17,7 +17,6 @@ let
   extraPackages = with pkgs; [
     clang-tools
     fd
-    github-copilot-cli
     go
     gopls
     jsonnet-language-server
@@ -36,7 +35,6 @@ in
     enable = true;
     vimAlias = true;
     vimdiffAlias = true;
-    withNodeJs = true; # copilot
     inherit extraPackages;
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
@@ -53,9 +51,7 @@ in
           aerial-nvim
           blink-cmp
           blink-compat
-          blink-copilot
           conform-nvim
-          copilot-lua
           flash-nvim
           friendly-snippets
           git-conflict-nvim
@@ -117,8 +113,6 @@ in
           install = { missing = false }, -- Safeguard in case we forget to install a plugin with Nix
           spec = {
             { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-            { import = "lazyvim.plugins.extras.ai.copilot" },
-            { import = "lazyvim.plugins.extras.ai.sidekick" },
             { import = "lazyvim.plugins.extras.editor.aerial" },
             { import = "lazyvim.plugins.extras.editor.neo-tree" },
             { import = "lazyvim.plugins.extras.ui.treesitter-context" },
