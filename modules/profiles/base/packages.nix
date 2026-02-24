@@ -1,0 +1,30 @@
+{
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs; [
+    bc
+    binutils
+    colordiff
+    curl
+    dig
+    file
+    git
+    htop
+    jq
+    less
+    lsof
+    ncdu
+    nettools
+    nvd
+    rsync
+    screen
+    socat
+    strace
+    sysstat
+    tree
+    unzip
+    vim
+  ];
+}
