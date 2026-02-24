@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   inputs,
   hostFacts,
   ...
@@ -39,6 +40,8 @@
 
   # for networked test vms
   environment.etc."qemu/bridge.conf".text = "allow br0";
+
+  services.openssh.settings.PasswordAuthentication = lib.mkForce true;
 
   nxmods = {
     cachix.enable = true;
