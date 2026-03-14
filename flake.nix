@@ -31,6 +31,7 @@
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixpkgs-mongodb.url = "github:NixOS/nixpkgs/9f0c42f8bc7151b8e7e5840fb3bd454ad850d8c5";
   };
 
   outputs =
@@ -50,12 +51,23 @@
 
       local-pkgs = final: _prev: import ./pkgs { pkgs = final; };
 
+      mongodb-pin = _final: prev: {
+        mongodb-7_0 =
+          (import inputs.nixpkgs-mongodb {
+            inherit (prev) system;
+            config.allowUnfreePredicate = pkg: "mongodb" == (prev.lib.getName pkg);
+          }).mongodb-7_0;
+      };
+
       legacyPackages = forAllSystems (
         system:
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = [ local-pkgs ];
+          overlays = [
+            local-pkgs
+            mongodb-pin
+          ];
         }
       );
     in
