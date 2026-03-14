@@ -3,7 +3,7 @@ let
   bindaddress = "127.0.0.1:9443";
   domain = "id.amiez.xyz";
   dataDir = "/var/lib/kanidm";
-  package = pkgs.kanidm_1_8;
+  package = pkgs.kanidm_1_9;
   kanadmin = pkgs.writeShellScriptBin "kanadmin" ''
     exec sudo -u kanidm ${package}/bin/kanidmd "$@"
   '';
@@ -27,13 +27,15 @@ in
 
   services.kanidm = {
     inherit package;
-    enableServer = true;
     provision.enable = true;
-    serverSettings = {
-      inherit bindaddress domain;
-      origin = "https://${domain}";
-      tls_chain = "${dataDir}/fullchain.pem";
-      tls_key = "${dataDir}/key.pem";
+    server = {
+      enable = true;
+      settings = {
+        inherit bindaddress domain;
+        origin = "https://${domain}";
+        tls_chain = "${dataDir}/fullchain.pem";
+        tls_key = "${dataDir}/key.pem";
+      };
     };
   };
 
