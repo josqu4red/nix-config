@@ -34,6 +34,7 @@ in
       sopsFile = self.outPath + "/secrets/charm/grafana.yaml";
     in
     {
+      "grafana/secret_key" = { inherit owner sopsFile; };
       "grafana/oauth2/api_url" = { inherit owner sopsFile; };
       "grafana/oauth2/auth_url" = { inherit owner sopsFile; };
       "grafana/oauth2/token_url" = { inherit owner sopsFile; };
@@ -52,13 +53,13 @@ in
 
   services.grafana = {
     enable = true;
-    settings = {
+    settings = with config.sops; {
       server = {
         domain = publicHostname;
         root_url = "https://" + publicHostname;
       };
       feature_toggles.externalServiceAccounts = true;
-      "auth.generic_oauth" = with config.sops; {
+      "auth.generic_oauth" = {
         enabled = true;
         name = "id.amiez.xyz";
         client_id = "grafana";
@@ -74,6 +75,7 @@ in
         login_attribute_path = "preferred_username";
         role_attribute_path = "contains(grafana_role[*], 'GrafanaAdmin') && 'GrafanaAdmin' || contains(grafana_role[*], 'Admin') && 'Admin' || contains(grafana_role[*], 'Editor') && 'Editor' || 'Viewer'";
       };
+      security.secret_key = "$__file{${secrets."grafana/secret_key".path}}";
     };
     declarativePlugins = [ pkgs.grafana-strava-datasource ];
   };
