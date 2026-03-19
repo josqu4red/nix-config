@@ -35,11 +35,13 @@ in
     enable = true;
     vimAlias = true;
     vimdiffAlias = true;
+    withPython3 = true;
+    withRuby = true;
     inherit extraPackages;
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
     ];
-    extraLuaConfig =
+    initLua =
       with pkgs.vimPlugins;
       let
         mini = sub: {
