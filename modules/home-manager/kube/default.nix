@@ -12,13 +12,15 @@ let
 in
 {
   home.packages = with pkgs; [
+    chart-testing
+    helm
     k9s
     kind
+    kubebuilder
     kubectl
     kubectl-explore
     kubectx
-    helm
-    chart-testing
+    kubevirt
   ];
 
   programs.zsh.shellAliases = {
