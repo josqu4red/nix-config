@@ -1,0 +1,27 @@
+id: notify_tempo
+alias: "02 - Notify Tempo"
+triggers:
+  - trigger: state
+    entity_id:
+      - sensor.rte_tempo_prochaine_couleur
+conditions:
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: sensor.rte_tempo_prochaine_couleur
+        state: Blanc
+      - condition: state
+        entity_id: sensor.rte_tempo_prochaine_couleur
+        state: Rouge
+actions:
+  - action: notify.mobile_app_zenfone
+    metadata: {}
+    data:
+      message: Demain {{ states('sensor.rte_tempo_prochaine_couleur') }}!
+      title: Tempo
+  - action: notify.mobile_app_iphone_de_sev
+    metadata: {}
+    data:
+      message: Demain {{ states('sensor.rte_tempo_prochaine_couleur') }}!
+      title: Tempo
+mode: single
