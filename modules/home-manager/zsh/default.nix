@@ -46,7 +46,6 @@ in
         ignorePatterns = [
           "rm *"
           "l *"
-          "cd *"
         ];
         ignoreSpace = true;
         save = hist-size;
