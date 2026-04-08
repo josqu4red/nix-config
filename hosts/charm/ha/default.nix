@@ -158,6 +158,10 @@ in
           ];
         };
 
+        mqtt_statestream = {
+          base_topic = "homeassistant";
+        };
+
         prometheus.namespace = "ha";
         frontend = {
           themes = "!include ${./themes.yaml}";
