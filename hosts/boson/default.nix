@@ -44,7 +44,7 @@
   services.openssh.settings.PasswordAuthentication = lib.mkForce true;
 
   nxmods = {
-    cachix.enable = true;
+    cachix.enable = false;
     chrysalis.enable = true;
     ledger.enable = true;
     qflipper.enable = true;
