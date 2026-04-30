@@ -89,6 +89,8 @@ in
       "preview_ffmpeg_path" = "${lib.getExe pkgs.ffmpeg-headless}";
       # user_oidc
       # https://kanidm.github.io/kanidm/master/integrations/oauth2/examples.html#nextcloud
+      # disable other auth methods:
+      # nextcloud-occ config:app:set --value=0 user_oidc allow_multiple_user_backends
       "allow_local_remote_servers" = true;
       "allow_user_to_change_display_name" = false;
       "allow_user_to_change_email" = false;
