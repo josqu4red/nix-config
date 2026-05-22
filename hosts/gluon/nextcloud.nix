@@ -9,7 +9,7 @@ let
   home = "/var/lib/cloud/nextcloud";
   hostName = "cloud.amiez.xyz";
   origin = "https://" + hostName;
-  ncVer = "nextcloud32";
+  ncVer = "nextcloud33";
   package = pkgs.${ncVer};
   inherit (pkgs."${ncVer}Packages") apps;
 in
