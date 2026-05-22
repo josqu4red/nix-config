@@ -32,6 +32,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-mongodb.url = "github:NixOS/nixpkgs/9f0c42f8bc7151b8e7e5840fb3bd454ad850d8c5";
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -98,6 +102,7 @@
         {
           nixlive = self.nixosConfigurations.nixlive.config.system.build.isoImage;
           doc = pkgs.callPackage ./pkgs/doc.nix { };
+          llma = inputs.llm-agents.packages.${system};
         }
       );
     };
