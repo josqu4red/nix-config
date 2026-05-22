@@ -13,6 +13,7 @@ in
 {
   home.packages = with pkgs; [
     chart-testing
+    clusterctl
     helm
     k9s
     kind
