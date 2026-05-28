@@ -4,6 +4,15 @@
     tig
     git-crypt
   ];
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      line-numbers = false;
+      navigate = true;
+      side-by-side = false;
+    };
+  };
   programs.git = {
     enable = true;
     signing.key = "18811A0493F64AC5";
