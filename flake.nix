@@ -57,7 +57,7 @@
       mongodb-pin = _final: prev: {
         mongodb-7_0 =
           (import inputs.nixpkgs-mongodb {
-            inherit (prev) system;
+            inherit (prev.stdenv.hostPlatform) system;
             config.allowUnfreePredicate = pkg: "mongodb" == (prev.lib.getName pkg);
           }).mongodb-7_0;
       };
