@@ -2,7 +2,7 @@
   lib,
   fetchFromGitHub,
   buildHomeAssistantComponent,
-  python313,
+  python314,
 }:
 let
   owner = "rstrouse";
@@ -19,7 +19,14 @@ buildHomeAssistantComponent {
     hash = "sha256-F0cWvkTHexCHR1Pcp8jlNJpBAdzfC5Yk/7H2i8wj/u0=";
   };
 
-  propagatedBuildInputs = with python313.pkgs; [
+  postPatch = ''
+    substituteInPlace custom_components/espsomfy_rts/manifest.json \
+      --replace-fail \
+        "websocket-client==1.8.0" \
+        "websocket-client==1.9.0"
+  '';
+
+  propagatedBuildInputs = with python314.pkgs; [
     aiofiles
     websocket-client
   ];
