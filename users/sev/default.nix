@@ -4,7 +4,7 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     packages = with pkgs; [
-      firefox-wayland
+      firefox
       libreoffice
       hunspell
       hunspellDicts.en_US
