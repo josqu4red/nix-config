@@ -1,4 +1,7 @@
-{ secrets, ... }:
+{ secrets, pkgs, ... }:
+let
+  textfile-dir = "/var/lib/node-exporter-textfiles";
+in
 {
   imports = [
     ../base
@@ -32,7 +35,28 @@
       "tapestats"
       "zfs"
     ];
+    extraFlags = [
+      "--collector.textfile.directory=${textfile-dir}"
+    ];
   };
+
+  system.activationScripts.node-exporter-system-version =
+    let
+      nixos_info = pkgs.writeShellScriptBin "nixos-info" ''
+        set -euo pipefail
+
+        VERSION="$(cat /run/current-system/nixos-version)"
+        CURRENT_SYSTEM_DRV="$(readlink /run/current-system)"
+        CURRENT_SYSTEM_PROFILE="$(find /nix/var/nix/profiles -ilname "''${CURRENT_SYSTEM_DRV}")"
+        DEPLOY_TIMESTAMP="$(stat -c '%y' "''${CURRENT_SYSTEM_PROFILE}" | cut -c '-16')"
+
+        echo "nixos_info{version=\"''${VERSION}\",date=\"''${DEPLOY_TIMESTAMP}\"} 1"
+      '';
+    in
+    ''
+      mkdir -pm 1777 ${textfile-dir}
+      ${nixos_info}/bin/nixos-info | ${pkgs.moreutils}/bin/sponge ${textfile-dir}/nixos_info.prom
+    '';
 
   nxmods.acme = {
     enable = true;
