@@ -16,7 +16,7 @@
   hardware.nvidia = {
     open = true;
     powerManagement.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    #package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
   disko.devices = import ./disk-config.nix;
