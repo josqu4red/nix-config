@@ -1,4 +1,9 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = with inputs.self.homeModules; [
     base
@@ -31,4 +36,30 @@
     Type=Application
     Hidden=true
   '';
+
+  home.file.".ssh/yubikey.pub".source = ./files/yubikey.pub;
+
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    settings = {
+      "*" = {
+        User = "jamiez";
+        IdentityFile = "~/.ssh/yubikey.pub";
+        ServerAliveInterval = 60;
+        SendEnv = [ "TMUX" ];
+        IdentitiesOnly = true;
+        HashKnownHosts = false;
+        ForwardAgent = false;
+        AddKeysToAgent = false;
+        ControlMaster = "auto";
+        ControlPath = "~/.ssh/master-%r@%n:%p";
+        ControlPersist = "1m";
+      };
+      localhost = lib.hm.dag.entryBefore [ "*" ] {
+        StrictHostKeyChecking = "no";
+        UserKnownHostsFile = "/dev/null";
+      };
+    };
+  };
 }
