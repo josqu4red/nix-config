@@ -29,6 +29,7 @@
   };
 
   nxmods = {
+    acme.enable = true;
     impermanence.enable = true;
     sops.enable = true;
     tailscale.enable = true;

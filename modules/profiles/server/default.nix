@@ -58,8 +58,5 @@ in
       ${nixos_info}/bin/nixos-info | ${pkgs.moreutils}/bin/sponge ${textfile-dir}/nixos_info.prom
     '';
 
-  nxmods.acme = {
-    enable = true;
-    email = secrets.acme-email;
-  };
+  nxmods.acme.email = secrets.acme-email;
 }

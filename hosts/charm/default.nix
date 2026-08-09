@@ -73,6 +73,7 @@
   };
 
   nxmods = {
+    acme.enable = true;
     networkd = {
       enable = true;
       mainInterface = with config.facts.networks.home; {
