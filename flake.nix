@@ -30,10 +30,6 @@
       url = "github:Mic92/ssh-to-pgp?rev=c175033ca42c116939a3decb2a6461b7396c9bb1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixpkgs-mongodb.url = "github:NixOS/nixpkgs/9f0c42f8bc7151b8e7e5840fb3bd454ad850d8c5";
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
@@ -102,10 +98,21 @@
           pkgs = legacyPackages.${system};
         in
         {
-          nixlive = self.nixosConfigurations.nixlive.config.system.build.isoImage;
           doc = pkgs.callPackage ./pkgs/doc.nix { };
           llma = inputs.llm-agents.packages.${system};
         }
+        // nixpkgs.lib.optionalAttrs (system == "x86_64-linux") {
+          nixlive = self.nixosConfigurations.nixlive.config.system.build.images.iso;
+        }
       );
+
+      apps."x86_64-linux".nixlive-vm =
+        let
+          vm = self.nixosConfigurations.nixlive.config.system.build.vm;
+        in
+        {
+          type = "app";
+          program = nixpkgs.lib.getExe vm;
+        };
     };
 }

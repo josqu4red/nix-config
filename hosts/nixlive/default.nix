@@ -7,16 +7,30 @@
 }:
 {
   imports = [
-    inputs.nixos-generators.nixosModules.all-formats
     inputs.self.nixosProfiles.base
   ];
 
+  # nixpkgs' image.modules.iso is bare iso-image.nix, which defaults both of
+  # these to false; nixos-generators' iso format forced them on. Without them
+  # the ISO boots neither via EFI nor from USB.
+  image.modules.iso.isoImage = {
+    makeEfiBootable = true;
+    makeUsbBootable = true;
+  };
+
+  # To have a valid `nixosConfigurations.nixlive` (`nix flake check`)
+  fileSystems."/" = {
+    device = "/dev/vda";
+    fsType = "ext4";
+  };
+  boot.loader.grub.device = "/dev/vda";
+
   virtualisation.vmVariant.virtualisation = {
-    # diskSize = 10240;
-    # memorySize = 4096;
+    diskSize = 10240;
+    memorySize = 4096;
     qemu.networkingOptions = lib.mkForce [
       # requires "allow br0" in /etc/qemu/bridge.conf
-      "-net nic,model=virtio,macaddr=02:de:ad:00:06:66 -net bridge,br=br0"
+      #"-net nic,model=virtio,macaddr=02:de:ad:00:06:66 -net bridge,br=br0"
     ];
   };
 
