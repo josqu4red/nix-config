@@ -69,6 +69,9 @@
           overlays = [
             local-pkgs
             mongodb-pin
+            # Passthrough so `nix shell .#llma.<tool>` works. Kept out of
+            # `packages` because it is an attrset, not a derivation.
+            (_final: _prev: { llma = inputs.llm-agents.packages.${system}; })
           ];
         }
       );
@@ -99,7 +102,6 @@
         in
         {
           doc = pkgs.callPackage ./pkgs/doc.nix { };
-          llma = inputs.llm-agents.packages.${system};
         }
         // nixpkgs.lib.optionalAttrs (system == "x86_64-linux") {
           nixlive = self.nixosConfigurations.nixlive.config.system.build.images.iso;
