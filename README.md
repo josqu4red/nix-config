@@ -9,7 +9,6 @@ NixOS configurations for various Linux devices.
 * [impermanence](https://github.com/nix-community/impermanence) for stateless systems
 * [sops-nix](https://github.com/Mic92/sops-nix) for secrets
 * [git-crypt](https://github.com/AGWA/git-crypt) for build-time secrets
-* [microvm.nix](https://github.com/astro/microvm.nix) for lightweight virtualization
 
 ## Credits/References
 

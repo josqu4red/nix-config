@@ -18,8 +18,7 @@ let
                 {
                   # Provide `pkgs` arg to all modules
                   config._module.args.pkgs = pkgs;
-                  # Hide NixOS `_module.args` from nixosOptionsDoc to remain
-                  # specific to microvm.nix
+                  # Hide NixOS `_module.args` from nixosOptionsDoc
                   options._module.args = lib.mkOption {
                     internal = true;
                   };
