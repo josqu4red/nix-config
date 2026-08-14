@@ -95,18 +95,7 @@
         fhsEnv = import ./pkgs/fhsEnv.nix { pkgs = legacyPackages.${system}; };
       });
 
-      packages = forAllSystems (
-        system:
-        let
-          pkgs = legacyPackages.${system};
-        in
-        {
-          doc = pkgs.callPackage ./pkgs/doc.nix { };
-        }
-        // nixpkgs.lib.optionalAttrs (system == "x86_64-linux") {
-          nixlive = self.nixosConfigurations.nixlive.config.system.build.images.iso;
-        }
-      );
+      packages."x86_64-linux".nixlive = self.nixosConfigurations.nixlive.config.system.build.images.iso;
 
       apps."x86_64-linux".nixlive-vm =
         let
