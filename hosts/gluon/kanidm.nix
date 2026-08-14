@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ self, pkgs, ... }:
 let
   bindaddress = "127.0.0.1:9443";
   domain = "id.amiez.xyz";
@@ -18,11 +18,8 @@ in
     reloadServices = [ "kanidm.service" ];
   };
 
-  services.nginx.virtualHosts.${domain} = {
-    enableACME = true;
-    acmeRoot = null;
-    forceSSL = true;
-    locations."/".proxyPass = "https://${bindaddress}";
+  services.nginx.virtualHosts.${domain} = self.lib.proxyVhost {
+    upstream = "https://${bindaddress}";
   };
 
   services.kanidm = {

@@ -41,14 +41,8 @@ in
       "grafana/oauth2/client_secret" = { inherit owner sopsFile; };
     };
 
-  services.nginx.virtualHosts.${publicHostname} = {
-    enableACME = true;
-    acmeRoot = null;
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://127.0.0.1:3000";
-      proxyWebsockets = true;
-    };
+  services.nginx.virtualHosts.${publicHostname} = self.lib.proxyVhost {
+    upstream = "http://127.0.0.1:3000";
   };
 
   services.grafana = {

@@ -57,14 +57,8 @@
     enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-    virtualHosts."test.amiez.xyz" = {
-      enableACME = true;
-      acmeRoot = null;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:28981";
-        proxyWebsockets = true;
-      };
+    virtualHosts."test.amiez.xyz" = inputs.self.lib.proxyVhost {
+      upstream = "http://127.0.0.1:28981";
     };
   };
 }

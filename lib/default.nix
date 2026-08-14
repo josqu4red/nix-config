@@ -37,6 +37,27 @@ let
 
   ifExists = path: optional (pathExists path) path;
 
+  cidr = { address, length }: "${address}/${toString length}";
+
+  proxyVhost =
+    {
+      upstream,
+      allow ? [ ],
+      deny ? [ ],
+    }:
+    {
+      enableACME = true;
+      acmeRoot = null;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = upstream;
+        proxyWebsockets = true;
+      };
+      extraConfig = concatStringsSep "\n" (
+        map (r: "deny ${r};") deny ++ map (r: "allow ${r};") allow ++ optional (allow != [ ]) "deny all;"
+      );
+    };
+
   forAllSystems = genAttrs [
     "aarch64-darwin"
     "aarch64-linux"
@@ -115,10 +136,12 @@ in
   inherit
     buildHomeConfigs
     buildNixosConfigs
+    cidr
     expandFacts
     filterSystem
     forAllSystems
     machineId
     macAddress
+    proxyVhost
     ;
 }

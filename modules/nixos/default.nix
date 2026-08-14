@@ -12,6 +12,7 @@ let
     kdeconnect = import ./kdeconnect;
     ledger = import ./ledger;
     networkd = import ./networkd;
+    proxy = import ./proxy;
     qFlipper = import ./qFlipper;
     sops = import ./sops;
     tailscale = import ./tailscale;

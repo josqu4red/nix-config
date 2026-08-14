@@ -66,14 +66,10 @@
     domain = internalDomain;
     search = [ internalDomain ];
     nameservers = [ "127.0.0.1" ];
-    firewall.allowedTCPPorts = [
-      80
-      443
-    ];
   };
 
   nxmods = {
-    acme.enable = true;
+    proxy.enable = true;
     networkd = {
       enable = true;
       mainInterface = with config.facts.networks.home; {
@@ -110,10 +106,4 @@
   system.build.uboot = pkgs.ubootOrangePi5;
 
   services.monero.enable = true;
-
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-  };
 }

@@ -44,14 +44,8 @@ in
     };
   };
 
-  services.nginx.virtualHosts.${hostName} = {
-    enableACME = true;
-    acmeRoot = null;
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://127.0.0.1:28981";
-      proxyWebsockets = true;
-    };
+  services.nginx.virtualHosts.${hostName} = self.lib.proxyVhost {
+    upstream = "http://127.0.0.1:28981";
   };
 
   services.restic.backups.paperless =

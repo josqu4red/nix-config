@@ -29,8 +29,8 @@
   };
 
   nxmods = {
-    acme.enable = true;
     impermanence.enable = true;
+    proxy.enable = true;
     sops.enable = true;
     tailscale.enable = true;
   };
@@ -40,13 +40,4 @@
     key = "";
   };
 
-  networking.firewall.allowedTCPPorts = [
-    80
-    443
-  ];
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-  };
 }
