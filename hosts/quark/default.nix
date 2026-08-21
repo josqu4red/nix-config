@@ -36,6 +36,7 @@
 
   swapDevices = [ { device = "/dev/disk/by-uuid/f09ca857-9494-494c-be83-a5c0e86909dc"; } ];
 
+  nxmods.tailscale.enable = true;
   nxmods.desktop = {
     enable = true;
     gnome = true;
