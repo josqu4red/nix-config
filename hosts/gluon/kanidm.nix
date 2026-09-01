@@ -3,7 +3,7 @@ let
   bindaddress = "127.0.0.1:9443";
   domain = "id.amiez.xyz";
   dataDir = "/var/lib/kanidm";
-  package = pkgs.kanidm_1_10;
+  package = pkgs.kanidm_1_11;
   kanadmin = pkgs.writeShellScriptBin "kanadmin" ''
     exec sudo -u kanidm ${package}/bin/kanidmd "$@"
   '';

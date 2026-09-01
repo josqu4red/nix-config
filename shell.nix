@@ -188,7 +188,7 @@ pkgs.mkShell {
       backblaze-b2
       deadnix
       git-crypt
-      kanidm_1_10
+      kanidm_1_11
       nix-diff
       nix-index
       nix-prefetch-github
