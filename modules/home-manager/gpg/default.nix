@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
-  pinentry = if isDarwin then pkgs.pinentry_mac else pkgs.pinentry-gtk2;
+  pinentry = if isDarwin then pkgs.pinentry_mac else pkgs.pinentry-gnome3;
 in
 {
   programs.gpg = {
