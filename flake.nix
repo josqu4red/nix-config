@@ -61,6 +61,28 @@
           }).mongodb-7_0;
       };
 
+      # solargraph < 0.58.3 loops forever caching gems (castwide/solargraph#1169).
+      # Drop once nixpkgs ships >= 0.58.3.
+      solargraph-0-58-3 = _final: prev: {
+        rubyPackages = prev.rubyPackages // {
+          solargraph = prev.rubyPackages.solargraph.override (old: {
+            version = "0.58.3";
+            source = old.source // {
+              sha256 = "0s9fzq4rax47nvypwq84k4mr0g9pf6gdibf4na1j7ryi4z4zvgny";
+            };
+            gemPath = old.gemPath ++ [
+              prev.rubyPackages.ast
+              (prev.buildRubyGem {
+                inherit (old) ruby;
+                gemName = "open3";
+                version = "0.2.1";
+                source.sha256 = "0lirpxrqk2bw02m3p4g8r50h37qkr0ssmh9q2hh52qsj2chpsbcf";
+              })
+            ];
+          });
+        };
+      };
+
       legacyPackages = forAllSystems (
         system:
         import nixpkgs {
@@ -69,6 +91,7 @@
           overlays = [
             local-pkgs
             mongodb-pin
+            solargraph-0-58-3
             # Passthrough so `nix shell .#llma.<tool>` works. Kept out of
             # `packages` because it is an attrset, not a derivation.
             (_final: _prev: { llma = inputs.llm-agents.packages.${system}; })
