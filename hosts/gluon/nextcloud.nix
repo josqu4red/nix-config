@@ -69,8 +69,10 @@ in
       inherit
         bookmarks
         calendar
+        collectives
         contacts
         deck
+        groupfolders
         integration_paperless
         memories
         news
