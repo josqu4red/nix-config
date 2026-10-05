@@ -64,6 +64,7 @@ in
       cores = 0;
       auto-optimise-store = true;
       warn-dirty = false;
+      nix-path = [ "nixpkgs=${nixpkgsPath}" ];
     };
     gc = {
       automatic = true;
@@ -72,7 +73,6 @@ in
     };
     # Use flake's nixpkgs input in NIX_PATH, with systemd.tmpfiles below
     registry.nixpkgs.flake = inputs.nixpkgs;
-    nixPath = [ "nixpkgs=${nixpkgsPath}" ];
   };
   systemd.tmpfiles.rules = [ "L+ ${nixpkgsPath} - - - - ${inputs.nixpkgs}" ];
 }
