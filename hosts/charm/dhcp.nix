@@ -78,6 +78,7 @@ in
             option-data = nameDataPair {
               domain-name = dns.internalDomain;
               domain-name-servers = "192.168.10.2";
+              routers = "192.168.10.2";
             };
           }
         ];

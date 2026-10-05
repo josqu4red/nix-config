@@ -21,7 +21,7 @@ in
 
   # TODO: auto create
   systemd.tmpfiles.rules = [
-    ''f /etc/named/amiez.xyz-extra - - - - ; papers IN CNAME  gluon.in.amiez.xyz.''
+    "f /etc/named/amiez.xyz-extra - - - - ; papers IN CNAME  gluon.in.amiez.xyz."
   ];
 
   services.bind =
@@ -94,7 +94,7 @@ in
           };
 
           acl badnetworks {  };
-          acl homenet { localhost; 192.168.1.0/24; };
+          acl homenet { localhost; 192.168.1.0/24; 192.168.10.0/24; };
           acl tailnet { 100.64.0.0/10; };
 
           options {
