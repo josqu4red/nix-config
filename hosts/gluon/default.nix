@@ -10,6 +10,7 @@
     inputs.self.nixosProfiles.server
     ./dhcp.nix
     ./dns.nix
+    ./forgejo.nix
     ./grafana.nix
     ./ha
     ./kanidm.nix

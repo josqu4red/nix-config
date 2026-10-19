@@ -7,6 +7,8 @@
 }:
 let
   publicHostname = "graf.amiez.xyz";
+  http_addr = "127.0.0.1";
+  http_port = 3000;
 in
 {
   services.kanidm.provision = {
@@ -56,13 +58,14 @@ in
   };
 
   services.nginx.virtualHosts.${publicHostname} = self.lib.proxyVhost {
-    upstream = "http://127.0.0.1:3000";
+    upstream = "http://${http_addr}:${toString http_port}";
   };
 
   services.grafana = {
     enable = true;
     settings = with config.sops; {
       server = {
+        inherit http_addr http_port;
         domain = publicHostname;
         root_url = "https://" + publicHostname;
       };
