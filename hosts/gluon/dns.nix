@@ -94,7 +94,7 @@ in
           };
 
           acl badnetworks {  };
-          acl homenet { localhost; 192.168.1.0/24; 192.168.10.0/24; };
+          acl homenet { localhost; 192.168.1.0/24; 192.168.10.0/24; fd0f:ee:b0::/64; };
           acl tailnet { 100.64.0.0/10; };
 
           options {

@@ -45,6 +45,21 @@
     nameservers = [ "127.0.0.1" ];
   };
 
+  # address also need to be set in freebox' DNSv6 field
+  systemd.network.networks."10-${hostFacts.netIf}" = {
+    address = [ "fd0f:ee:b0::3/64" ];
+    networkConfig = {
+      IPv6SendRA = true;
+      IPv6AcceptRA = true;
+    };
+    ipv6Prefixes = [ { Prefix = "fd0f:ee:b0::/64"; } ];
+    ipv6SendRAConfig = {
+      RouterLifetimeSec = 0;
+      EmitDNS = true;
+      DNS = [ "fd0f:ee:b0::3" ];
+    };
+  };
+
   nxmods = {
     impermanence.enable = true;
     networkd = {
