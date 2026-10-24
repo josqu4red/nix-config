@@ -31,7 +31,7 @@ in
   sops.secrets =
     let
       owner = "grafana";
-      sopsFile = self.outPath + "/secrets/charm/grafana.yaml";
+      sopsFile = self.outPath + "/secrets/gluon/grafana.yaml";
     in
     {
       "grafana/secret_key" = { inherit owner sopsFile; };

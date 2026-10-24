@@ -1,9 +1,20 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  hostFacts,
+  ...
+}:
 {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.self.nixosProfiles.server
+    ./dhcp.nix
+    ./dns.nix
+    ./grafana.nix
+    ./ha
     ./kanidm.nix
+    ./monitoring.nix
+    ./mqtt.nix
     ./nextcloud.nix
     ./paperless.nix
     ./unifi.nix
@@ -28,8 +39,30 @@
     tmp.cleanOnBoot = true;
   };
 
+  networking = with config.facts.dns; {
+    domain = internalDomain;
+    search = [ internalDomain ];
+    nameservers = [ "127.0.0.1" ];
+  };
+
   nxmods = {
     impermanence.enable = true;
+    networkd = {
+      enable = true;
+      mainInterface = with config.facts.networks.home; {
+        name = hostFacts.netIf;
+        address = "${hostFacts.ip}/${toString prefix.length}";
+        inherit gateway;
+      };
+      vlanInterfaces = [
+        {
+          name = "vlan10";
+          address = "192.168.10.3/24";
+          id = 10;
+          routes = [ "192.168.10.0/24" ];
+        }
+      ];
+    };
     proxy.enable = true;
     sops.enable = true;
     tailscale.enable = true;

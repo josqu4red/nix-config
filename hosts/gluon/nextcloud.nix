@@ -139,7 +139,6 @@ in
       ];
     };
 
-  networking.firewall.allowedTCPPorts = [ config.services.prometheus.exporters.nextcloud.port ];
   services.prometheus.exporters.nextcloud = {
     enable = true;
     url = origin;

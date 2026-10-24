@@ -13,12 +13,12 @@ in
 
   sops.secrets."ha/metrics/token" = {
     owner = "victoriametrics";
-    sopsFile = self.outPath + "/secrets/charm/ha.yaml";
+    sopsFile = self.outPath + "/secrets/gluon/ha.yaml";
   };
 
   sops.secrets."freebox-token" = {
     owner = "freebox-exporter";
-    sopsFile = self.outPath + "/secrets/charm/freebox.json";
+    sopsFile = self.outPath + "/secrets/gluon/freebox.json";
     format = "json";
     key = "";
   };
@@ -55,7 +55,6 @@ in
           static_configs = [
             {
               targets = [
-                "charm:9100"
                 "gluon:9100"
               ];
             }
@@ -77,8 +76,8 @@ in
         {
           job_name = "nextcloud-exporter";
           stream_parse = true;
-          static_configs = [ { targets = [ "gluon:9205" ]; } ];
-          relabel_configs = remove-port;
+          static_configs = [ { targets = [ "127.0.0.1:9205" ]; } ];
+          relabel_configs = set-hostname;
         }
         {
           job_name = "ha";

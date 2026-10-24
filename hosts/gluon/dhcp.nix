@@ -77,8 +77,8 @@ in
             pools = [ { pool = subnet iot.dhcp; } ];
             option-data = nameDataPair {
               domain-name = dns.internalDomain;
-              domain-name-servers = "192.168.10.2";
-              routers = "192.168.10.2";
+              domain-name-servers = "192.168.10.3";
+              routers = "192.168.10.3";
             };
           }
         ];

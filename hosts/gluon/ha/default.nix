@@ -22,7 +22,7 @@ in
 
   sops.secrets =
     let
-      sopsFile = self.outPath + "/secrets/charm/ha.yaml";
+      sopsFile = self.outPath + "/secrets/gluon/ha.yaml";
     in
     {
       "ha/secrets" = {
