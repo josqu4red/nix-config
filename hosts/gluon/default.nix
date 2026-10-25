@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  lib,
   hostFacts,
   ...
 }:
@@ -11,6 +12,7 @@
     ./dhcp.nix
     ./dns.nix
     ./forgejo.nix
+    ./forgejo-runner.nix
     ./grafana.nix
     ./ha
     ./kanidm.nix
@@ -44,6 +46,9 @@
     domain = internalDomain;
     search = [ internalDomain ];
     nameservers = [ "127.0.0.1" ];
+    # aardvark-dns still serves the host's 127.0.0.2 <fqdn> entry to containers,
+    # so drop it; the fqdn then resolves via bind to the LAN IP.
+    hosts."127.0.0.2" = lib.mkForce [ ];
   };
 
   # address also need to be set in freebox' DNSv6 field
@@ -62,7 +67,10 @@
   };
 
   nxmods = {
-    impermanence.enable = true;
+    impermanence = {
+      enable = true;
+      directories = [ "/var/lib/containers" ];
+    };
     networkd = {
       enable = true;
       mainInterface = with config.facts.networks.home; {
@@ -89,4 +97,10 @@
     key = "";
   };
 
+  virtualisation.podman.enable = true;
+  # Don't copy host /etc/hosts into containers: its 127.0.0.2 <fqdn> entry makes
+  # git.amiez.xyz (CNAME to gluon.in.amiez.xyz) resolve to loopback in jobs.
+  virtualisation.containers.containersConf.settings.containers.base_hosts_file = "none";
+  # no swap on this host
+  zramSwap.enable = true;
 }

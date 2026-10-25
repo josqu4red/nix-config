@@ -98,7 +98,8 @@ in
           acl tailnet { 100.64.0.0/10; };
 
           options {
-            listen-on { any; };
+            # keep off podman bridges: aardvark-dns needs <gateway>:53
+            listen-on { !10.88.0.0/15; any; };
             listen-on-v6 { any; };
             allow-query-cache { homenet; tailnet; };
             blackhole { badnetworks; };
