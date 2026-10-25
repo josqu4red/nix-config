@@ -66,106 +66,15 @@ let
       sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --flake .
     '')
 
-    (pkgs.writeShellScriptBin "sops4" ''
+    # https://github.com/Mic92/ssh-to-pgp/issues/61
+    # then add the fingerprint to .sops.yaml and run `sops updatekeys`
+    (pkgs.writeShellScriptBin "get-host-key" ''
       set -o errexit -o nounset -o pipefail
-
-      binary_input=false
-      force_key=false
-      add_only=false
-      while [ "$#" -gt 0 ]; do
-        case "$1" in
-          -a|--add-only)
-            add_only=true
-            shift
-            ;;
-          -b|--binary)
-            binary_input=true
-            shift
-            ;;
-          -f|--force)
-            force_key=true
-            shift
-            ;;
-          --)
-            shift
-            break
-            ;;
-          -*)
-            echo "sops4: unknown option: $1" >&2
-            echo "sops4 [-a|--add-only] [-b|--binary] [-f|--force] <host> <secret-path>" >&2
-            exit 1
-            ;;
-          *)
-            break
-            ;;
-        esac
-      done
-
-      if [ "$#" -ne 2 ]; then
-        echo "sops4 [-a|--add-only] [-b|--binary] [-f|--force] <host> <secret-path>" >&2
-        exit 1
-      fi
-
+      [ $# -ne 1 ] && echo "get-host-key <host>" >&2 && exit 1
       host=$1
-      secret_path=$2
-      gpg=${pkgs.gnupg}/bin/gpg
-      sops=${pkgs.sops}/bin/sops
-
-      fingerprint=$(
-        "$gpg" --batch --with-colons --list-keys "$host" 2>/dev/null |
-          ${pkgs.gawk}/bin/awk -F: '$1 == "fpr" { print $10; exit }'
-      ) || true
-
-      if [ "$force_key" = true ] || [ -z "$fingerprint" ]; then
-        ${pkgs.coreutils}/bin/mkdir -p -- .sops
-        key_file=".sops/host-$host.asc"
-        key_tmp=$(${pkgs.coreutils}/bin/mktemp ".sops/.host-$host.XXXXXX.asc")
-        trap '${pkgs.coreutils}/bin/rm -f -- "$key_tmp"' EXIT
-
-        # https://github.com/Mic92/ssh-to-pgp/issues/61
-        ${pkgs.openssh}/bin/ssh "$host" "sudo cat /etc/ssh/ssh_host_rsa_key" |
-          ${ssh-to-pgp}/bin/ssh-to-pgp \
-            -o "$key_tmp" \
-            -email "host@$host" \
-            -comment "" \
-            -name "$host"
-
-        fingerprint=$(
-          "$gpg" --batch --with-colons --show-keys "$key_tmp" |
-            ${pkgs.gawk}/bin/awk -F: '$1 == "fpr" { print $10; exit }'
-        ) || true
-
-        "$gpg" --batch --import "$key_tmp"
-        ${pkgs.coreutils}/bin/mv -- "$key_tmp" "$key_file"
-        trap - EXIT
-      fi
-
-      if [ -z "$fingerprint" ]; then
-        echo "sops4: could not find a GPG key for $host" >&2
-        exit 1
-      fi
-
-      sops_type_args=()
-      if [ "$binary_input" = true ]; then
-        sops_type_args+=(--input-type binary)
-      fi
-
-      if [ "$add_only" = false ]; then
-        secret_dir=$(${pkgs.coreutils}/bin/dirname -- "$secret_path")
-        ${pkgs.coreutils}/bin/mkdir -p -- "$secret_dir"
-
-        if [ -t 0 ]; then
-          "$sops" edit "''${sops_type_args[@]}" "$secret_path"
-        else
-          "$sops" encrypt \
-            "''${sops_type_args[@]}" \
-            --filename-override "$secret_path" \
-            --output "$secret_path" \
-            /dev/stdin
-        fi
-      fi
-
-      "$sops" -i -r "''${sops_type_args[@]}" --add-pgp "$fingerprint" "$secret_path"
+      ${pkgs.coreutils}/bin/mkdir -p .sops
+      ${pkgs.openssh}/bin/ssh "$host" "sudo cat /etc/ssh/ssh_host_rsa_key" |
+        ${ssh-to-pgp}/bin/ssh-to-pgp -o ".sops/host-$host.asc" -email "host@$host" -comment "" -name "$host"
     '')
 
     (pkgs.writeShellScriptBin "copy-remote-system" ''
