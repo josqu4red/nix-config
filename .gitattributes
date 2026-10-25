@@ -1,1 +1,3 @@
+# git config diff.sopsdiffer.textconv "sh -c 'sops -d --input-type yaml --output-type yaml \"\$0\" || true - '"
+secrets/** diff=sopsdiffer
 secrets/build/** filter=git-crypt diff=git-crypt
