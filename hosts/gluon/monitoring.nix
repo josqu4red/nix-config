@@ -1,10 +1,21 @@
-{ self, config, ... }:
+{
+  self,
+  config,
+  lib,
+  ...
+}:
 let
   vmAddress = "127.0.0.1:8428";
 in
 {
-  nxmods.impermanence.directories = [ "/var/lib/private/victoriametrics" ];
+  nxmods.impermanence.directories = [ "/var/lib/victoriametrics" ];
 
+  # systemd dynamic users do not support impermanence
+  systemd.services.victoriametrics.serviceConfig = {
+    DynamicUser = lib.mkForce false;
+    User = "victoriametrics";
+    Group = "victoriametrics";
+  };
   users.groups.victoriametrics = { };
   users.users.victoriametrics = {
     group = "victoriametrics";
