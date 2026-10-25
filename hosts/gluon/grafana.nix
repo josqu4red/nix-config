@@ -1,21 +1,3 @@
-# OIDC config
-# kanidm group create grafana_superadmins
-# kanidm group create grafana_admins
-# kanidm group create grafana_editors
-# kanidm group create grafana_users
-# kanidm group add-members grafana_users grafana_superadmins grafana_admins grafana_editors
-
-# kanidm system oauth2 create grafana Grafana https://graf.amiez.xyz
-# kanidm system oauth2 add-redirect-url grafana https://graf.amiez.xyz/login/generic_oauth
-# kanidm system oauth2 prefer-short-username grafana
-# kanidm system oauth2 set-image grafana grafana-logo.svg
-
-# kanidm system oauth2 update-scope-map grafana grafana_users email openid profile
-# kanidm system oauth2 update-claim-map-join grafana grafana_role array
-# kanidm system oauth2 update-claim-map grafana grafana_role grafana_superadmins GrafanaAdmin
-# kanidm system oauth2 update-claim-map grafana grafana_role grafana_admins Admin
-# kanidm system oauth2 update-claim-map grafana grafana_role grafana_editors Editor
-
 {
   self,
   config,
@@ -26,6 +8,39 @@ let
   publicHostname = "graf.amiez.xyz";
 in
 {
+  services.kanidm.provision = {
+    groups = {
+      grafana_superadmins.overwriteMembers = false;
+      grafana_admins.overwriteMembers = false;
+      grafana_editors.overwriteMembers = false;
+      grafana_users.members = [
+        "grafana_superadmins"
+        "grafana_admins"
+        "grafana_editors"
+      ];
+    };
+    systems.oauth2.grafana = {
+      displayName = "Grafana";
+      imageFile = ./grafana-logo.svg;
+      originLanding = "https://${publicHostname}";
+      originUrl = "https://${publicHostname}/login/generic_oauth";
+      preferShortUsername = true;
+      scopeMaps.grafana_users = [
+        "email"
+        "openid"
+        "profile"
+      ];
+      claimMaps.grafana_role = {
+        joinType = "array";
+        valuesByGroup = {
+          grafana_superadmins = [ "GrafanaAdmin" ];
+          grafana_admins = [ "Admin" ];
+          grafana_editors = [ "Editor" ];
+        };
+      };
+    };
+  };
+
   nxmods.impermanence.directories = [ "/var/lib/grafana" ];
 
   sops.secrets =
