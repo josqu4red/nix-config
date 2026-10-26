@@ -6,24 +6,25 @@
 let
   inherit (lib) concatStringsSep;
   mod = "Mod4";
+  # native Wayland windows have an app_id, not a class
   floating = [
-    "nm-applet"
     "nm-connection-editor"
-    ".blueman-manager-wrapped"
-    "pavucontrol"
+    "blueman-manager"
+    "org.pulseaudio.pavucontrol"
     "zoom"
-  ]; # class
-  # floating = [ "Bluetooth Devices" "Network Connections" "Volume Control" "Zoom Cloud Meetings" ]; # title
+  ];
   rofi-drun = "${pkgs.rofi}/bin/rofi -show drun -modi drun";
   rofi-power = "${pkgs.rofi}/bin/rofi -show power-menu -modi power-menu:${pkgs.rofi-power-menu}/bin/rofi-power-menu";
   pactl = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl";
   playerctl = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl";
   brightnessctl = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl";
-  flameshot = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot";
-  autorandr = "exec --no-startup-id ${pkgs.autorandr}/bin/autorandr";
+  lock = "${pkgs.swaylock-effects}/bin/swaylock -f";
+  grim = "${pkgs.grim}/bin/grim";
+  slurp = "${pkgs.slurp}/bin/slurp";
+  swappy = "${pkgs.swappy}/bin/swappy";
+  kanshictl = "exec ${pkgs.kanshi}/bin/kanshictl";
 in
 {
-  enable = true;
   config = {
     modifier = mod;
     # Use Mouse+$mod to drag floating windows to their wanted position
@@ -35,12 +36,17 @@ in
         {
           command = "floating enable";
           criteria = {
-            class = "(${concatStringsSep "|" floating})";
+            app_id = "(${concatStringsSep "|" floating})";
           };
         }
       ];
     };
     focus.followMouse = false;
+    input."type:keyboard" = {
+      xkb_layout = "us";
+      xkb_variant = "altgr-intl";
+      xkb_options = "caps:swapescape";
+    };
     fonts = {
       names = [ defaultFont ];
       size = 13.0;
@@ -53,9 +59,8 @@ in
       "${mod}+x" = ''exec "${rofi-power} -theme-str 'window {width: 12em;} listview {lines: 6;}'"'';
       "${mod}+Escape" = "kill";
       "${mod}+Shift+c" = "reload";
-      "${mod}+Shift+r" = "restart";
       "${mod}+Shift+e" = "exit";
-      "${mod}+Shift+x" = "exec ${pkgs.betterlockscreen}/bin/betterlockscreen -l dim";
+      "${mod}+Shift+x" = "exec ${lock}";
       # modes
       "${mod}+r" = "mode resize";
       # change container layout
@@ -113,9 +118,9 @@ in
       "XF86AudioPrev" = "${playerctl} previous";
       "XF86MonBrightnessUp" = "${brightnessctl} set 5%+";
       "XF86MonBrightnessDown" = "${brightnessctl} set 5%-";
-      "XF86Display" = "${autorandr} --change";
-      "XF86Launch6" = "${autorandr} --change";
-      "Print" = "${flameshot} gui";
+      "XF86Display" = "${kanshictl} reload";
+      "XF86Launch6" = "${kanshictl} reload";
+      "Print" = ''exec ${grim} -g "$(${slurp})" - | ${swappy} -f -'';
     };
 
     modes.resize = {
@@ -129,14 +134,7 @@ in
 
     startup = [
       {
-        command = "systemctl --user restart polybar.service";
-        always = true;
-        notification = false;
-      }
-      {
-        command = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ~/.local/share/backgrounds";
-        always = true;
-        notification = false;
+        command = "${pkgs.swaybg}/bin/swaybg -m fill -i \"$(find ${./walls} -type f | shuf -n1)\"";
       }
     ];
   };

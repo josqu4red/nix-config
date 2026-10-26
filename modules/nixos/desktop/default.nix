@@ -12,7 +12,7 @@ in
   options.nxmods.desktop = {
     enable = mkEnableOption "desktop";
     gnome = mkEnableOption "gnome";
-    i3 = mkEnableOption "i3";
+    sway = mkEnableOption "sway";
   };
   config = mkMerge [
     (mkIf cfg.enable {
@@ -31,13 +31,19 @@ in
       services.gnome.evolution-data-server.enable = lib.mkForce false;
       environment.systemPackages = [ pkgs.gnome-tweaks ];
     })
-    (mkIf cfg.i3 {
-      services.displayManager.defaultSession = "none+i3";
-      services.xserver = {
-        displayManager.lightdm.enable = !config.services.displayManager.gdm.enable;
-        windowManager.i3.enable = true;
+    (mkIf cfg.sway {
+      # session entry, GL and PAM only; the rest lives in the sway home-manager module
+      services.displayManager.defaultSession = "sway";
+      programs.sway = {
+        enable = true;
+        extraOptions = [ "--unsupported-gpu" ]; # silences the nvidia warning
       };
+      services.xserver.displayManager.lightdm.enable = !config.services.displayManager.gdm.enable;
       services.blueman.enable = true;
+      # file pickers and other portal dialogs; programs.sway adds the wlr portal
+      xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      services.gnome.gnome-keyring.enable = true;
+      security.pam.services.lightdm.enableGnomeKeyring = true;
     })
   ];
 }

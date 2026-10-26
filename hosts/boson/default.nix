@@ -54,7 +54,7 @@
     };
     desktop = {
       enable = true;
-      i3 = true;
+      sway = true;
     };
     impermanence = {
       enable = true;
