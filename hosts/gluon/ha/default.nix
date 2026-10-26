@@ -20,22 +20,13 @@ in
     5353
   ]; # ssdp mdns
 
-  nxmods.sops.secrets.ha.files = {
-    secrets = {
-      owner = "hass";
-      path = "/var/lib/hass/secrets.yaml";
-      restartUnits = [ "home-assistant.service" ];
-    };
-    "backup/repo" = { };
-    "backup/env" = { };
-    "backup/password" = { };
+  nxmods.sops.secrets.ha.files.secrets = {
+    owner = "hass";
+    path = "/var/lib/hass/secrets.yaml";
+    restartUnits = [ "home-assistant.service" ];
   };
 
-  services.restic.backups.ha = {
-    initialize = true;
-    repositoryFile = config.sops.secrets."ha/backup/repo".path;
-    environmentFile = config.sops.secrets."ha/backup/env".path;
-    passwordFile = config.sops.secrets."ha/backup/password".path;
+  nxmods.backup.jobs.ha = {
     paths = [ homeDir ];
     timerConfig = {
       OnCalendar = "hourly";

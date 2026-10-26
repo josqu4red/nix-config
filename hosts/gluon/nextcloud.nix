@@ -22,9 +22,6 @@ in
       owner = "nextcloud-exporter";
       restartUnits = [ "prometheus-nextcloud-exporter.service" ];
     };
-    "backup/repo" = { };
-    "backup/env" = { };
-    "backup/password" = { };
   };
 
   services.kanidm.provision = {
@@ -108,15 +105,11 @@ in
     acmeRoot = null;
   };
 
-  services.restic.backups.nextcloud =
+  nxmods.backup.jobs.nextcloud =
     let
       setMaintenance = s: "${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --${s}";
     in
     {
-      initialize = true;
-      repositoryFile = config.sops.secrets."nextcloud/backup/repo".path;
-      environmentFile = config.sops.secrets."nextcloud/backup/env".path;
-      passwordFile = config.sops.secrets."nextcloud/backup/password".path;
       paths = [ home ];
       exclude = [
         "data/appdata_*/preview"

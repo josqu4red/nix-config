@@ -1,36 +1,49 @@
 { config, lib, ... }:
 let
   inherit (lib)
-    mkEnableOption
-    mkForce
-    mkIf
+    genAttrs
+    mapAttrs
     mkOption
     types
     ;
   cfg = config.nxmods.backup;
+  keys = [
+    "repo"
+    "env"
+    "password"
+  ];
 in
 {
   options.nxmods.backup = {
-    enable = mkEnableOption "Default system backup";
-    paths = mkOption {
-      type = with types; listOf path;
+    jobs = mkOption {
+      type = with types; attrsOf (attrsOf anything);
+      default = { };
+      description = ''
+        Restic jobs, passed through to `services.restic.backups`. Credentials
+        come from the `<name>/backup/{repo,env,password}` keys of the `<name>`
+        secret group.
+      '';
     };
   };
-  config = mkIf cfg.enable {
-    nxmods.sops.enable = mkForce true;
+  config = {
+    nxmods.sops.secrets = mapAttrs (_: _: {
+      files = genAttrs (map (k: "backup/${k}") keys) (_: {
+        owner = null;
+      });
+    }) cfg.jobs;
 
-    sops.secrets = {
-      "backup/repo" = { };
-      "backup/env" = { };
-      "backup/password" = { };
-    };
-
-    services.restic.backups.system = {
-      initialize = true;
-      repositoryFile = config.sops.secrets."backup/repo".path;
-      environmentFile = config.sops.secrets."backup/env".path;
-      passwordFile = config.sops.secrets."backup/password".path;
-      inherit (cfg) paths;
-    };
+    services.restic.backups = mapAttrs (
+      name: job:
+      let
+        secret = k: config.sops.secrets."${name}/backup/${k}".path;
+      in
+      {
+        initialize = true;
+        repositoryFile = secret "repo";
+        environmentFile = secret "env";
+        passwordFile = secret "password";
+      }
+      // job
+    ) cfg.jobs;
   };
 }

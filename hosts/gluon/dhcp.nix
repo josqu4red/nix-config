@@ -12,7 +12,6 @@ in
 {
   nxmods = {
     impermanence.directories = [ data-dir ];
-    backup.paths = [ data-dir ];
   };
 
   networking.firewall.allowedUDPPorts = [ 67 ];

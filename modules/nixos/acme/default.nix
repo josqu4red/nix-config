@@ -49,7 +49,6 @@ in
 
     nxmods = {
       impermanence.directories = [ "/var/lib/acme" ];
-      backup.paths = [ "/var/lib/acme" ];
     };
   };
 }

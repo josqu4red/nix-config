@@ -24,9 +24,6 @@ in
     owner = "paperless";
     files.adminpass = { };
     files.oauth2-config = { };
-    files."backup/repo".owner = null;
-    files."backup/env".owner = null;
-    files."backup/password".owner = null;
   };
 
   services.paperless = {
@@ -47,15 +44,11 @@ in
     upstream = "http://127.0.0.1:28981";
   };
 
-  services.restic.backups.paperless =
+  nxmods.backup.jobs.paperless =
     let
       exportDir = "${dataDir}/export";
     in
     {
-      initialize = true;
-      repositoryFile = config.sops.secrets."paperless/backup/repo".path;
-      environmentFile = config.sops.secrets."paperless/backup/env".path;
-      passwordFile = config.sops.secrets."paperless/backup/password".path;
       paths = [ exportDir ];
       backupPrepareCommand = "${config.services.paperless.manage}/bin/paperless-manage document_exporter ${exportDir}";
       pruneOpts = [
