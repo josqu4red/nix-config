@@ -20,23 +20,14 @@ in
     };
   };
 
-  sops.secrets =
-    let
-      sopsFile = self.outPath + "/secrets/gluon/paperless.yaml";
-    in
-    {
-      "paperless/adminpass" = {
-        owner = "paperless";
-        inherit sopsFile;
-      };
-      "paperless/backup/repo" = { inherit sopsFile; };
-      "paperless/backup/env" = { inherit sopsFile; };
-      "paperless/backup/password" = { inherit sopsFile; };
-      "paperless/oauth2-config" = {
-        owner = "paperless";
-        inherit sopsFile;
-      };
-    };
+  nxmods.sops.secrets.paperless = {
+    owner = "paperless";
+    files.adminpass = { };
+    files.oauth2-config = { };
+    files."backup/repo".owner = null;
+    files."backup/env".owner = null;
+    files."backup/password".owner = null;
+  };
 
   services.paperless = {
     enable = true;

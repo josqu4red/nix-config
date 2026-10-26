@@ -1,5 +1,4 @@
 {
-  self,
   config,
   lib,
   pkgs,
@@ -14,25 +13,19 @@ let
   inherit (pkgs."${ncVer}Packages") apps;
 in
 {
-  sops.secrets =
-    let
-      sopsFile = self.outPath + "/secrets/gluon/nextcloud.yaml";
-    in
-    {
-      "nextcloud/adminpass" = {
-        owner = "nextcloud";
-        restartUnits = [ "phpfpm-nextcloud.service" ];
-        inherit sopsFile;
-      };
-      "nextcloud/backup/repo" = { inherit sopsFile; };
-      "nextcloud/backup/env" = { inherit sopsFile; };
-      "nextcloud/backup/password" = { inherit sopsFile; };
-      "nextcloud/metrics/token" = {
-        owner = "nextcloud-exporter";
-        restartUnits = [ "prometheus-nextcloud-exporter.service" ];
-        inherit sopsFile;
-      };
+  nxmods.sops.secrets.nextcloud.files = {
+    adminpass = {
+      owner = "nextcloud";
+      restartUnits = [ "phpfpm-nextcloud.service" ];
     };
+    "metrics/token" = {
+      owner = "nextcloud-exporter";
+      restartUnits = [ "prometheus-nextcloud-exporter.service" ];
+    };
+    "backup/repo" = { };
+    "backup/env" = { };
+    "backup/password" = { };
+  };
 
   services.kanidm.provision = {
     groups.nextcloud_users.overwriteMembers = false;

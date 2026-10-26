@@ -20,21 +20,16 @@ in
     5353
   ]; # ssdp mdns
 
-  sops.secrets =
-    let
-      sopsFile = self.outPath + "/secrets/gluon/ha.yaml";
-    in
-    {
-      "ha/secrets" = {
-        inherit sopsFile;
-        owner = "hass";
-        path = "/var/lib/hass/secrets.yaml";
-        restartUnits = [ "home-assistant.service" ];
-      };
-      "ha/backup/repo" = { inherit sopsFile; };
-      "ha/backup/env" = { inherit sopsFile; };
-      "ha/backup/password" = { inherit sopsFile; };
+  nxmods.sops.secrets.ha.files = {
+    secrets = {
+      owner = "hass";
+      path = "/var/lib/hass/secrets.yaml";
+      restartUnits = [ "home-assistant.service" ];
     };
+    "backup/repo" = { };
+    "backup/env" = { };
+    "backup/password" = { };
+  };
 
   services.restic.backups.ha = {
     initialize = true;

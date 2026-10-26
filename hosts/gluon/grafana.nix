@@ -1,6 +1,7 @@
 {
   self,
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -43,18 +44,16 @@ in
 
   nxmods.impermanence.directories = [ "/var/lib/grafana" ];
 
-  sops.secrets =
-    let
-      owner = "grafana";
-      sopsFile = self.outPath + "/secrets/gluon/grafana.yaml";
-    in
-    {
-      "grafana/secret_key" = { inherit owner sopsFile; };
-      "grafana/oauth2/api_url" = { inherit owner sopsFile; };
-      "grafana/oauth2/auth_url" = { inherit owner sopsFile; };
-      "grafana/oauth2/token_url" = { inherit owner sopsFile; };
-      "grafana/oauth2/client_secret" = { inherit owner sopsFile; };
-    };
+  nxmods.sops.secrets.grafana = {
+    owner = "grafana";
+    files = lib.genAttrs [
+      "secret_key"
+      "oauth2/api_url"
+      "oauth2/auth_url"
+      "oauth2/token_url"
+      "oauth2/client_secret"
+    ] (_: { });
+  };
 
   services.nginx.virtualHosts.${publicHostname} = self.lib.proxyVhost {
     upstream = "http://127.0.0.1:3000";

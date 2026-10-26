@@ -11,10 +11,7 @@ in
     isSystemUser = true;
   };
 
-  sops.secrets."ha/metrics/token" = {
-    owner = "victoriametrics";
-    sopsFile = self.outPath + "/secrets/gluon/ha.yaml";
-  };
+  nxmods.sops.secrets.ha.files."metrics/token".owner = "victoriametrics";
 
   sops.secrets."freebox-token" = {
     owner = "freebox-exporter";
