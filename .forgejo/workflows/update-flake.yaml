@@ -1,0 +1,86 @@
+name: flake-update
+
+on:
+  schedule:
+    - cron: "0 3 * * 0"
+  workflow_dispatch:
+
+jobs:
+  flake-update:
+    runs-on: nix
+    defaults:
+      run:
+        shell: nix develop -c bash -e {0}
+    env:
+      ATTIC_URL: ${{ vars.ATTIC_URL }}
+      ATTIC_CACHE: ${{ vars.ATTIC_CACHE }}
+      ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
+      BOT_USER: ${{ vars.BOT_USER }}
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache devshell
+        run: |
+          attic login main "$ATTIC_URL" "$ATTIC_TOKEN"
+          nix build --no-link --print-out-paths .#devShells.x86_64-linux.default | attic push "main:$ATTIC_CACHE" --stdin
+
+      - name: Unlock
+        run: |
+          echo "$GIT_CRYPT_KEY" | base64 -d > "$RUNNER_TEMP/gc.key"
+          git-crypt unlock "$RUNNER_TEMP/gc.key"
+          rm "$RUNNER_TEMP/gc.key"
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: Update lockfile
+        run: |
+          git config user.name "$BOT_USER"
+          git config user.email "$BOT_USER@amiez.xyz"
+          nix flake update --commit-lock-file
+
+      - name: Build targets
+        env:
+          HOSTS: ${{ vars.NIX_CI_HOSTS || 'nixlive' }}
+        run: |
+          for h in $HOSTS; do
+            nix build --no-link --print-out-paths \
+              ".#nixosConfigurations.$h.config.system.build.toplevel" >> "$RUNNER_TEMP/paths"
+          done
+
+      - name: Push to cache
+        run: |
+          attic login main "$ATTIC_URL" "$ATTIC_TOKEN"
+          xargs attic push "main:$ATTIC_CACHE" < "$RUNNER_TEMP/paths"
+
+      - name: Push change
+        env:
+          SERVER: ${{ forgejo.server_url }}
+          REPO: ${{ forgejo.repository }}
+          BASE_BRANCH: main
+          TOPIC: flake-update
+        run: |
+          set -eu
+
+          git remote set-url origin "${SERVER%/}/$REPO.git"
+
+          CRED_HELPER="$(mktemp)"
+          trap 'rm -f "$CRED_HELPER"' EXIT
+
+          cat > "$CRED_HELPER" <<'EOF'
+          #!/bin/sh
+          case "$1" in
+            get)
+              printf 'username=%s\n' "$BOT_USER"
+              printf 'password=%s\n' "$BOT_TOKEN"
+              ;;
+          esac
+          EOF
+
+          chmod 700 "$CRED_HELPER"
+
+          GIT_TERMINAL_PROMPT=0 \
+          git -c credential.helper="$CRED_HELPER" \
+            push origin \
+            "HEAD:refs/for/$BASE_BRANCH/$TOPIC" \
+            -o "force-push=true"
