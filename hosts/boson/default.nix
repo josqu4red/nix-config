@@ -43,6 +43,11 @@
 
   services.openssh.settings.PasswordAuthentication = lib.mkForce true;
 
+  programs = {
+    steam.enable = true;
+    gamemode.enable = true;
+  };
+
   nxmods = {
     cachix.enable = false;
     chrysalis.enable = true;
