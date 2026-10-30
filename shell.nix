@@ -94,6 +94,7 @@ pkgs.mkShell {
   buildInputs =
     with pkgs;
     [
+      attic-client
       backblaze-b2
       deadnix
       git-crypt

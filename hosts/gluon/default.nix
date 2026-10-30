@@ -10,6 +10,7 @@
     inputs.disko.nixosModules.disko
     inputs.self.nixosProfiles.server
     ./dhcp.nix
+    ./attic.nix
     ./dns.nix
     ./forgejo.nix
     ./forgejo-runner.nix
