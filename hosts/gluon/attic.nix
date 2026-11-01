@@ -56,6 +56,7 @@ in
     };
   };
 
+  nxmods.dns.aliases = [ "cache" ];
   services.nginx.virtualHosts.${hostName} =
     self.lib.proxyVhost {
       upstream = "http://${listen}";

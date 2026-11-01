@@ -99,6 +99,7 @@ in
     perl
   ];
 
+  nxmods.dns.aliases = [ "cloud" ];
   services.nginx.virtualHosts.${hostName} = {
     forceSSL = true;
     enableACME = true;

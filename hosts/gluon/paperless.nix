@@ -40,6 +40,7 @@ in
     };
   };
 
+  nxmods.dns.aliases = [ "papers" ];
   services.nginx.virtualHosts.${hostName} = self.lib.proxyVhost {
     upstream = "http://127.0.0.1:28981";
   };

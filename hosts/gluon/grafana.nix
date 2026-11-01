@@ -57,6 +57,7 @@ in
     ] (_: { });
   };
 
+  nxmods.dns.aliases = [ "graf" ];
   services.nginx.virtualHosts.${publicHostname} = self.lib.proxyVhost {
     upstream = "http://${http_addr}:${toString http_port}";
   };

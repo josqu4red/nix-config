@@ -5,6 +5,7 @@ let
     cachix = import ./cachix;
     chrysalis = import ./chrysalis;
     desktop = import ./desktop;
+    dns = import ./dns;
     docker = import ./docker;
     fake-hwclock = import ./fake-hwclock;
     freebox-exporter = import ./freebox-exporter;

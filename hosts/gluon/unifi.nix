@@ -11,6 +11,7 @@ in
 {
   nxmods.impermanence.directories = [ "/var/lib/unifi" ];
 
+  nxmods.dns.aliases = [ "unifi" ];
   services.nginx.virtualHosts.${domain} = self.lib.proxyVhost {
     upstream = "https://${bindaddress}";
   };

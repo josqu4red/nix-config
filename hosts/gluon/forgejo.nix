@@ -30,6 +30,7 @@ in
     };
   };
 
+  nxmods.dns.aliases = [ "git" ];
   services.nginx.virtualHosts.${hostName} =
     self.lib.proxyVhost {
       upstream = "http://${HTTP_ADDR}:${toString HTTP_PORT}";

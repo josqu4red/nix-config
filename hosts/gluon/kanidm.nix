@@ -18,6 +18,7 @@ in
     reloadServices = [ "kanidm.service" ];
   };
 
+  nxmods.dns.aliases = [ "id" ];
   services.nginx.virtualHosts.${domain} = self.lib.proxyVhost {
     upstream = "https://${bindaddress}";
   };

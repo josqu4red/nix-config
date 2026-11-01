@@ -10,7 +10,6 @@ let
   inherit (builtins) stringLength;
   inherit (lib.strings) replicate;
   inherit (lib.attrsets) filterAttrs mapAttrsToList;
-  inherit (lib) concatLists listToAttrs nameValuePair;
   inherit (config.facts) hosts dns;
 in
 {
@@ -36,10 +35,8 @@ in
 
       # Map of hostname->address from facts
       knownHosts = filterAttrs (n: v: v.ip != "") hosts;
-      # Map of alias->hostname from facts
-      aliases = listToAttrs (
-        concatLists (mapAttrsToList (n: v: map (alias: (nameValuePair alias n)) v.aliases) hosts)
-      );
+      # Map of alias->hostname from every host's nxmods.dns.aliases
+      aliases = config.nxmods.dns.cnames;
 
       zoneHeader =
         name:

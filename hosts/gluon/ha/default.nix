@@ -38,6 +38,7 @@ in
     ];
   };
 
+  nxmods.dns.aliases = [ "ha" ];
   services.nginx.virtualHosts.${publicHostname} = self.lib.proxyVhost {
     upstream = "http://127.0.0.1:8123";
   };
