@@ -54,11 +54,13 @@
       local-pkgs = final: _prev: import ./pkgs { pkgs = final; };
 
       mongodb-pin = _final: prev: {
-        mongodb-7_0 =
+        inherit
           (import inputs.nixpkgs-mongodb {
             inherit (prev.stdenv.hostPlatform) system;
             config.allowUnfreePredicate = pkg: "mongodb" == (prev.lib.getName pkg);
-          }).mongodb-7_0;
+          })
+          mongodb-7_0
+          ;
       };
 
       # solargraph < 0.58.3 loops forever caching gems (castwide/solargraph#1169).

@@ -10,20 +10,23 @@ let
   lock = "${pkgs.swaylock-effects}/bin/swaylock -f";
   # graphical-session.target is reached before sway exports WAYLAND_DISPLAY,
   # so GUI services must wait for sway-session.target instead
-  late = lib.genAttrs [
-    "polkit-gnome"
-    "network-manager-applet"
-    "udiskie"
-  ] (_: {
-    Unit = {
-      After = lib.mkForce [
-        "sway-session.target"
-        "tray.target"
-      ];
-      PartOf = lib.mkForce [ "sway-session.target" ];
-    };
-    Install.WantedBy = lib.mkForce [ "sway-session.target" ];
-  });
+  late =
+    lib.genAttrs
+      [
+        "polkit-gnome"
+        "network-manager-applet"
+        "udiskie"
+      ]
+      (_: {
+        Unit = {
+          After = lib.mkForce [
+            "sway-session.target"
+            "tray.target"
+          ];
+          PartOf = lib.mkForce [ "sway-session.target" ];
+        };
+        Install.WantedBy = lib.mkForce [ "sway-session.target" ];
+      });
 in
 {
   home.packages = with pkgs; [
@@ -113,7 +116,7 @@ in
     ];
     events = {
       before-sleep = lock;
-      lock = lock;
+      inherit lock;
     };
   };
 

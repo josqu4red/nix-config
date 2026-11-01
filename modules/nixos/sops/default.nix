@@ -70,8 +70,7 @@ in
       sops.secrets = concatMapAttrs (
         group: g:
         mapAttrs' (
-          file: attrs:
-          nameValuePair "${group}/${file}" ({ inherit (g) owner sopsFile; } // attrs)
+          file: attrs: nameValuePair "${group}/${file}" ({ inherit (g) owner sopsFile; } // attrs)
         ) g.files
       ) cfg.secrets;
     }
