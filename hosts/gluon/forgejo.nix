@@ -49,9 +49,10 @@ in
       actions.ENABLED = true;
       log.LEVEL = "Warn";
       oauth2_client.ENABLE_AUTO_REGISTRATION = true;
-      openid.ENABLE_OPENID_SIGNUP = true;
+      repository.DEFAULT_REPO_UNITS = "repo.code,repo.releases,repo.pulls,repo.packages,repo.actions";
       security.INSTALL_LOCK = true;
       service = {
+        ALLOW_ONLY_EXTERNAL_REGISTRATION = true;
         ENABLE_BASIC_AUTHENTICATION = false;
         SHOW_REGISTRATION_BUTTON = false;
       };
