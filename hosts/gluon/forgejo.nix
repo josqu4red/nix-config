@@ -36,7 +36,7 @@ in
       upstream = "http://${HTTP_ADDR}:${toString HTTP_PORT}";
     }
     // {
-      extraConfig = "client_max_body_size 256M;";
+      extraConfig = "client_max_body_size 0;";
     };
 
   services.forgejo = {
