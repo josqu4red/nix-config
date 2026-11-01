@@ -1,11 +1,18 @@
-_: {
+{ config, ... }:
+{
+  nxmods.sops.secrets.mqtt.files."password" = {
+    owner = "mosquitto";
+    restartUnits = [ "mosquitto.service" ];
+  };
+
   services.mosquitto = {
     enable = true;
     listeners = [
       {
-        acl = [ "pattern readwrite #" ];
-        omitPasswordAuth = true;
-        settings.allow_anonymous = true;
+        users.all = {
+          acl = [ "readwrite #" ];
+          passwordFile = config.sops.secrets."mqtt/password".path;
+        };
       }
     ];
   };
