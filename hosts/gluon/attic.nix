@@ -20,6 +20,15 @@ in
 {
   nxmods.sops.secrets.attic.files.env.restartUnits = [ "atticd.service" ];
 
+  nxmods.dns.aliases = [ "cache" ];
+  services.nginx.virtualHosts.${hostName} =
+    self.lib.proxyVhost {
+      upstream = "http://${listen}";
+    }
+    // {
+      extraConfig = "client_max_body_size 0;";
+    };
+
   users.groups.atticd = { };
   users.users.atticd = {
     group = "atticd";
@@ -55,13 +64,4 @@ in
       };
     };
   };
-
-  nxmods.dns.aliases = [ "cache" ];
-  services.nginx.virtualHosts.${hostName} =
-    self.lib.proxyVhost {
-      upstream = "http://${listen}";
-    }
-    // {
-      extraConfig = "client_max_body_size 0;";
-    };
 }

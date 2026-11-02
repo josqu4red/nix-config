@@ -24,6 +24,13 @@ in
     };
   };
 
+  nxmods.dns.aliases = [ "cloud" ];
+  services.nginx.virtualHosts.${hostName} = {
+    forceSSL = true;
+    enableACME = true;
+    acmeRoot = null;
+  };
+
   services.kanidm.provision = {
     groups.nextcloud_users.overwriteMembers = false;
     systems.oauth2.nextcloud = {
@@ -98,13 +105,6 @@ in
     exiftool
     perl
   ];
-
-  nxmods.dns.aliases = [ "cloud" ];
-  services.nginx.virtualHosts.${hostName} = {
-    forceSSL = true;
-    enableACME = true;
-    acmeRoot = null;
-  };
 
   nxmods.backup.jobs.nextcloud =
     let

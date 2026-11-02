@@ -11,6 +11,24 @@ let
   http_port = 3000;
 in
 {
+  nxmods.impermanence.directories = [ "/var/lib/grafana" ];
+
+  nxmods.sops.secrets.grafana = {
+    owner = "grafana";
+    files = lib.genAttrs [
+      "secret_key"
+      "oauth2/api_url"
+      "oauth2/auth_url"
+      "oauth2/token_url"
+      "oauth2/client_secret"
+    ] (_: { });
+  };
+
+  nxmods.dns.aliases = [ "graf" ];
+  services.nginx.virtualHosts.${publicHostname} = self.lib.proxyVhost {
+    upstream = "http://${http_addr}:${toString http_port}";
+  };
+
   services.kanidm.provision = {
     groups = {
       grafana_superadmins.overwriteMembers = false;
@@ -42,24 +60,6 @@ in
         };
       };
     };
-  };
-
-  nxmods.impermanence.directories = [ "/var/lib/grafana" ];
-
-  nxmods.sops.secrets.grafana = {
-    owner = "grafana";
-    files = lib.genAttrs [
-      "secret_key"
-      "oauth2/api_url"
-      "oauth2/auth_url"
-      "oauth2/token_url"
-      "oauth2/client_secret"
-    ] (_: { });
-  };
-
-  nxmods.dns.aliases = [ "graf" ];
-  services.nginx.virtualHosts.${publicHostname} = self.lib.proxyVhost {
-    upstream = "http://${http_addr}:${toString http_port}";
   };
 
   services.grafana = {

@@ -4,6 +4,17 @@ let
   hostName = "papers.amiez.xyz";
 in
 {
+  nxmods.sops.secrets.paperless = {
+    owner = "paperless";
+    files.adminpass = { };
+    files.oauth2-config = { };
+  };
+
+  nxmods.dns.aliases = [ "papers" ];
+  services.nginx.virtualHosts.${hostName} = self.lib.proxyVhost {
+    upstream = "http://127.0.0.1:28981";
+  };
+
   services.kanidm.provision = {
     groups.paperless_users.overwriteMembers = false;
     systems.oauth2.paperless = {
@@ -20,12 +31,6 @@ in
     };
   };
 
-  nxmods.sops.secrets.paperless = {
-    owner = "paperless";
-    files.adminpass = { };
-    files.oauth2-config = { };
-  };
-
   services.paperless = {
     enable = true;
     passwordFile = config.sops.secrets."paperless/adminpass".path;
@@ -38,11 +43,6 @@ in
       PAPERLESS_ACCOUNT_DEFAULT_GROUPS = "users";
       PAPERLESS_ACCOUNT_EMAIL_VERIFICATION = "none";
     };
-  };
-
-  nxmods.dns.aliases = [ "papers" ];
-  services.nginx.virtualHosts.${hostName} = self.lib.proxyVhost {
-    upstream = "http://127.0.0.1:28981";
   };
 
   nxmods.backup.jobs.paperless =

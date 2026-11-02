@@ -10,6 +10,15 @@ in
 {
   nxmods.impermanence.directories = [ "/var/lib/victoriametrics" ];
 
+  nxmods.sops.secrets.ha.files."metrics/token".owner = "victoriametrics";
+
+  sops.secrets."freebox-token" = {
+    owner = "freebox-exporter";
+    sopsFile = self.outPath + "/secrets/gluon/freebox.json";
+    format = "json";
+    key = "";
+  };
+
   # systemd dynamic users do not support impermanence
   systemd.services.victoriametrics.serviceConfig = {
     DynamicUser = lib.mkForce false;
@@ -20,15 +29,6 @@ in
   users.users.victoriametrics = {
     group = "victoriametrics";
     isSystemUser = true;
-  };
-
-  nxmods.sops.secrets.ha.files."metrics/token".owner = "victoriametrics";
-
-  sops.secrets."freebox-token" = {
-    owner = "freebox-exporter";
-    sopsFile = self.outPath + "/secrets/gluon/freebox.json";
-    format = "json";
-    key = "";
   };
 
   services.freebox-exporter = {
