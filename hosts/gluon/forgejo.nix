@@ -88,4 +88,19 @@ in
   };
 
   environment.systemPackages = [ forgejo-cli ];
+
+  nxmods.backup.jobs.forgejo =
+    let
+      systemctl = "${config.systemd.package}/bin/systemctl";
+    in
+    {
+      paths = [ dataDir ];
+      backupPrepareCommand = "${systemctl} stop forgejo";
+      backupCleanupCommand = "${systemctl} start forgejo";
+      pruneOpts = [
+        "--keep-daily 14"
+        "--keep-monthly 12"
+        "--keep-yearly 10"
+      ];
+    };
 }
