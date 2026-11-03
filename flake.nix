@@ -26,10 +26,6 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    ssh-to-pgp = {
-      url = "github:Mic92/ssh-to-pgp?rev=c175033ca42c116939a3decb2a6461b7396c9bb1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixpkgs-mongodb.url = "github:NixOS/nixpkgs/9f0c42f8bc7151b8e7e5840fb3bd454ad850d8c5";
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
@@ -114,8 +110,6 @@
       devShells = forAllSystems (system: {
         default = import ./shell.nix {
           pkgs = legacyPackages.${system};
-          inherit (inputs.sops-nix.packages.${system}) sops-import-keys-hook;
-          inherit (inputs.ssh-to-pgp.packages.${system}) ssh-to-pgp;
         };
         fhsEnv = import ./pkgs/fhsEnv.nix { pkgs = legacyPackages.${system}; };
       });

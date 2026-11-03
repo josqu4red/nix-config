@@ -1,12 +1,20 @@
 keys:
 - &jamiez C32756FA98BAE710FC2616BB4BBCA7023906BA07
-- &host-gluon E9C8C31A2657EB39F840EE79C5B2DAA27E5D73B4
+- &host-boson age1hpgxmtvyljxh870uz0k9tqrlejgkjj9lh60a4gnmd3xm87j5u9xs7lq4vl
+- &host-gluon age154jsfl3vx6xk2u4f95yerv07xd3pank2u82pxn958tk5jtn2ccpsv4reht
 # first matching rule wins, catch-all must stay last
 creation_rules:
 - path_regex: secrets/gluon/.*$
   key_groups:
   - pgp:
     - *jamiez
+    age:
+    - *host-gluon
+- path_regex: secrets/shared/.*$
+  key_groups:
+  - pgp:
+    - *jamiez
+    age:
     - *host-gluon
 - path_regex: .*
   pgp: *jamiez

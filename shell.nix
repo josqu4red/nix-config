@@ -1,7 +1,5 @@
 {
   pkgs,
-  sops-import-keys-hook,
-  ssh-to-pgp,
 }:
 let
   apply = ''
@@ -66,15 +64,11 @@ let
       sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --flake .
     '')
 
-    # https://github.com/Mic92/ssh-to-pgp/issues/61
-    # then add the fingerprint to .sops.yaml and run `sops updatekeys`
+    # add the output to .sops.yaml and run `sops updatekeys`
     (pkgs.writeShellScriptBin "get-host-key" ''
       set -o errexit -o nounset -o pipefail
       [ $# -ne 1 ] && echo "get-host-key <host>" >&2 && exit 1
-      host=$1
-      ${pkgs.coreutils}/bin/mkdir -p .sops
-      ${pkgs.openssh}/bin/ssh "$host" "sudo cat /etc/ssh/ssh_host_rsa_key" |
-        ${ssh-to-pgp}/bin/ssh-to-pgp -o ".sops/host-$host.asc" -email "host@$host" -comment "" -name "$host"
+      ${pkgs.openssh}/bin/ssh-keyscan -q -t ed25519 "$1" | ${pkgs.ssh-to-age}/bin/ssh-to-age
     '')
 
     (pkgs.writeShellScriptBin "copy-remote-system" ''
@@ -86,11 +80,6 @@ let
 
 in
 pkgs.mkShell {
-  sopsPGPKeyDirs = [ ./.sops ];
-  nativeBuildInputs = [
-    sops-import-keys-hook
-    ssh-to-pgp
-  ];
   buildInputs =
     with pkgs;
     [
