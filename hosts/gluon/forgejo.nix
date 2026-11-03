@@ -60,8 +60,18 @@ in
     };
   };
 
+  sops.secrets = lib.genAttrs [ "smtp/user" "smtp/password" ] (_: {
+    owner = config.services.forgejo.user;
+    sopsFile = self.outPath + "/secrets/shared/infomaniak-smtp.yaml";
+    restartUnits = [ "forgejo.service" ];
+  });
+
   services.forgejo = {
     enable = true;
+    secrets.mailer = {
+      USER = config.sops.secrets."smtp/user".path;
+      PASSWD = config.sops.secrets."smtp/password".path;
+    };
     stateDir = dataDir;
     user = "git";
     group = "git";
@@ -69,6 +79,13 @@ in
       # https://forgejo.org/docs/latest/admin/config-cheat-sheet/
       actions.ENABLED = true;
       log.LEVEL = "Warn";
+      mailer = {
+        ENABLED = true;
+        FROM = "Forgejo <noreply@amiez.xyz>";
+        PROTOCOL = "smtps";
+        SMTP_ADDR = "mail.infomaniak.com";
+        SMTP_PORT = 465;
+      };
       oauth2_client.ENABLE_AUTO_REGISTRATION = true;
       repository.DEFAULT_REPO_UNITS = "repo.code,repo.releases,repo.pulls,repo.packages,repo.actions";
       security.INSTALL_LOCK = true;
