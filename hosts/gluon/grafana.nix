@@ -89,6 +89,9 @@ in
       };
       security.secret_key = "$__file{${secrets."grafana/secret_key".path}}";
     };
-    declarativePlugins = [ pkgs.grafana-strava-datasource ];
+    declarativePlugins = [
+      pkgs.grafanaPlugins.prometheus
+      pkgs.grafana-strava-datasource
+    ];
   };
 }

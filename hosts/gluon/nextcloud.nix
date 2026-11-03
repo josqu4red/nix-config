@@ -14,10 +14,6 @@ let
 in
 {
   nxmods.sops.secrets.nextcloud.files = {
-    adminpass = {
-      owner = "nextcloud";
-      restartUnits = [ "phpfpm-nextcloud.service" ];
-    };
     "metrics/token" = {
       owner = "nextcloud-exporter";
       restartUnits = [ "prometheus-nextcloud-exporter.service" ];
@@ -57,10 +53,7 @@ in
     enable = true;
     inherit home hostName package;
     https = true;
-    config = {
-      adminpassFile = config.sops.secrets."nextcloud/adminpass".path;
-      dbtype = "sqlite";
-    };
+    config.dbtype = "sqlite";
     extraAppsEnable = true;
     extraApps = with apps; {
       inherit

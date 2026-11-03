@@ -1,15 +1,25 @@
 { lib, grafanaPlugins }:
 
-grafanaPlugins.grafanaPlugin {
+let
   pname = "grafana-strava-datasource";
   version = "1.7.2";
-  zipHash = {
-    aarch64-linux = "sha256-L6RuqdygxLiLDfosYCMqjCJEP3+BT4chURGk2D2YGhw=";
-    x86_64-linux = "sha256-7l+GuXwKeikql2F62EUc52Mv0qhmC1IvsCGzFK1cm0g=";
+  url =
+    arch: "https://grafana.com/api/plugins/${pname}/versions/${version}/download?os=linux&arch=${arch}";
+in
+grafanaPlugins.grafanaPlugin {
+  inherit pname version;
+  packages = {
+    linux-arm64 = {
+      url = url "arm64";
+      hash = "sha256-L6RuqdygxLiLDfosYCMqjCJEP3+BT4chURGk2D2YGhw=";
+    };
+    linux-amd64 = {
+      url = url "amd64";
+      hash = "sha256-7l+GuXwKeikql2F62EUc52Mv0qhmC1IvsCGzFK1cm0g=";
+    };
   };
   meta = with lib; {
     description = "Visualize your sport activity with Grafana.";
     license = licenses.mit;
-    platforms = platforms.unix;
   };
 }
