@@ -16,6 +16,7 @@
       "rtsx_pci_sdmmc"
     ];
     initrd.kernelModules = [ "dm-snapshot" ];
+    initrd.luks.devices.luks-root.device = "/dev/disk/by-label/luks-root";
     kernelModules = [ "kvm-intel" ];
   };
 
