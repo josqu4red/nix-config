@@ -12,6 +12,7 @@ let
     impermanence = import ./impermanence;
     kdeconnect = import ./kdeconnect;
     ledger = import ./ledger;
+    msmtp = import ./msmtp;
     networkd = import ./networkd;
     proxy = import ./proxy;
     qFlipper = import ./qFlipper;

@@ -72,6 +72,13 @@
       enable = true;
       directories = [ "/var/lib/containers" ];
     };
+    msmtp = {
+      enable = true;
+      users = [
+        config.services.forgejo.user
+        "nextcloud"
+      ];
+    };
     networkd = {
       enable = true;
       mainInterface = with config.facts.networks.home; {

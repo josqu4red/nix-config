@@ -91,6 +91,11 @@ in
       "allow_user_to_change_display_name" = false;
       "allow_user_to_change_email" = false;
       "lost_password_link" = "disabled";
+      # mail via msmtp
+      "mail_smtpmode" = "sendmail";
+      "mail_sendmailmode" = "pipe";
+      "mail_from_address" = "noreply";
+      "mail_domain" = "amiez.xyz";
     };
   };
 
