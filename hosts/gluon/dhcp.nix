@@ -26,7 +26,7 @@ in
 
   services.kea.dhcp4 =
     let
-      staticHosts = filterAttrs (n: v: (lib.and (v.ip != "") (v.mac != ""))) hosts;
+      staticHosts = filterAttrs (_n: v: (lib.and (v.ip != "") (v.mac != ""))) hosts;
       reservations = mapAttrsToList (n: v: {
         hostname = n;
         ip-address = v.ip;

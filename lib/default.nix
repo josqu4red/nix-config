@@ -64,7 +64,7 @@ let
     "x86_64-linux"
   ];
 
-  filterSystem = system: (filterAttrs (k: v: (match ".*-${system}" v.system) == [ ]));
+  filterSystem = system: (filterAttrs (_k: v: (match ".*-${system}" v.system) == [ ]));
 
   machineId = hostname: hashString "md5" hostname;
 
@@ -82,7 +82,7 @@ let
 
   setDefaults = mergeAttrsWithFunc (a: b: if isList a then (unique (a ++ b)) else b);
 
-  expandFacts = facts: mapAttrs (hostname: v: setDefaults facts.defaults v) facts.hosts;
+  expandFacts = facts: mapAttrs (_hostname: v: setDefaults facts.defaults v) facts.hosts;
 
   buildNixosConfigs = mapAttrs (
     hostname: hostFacts:

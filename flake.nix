@@ -114,6 +114,28 @@
         fhsEnv = import ./pkgs/fhsEnv.nix { pkgs = legacyPackages.${system}; };
       });
 
+      checks = forAllSystems (
+        system:
+        let
+          pkgs = legacyPackages.${system};
+          lint =
+            name: inputs: cmd:
+            pkgs.runCommandLocal "check-${name}" { nativeBuildInputs = inputs; } ''
+              cd ${self}
+              ${cmd}
+              touch $out
+            '';
+        in
+        {
+          nixfmt = lint "nixfmt" [
+            pkgs.nixfmt
+            pkgs.findutils
+          ] "find . -name '*.nix' -not -path './secrets/*' -exec nixfmt --check {} +";
+          statix = lint "statix" [ pkgs.statix ] "statix check .";
+          deadnix = lint "deadnix" [ pkgs.deadnix ] "deadnix --fail .";
+        }
+      );
+
       packages."x86_64-linux".nixlive = self.nixosConfigurations.nixlive.config.system.build.images.iso;
 
       apps."x86_64-linux".nixlive-vm =

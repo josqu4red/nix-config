@@ -34,7 +34,7 @@ in
       cnameRecord = record "CNAME";
 
       # Map of hostname->address from facts
-      knownHosts = filterAttrs (n: v: v.ip != "") hosts;
+      knownHosts = filterAttrs (_n: v: v.ip != "") hosts;
       # Map of alias->hostname from every host's nxmods.dns.aliases
       aliases = config.nxmods.dns.cnames;
 

@@ -10,9 +10,9 @@
         pkg-config
         ncurses
         # arm64 cross-compilation toolchain
-        pkgsCross.aarch64-multiplatform.gcc12Stdenv.cc
+        pkgsCross.aarch64-multiplatform.gcc15Stdenv.cc
         # native gcc
-        gcc12
+        gcc15
       ]
       ++ pkgs.linux.nativeBuildInputs
     );
