@@ -41,5 +41,6 @@
   nxmods.desktop = {
     enable = true;
     gnome = true;
+    sway = true;
   };
 }

@@ -33,7 +33,8 @@ in
     })
     (mkIf cfg.sway {
       # session entry, GL and PAM only; the rest lives in the sway home-manager module
-      services.displayManager.defaultSession = "sway";
+      # keep GNOME the default when both are enabled (shared machines)
+      services.displayManager.defaultSession = lib.mkIf (!cfg.gnome) "sway";
       programs.sway = {
         enable = true;
         extraOptions = [ "--unsupported-gpu" ]; # silences the nvidia warning
