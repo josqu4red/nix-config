@@ -68,7 +68,11 @@ in
     description = "Register the Forgejo Actions runner via shared secret";
     after = [ "forgejo.service" ];
     requires = [ "forgejo.service" ];
-    wantedBy = [ "multi-user.target" ];
+    # restarted along with forgejo (e.g. after the backup stops it)
+    wantedBy = [
+      "multi-user.target"
+      "forgejo.service"
+    ];
     environment = {
       FORGEJO_WORK_DIR = config.services.forgejo.stateDir;
       FORGEJO_CUSTOM = config.services.forgejo.customDir;
@@ -120,6 +124,7 @@ in
       "forgejo-runner-register.service"
       "forgejo-runner-podman.service"
     ];
+    wantedBy = [ "forgejo.service" ];
     environment.DOCKER_HOST = "unix://${podmanSock}";
     serviceConfig = {
       DynamicUser = lib.mkForce false;
