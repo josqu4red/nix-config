@@ -25,6 +25,10 @@ let
   kanshictl = "exec ${pkgs.kanshi}/bin/kanshictl";
 in
 {
+  extraConfig = ''
+    bindgesture swipe:3:right workspace prev
+    bindgesture swipe:3:left workspace next
+  '';
   config = {
     modifier = mod;
     # Use Mouse+$mod to drag floating windows to their wanted position
@@ -47,6 +51,7 @@ in
       xkb_variant = "altgr-intl";
       xkb_options = "caps:swapescape";
     };
+    input."type:touchpad".tap = "enabled";
     fonts = {
       names = [ defaultFont ];
       size = 13.0;
