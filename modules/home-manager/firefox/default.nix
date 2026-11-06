@@ -1,9 +1,15 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  config,
+  pkgs,
+  ...
+}:
 let
   firefox-addons = inputs.firefox-addons.packages."${pkgs.stdenv.hostPlatform.system}";
 in
 {
   programs.firefox = {
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     enable = true;
     profiles."default" = {
       userChrome = ''
