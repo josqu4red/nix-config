@@ -14,7 +14,6 @@ let
   runnerUid = 2000; # fixed so the socket path is known at eval time
   runtimeDir = "/run/user/${toString runnerUid}";
   podmanSock = "${runtimeDir}/podman/podman.sock";
-  podman = config.virtualisation.podman.package;
 in
 {
   nxmods.impermanence.directories = [ "/var/lib/${runnerUser}" ];
@@ -40,24 +39,6 @@ in
     "-g"
     "10.0.2.2"
   ];
-
-  systemd.services.forgejo-runner-podman = {
-    description = "Rootless podman API socket for the Forgejo runner";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "user@${toString runnerUid}.service" ];
-    requires = [ "user@${toString runnerUid}.service" ];
-    path = [ "/run/wrappers" ]; # newuidmap/newgidmap
-    environment = {
-      XDG_RUNTIME_DIR = runtimeDir;
-      DBUS_SESSION_BUS_ADDRESS = "unix:path=${runtimeDir}/bus";
-    };
-    serviceConfig = {
-      User = runnerUser;
-      Group = runnerUser;
-      ExecStart = "${lib.getExe podman} system service --time=0 unix://${podmanSock}";
-      Restart = "on-failure";
-    };
-  };
 
   sops.secrets."forgejo/runner_secret" = {
     owner = config.services.forgejo.user;
@@ -118,11 +99,11 @@ in
   systemd.services.forgejo-runner-nix = {
     after = [
       "forgejo-runner-register.service"
-      "forgejo-runner-podman.service"
+      "user@${toString runnerUid}.service"
     ];
     requires = [
       "forgejo-runner-register.service"
-      "forgejo-runner-podman.service"
+      "user@${toString runnerUid}.service"
     ];
     wantedBy = [ "forgejo.service" ];
     environment.DOCKER_HOST = "unix://${podmanSock}";
