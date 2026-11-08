@@ -1,14 +1,11 @@
 { config, lib, ... }:
 let
-  inherit (builtins) listToAttrs readDir;
+  inherit (builtins) readDir;
   inherit (lib)
     mapAttrs'
-    mkOption
     nameValuePair
-    types
     ;
 
-  cfg = config.hmmods.zsh;
   hist-size = 1000000;
 
   zshFile =
@@ -19,21 +16,11 @@ let
     nameValuePair "zsh/${name}" { source = path; };
 
   default-config = mapAttrs' (n: _: zshFile ./config/${n}) (readDir ./config);
-  extra-config = listToAttrs (map zshFile cfg.extras);
 in
 {
-  options.hmmods.zsh = {
-    extras = mkOption {
-      type = with types; listOf path;
-      default = [ ];
-      example = [ ./a/file ];
-      description = "Extra config for zsh (settings, functions)";
-    };
-  };
-
   config = {
     home.sessionPath = [ "$HOME/.local/bin" ];
-    xdg.configFile = default-config // extra-config;
+    xdg.configFile = default-config;
     programs.zsh = {
       enable = true;
       enableCompletion = true;
